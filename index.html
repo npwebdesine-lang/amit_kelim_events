@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>עמית כלים לאירועים</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body id="top">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#top" aria-label="עמית כלים לאירועים">
+          <div class="brand-mark">
+            <img
+              src="images/logo.png"
+              alt="עמית כלים לאירועים"
+              onerror="this.style.display = 'none'"
+            />
+            <span class="brand-fallback">עמית</span>
+          </div>
+          <div class="brand-text">
+            <div class="brand-title">עמית</div>
+            <div class="brand-sub">כלים לאירועים</div>
+          </div>
+        </a>
+
+        <nav class="nav">
+          <a href="#about">מי אנחנו</a>
+          <a href="#why">למה לבחור בנו</a>
+          <a href="#catalog">קטלוג</a>
+          <a href="#pricing">מחירון</a>
+          <a href="#gallery">גלריה</a>
+        </nav>
+
+        <button class="btn btn-primary" id="openWaHeader" type="button">
+          להזמנה
+        </button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <img class="hero-bg" src="images/hero.jpeg" alt="תמונת אווירה" />
+      <div class="hero-overlay"></div>
+
+      <div class="container hero-content">
+        <div class="hero-card">
+          <div class="hero-kicker">כלים • מפות • מפיות • עיצוב אווירה</div>
+          <h1 class="hero-title">עמית כלים לאירועים</h1>
+          <p class="hero-subtitle">
+            השכרה במבחר צבעים וטקסטורות — מותאמים לפי כמות מוזמנים ובסגנון
+            האירוע.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="openWaHero" type="button">
+              קבלו הצעת מחיר
+            </button>
+            <a class="btn btn-ghost" href="#catalog">צפו בקטלוג</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head center">
+          <h2>מי אנחנו</h2>
+          <p>השכרה מקצועית לאירועים עם התאמה אישית לצבע, כמות וסגנון.</p>
+        </div>
+
+        <div class="about">
+          <div class="about-text">
+            <p>
+              כאן תוסיפו תיאור קצר על העסק, אזורי שירות, זמינות, והבידול
+              (נקי/מגוהץ, מגוון צבעים וכו').
+            </p>
+            <ul class="bullets">
+              <li>מגוון כלי אוכל, מפות ומפיות</li>
+              <li>התאמה לפי כמות מוזמנים</li>
+              <li>תהליך הזמנה מהיר בוואטסאפ</li>
+              <li>ציוד איכותי ומסודר</li>
+            </ul>
+
+            <button class="btn btn-soft" id="openWaAbout" type="button">
+              להזמנה מהירה
+            </button>
+          </div>
+
+          <div class="about-media">
+            <img src="images/about.jpg" alt="אווירה של אירוע" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="section section-alt" id="why">
+      <div class="container">
+        <div class="section-head center">
+          <h2>למה לבחור בנו?</h2>
+          <p>שירות נעים, אסתטיקה, ותהליך פשוט שעוזר לכם לסגור מהר.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <img class="card-img" src="images/why-tools.jpg" alt="כלים" />
+            <div class="card-body">
+              <h3>כלים לאירועים</h3>
+              <p>סטים נקיים ומוקפדים לכל סגנון.</p>
+              <button class="btn btn-soft openWaAnywhere" type="button">
+                להזמנה
+              </button>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="card-img" src="images/why-cloths.jpg" alt="מפות" />
+            <div class="card-body">
+              <h3>מפות</h3>
+              <p>מבחר צבעים וטקסטורות — התאמה לשולחנות.</p>
+              <button class="btn btn-soft openWaAnywhere" type="button">
+                להזמנה
+              </button>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="card-img" src="images/why-napkins.jpg" alt="מפיות" />
+            <div class="card-body">
+              <h3>מפיות</h3>
+              <p>מפיות צבעוניות שמקפיצות כל שולחן.</p>
+              <button class="btn btn-soft openWaAnywhere" type="button">
+                להזמנה
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISIT / CTA -->
+    <section class="section" id="visit">
+      <div class="container">
+        <div class="visit">
+          <div class="visit-text">
+            <h2>הזמנה מהירה בוואטסאפ</h2>
+            <p>
+              שולחים לנו: שם + תאריך + כמות מוזמנים — ואם יש, גם מספרי פריטים
+              מהקטלוג. אנחנו חוזרים עם זמינות והצעת מחיר.
+            </p>
+            <button class="btn btn-primary" id="openWaMid" type="button">
+              פתחו טופס וואטסאפ
+            </button>
+          </div>
+
+          <div class="visit-media">
+            <div class="visit-grid">
+              <img src="images/visit-1.jpg" alt="אווירה 1" />
+              <img src="images/visit-2.jpg" alt="אווירה 2" />
+              <img src="images/visit-3.jpg" alt="אווירה 3" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATALOG -->
+    <section class="section section-alt" id="catalog">
+      <div class="container">
+        <div class="section-head">
+          <h2>קטלוג מוצרים</h2>
+          <p>סינון לפי קטגוריה + חיפוש לפי שם או מספר.</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="filters" role="group" aria-label="סינון קטלוג">
+            <button class="pill is-active" data-filter="all" type="button">
+              הכל
+            </button>
+            <button class="pill" data-filter="tools" type="button">כלים</button>
+            <button class="pill" data-filter="cloths" type="button">
+              מפות
+            </button>
+            <button class="pill" data-filter="napkins" type="button">
+              מפיות
+            </button>
+          </div>
+
+          <div class="search">
+            <input
+              id="catalogSearch"
+              type="search"
+              placeholder="חיפוש… (למשל: 12 / מפה / ירוק)"
+            />
+          </div>
+        </div>
+
+        <div class="catalog" id="catalogGrid">
+          <!-- דוגמאות — אתה תחליף/תוסיף לפי התמונות שלך -->
+          <article
+            class="product"
+            data-category="tools"
+            data-name="צלחות"
+            data-code="01"
+          >
+            <img class="product-img" src="images/p-01.jpg" alt="צלחות" />
+            <div class="product-body">
+              <div class="product-top">
+                <span class="tag">כלים</span><span class="code">#01</span>
+              </div>
+              <h3>צלחות</h3>
+              <p>צלחות איכותיות לאירוח.</p>
+            </div>
+          </article>
+
+          <article
+            class="product"
+            data-category="cloths"
+            data-name="מפה לבנה 2.20"
+            data-code="11"
+          >
+            <img class="product-img" src="images/p-11.jpg" alt="מפה 2.20" />
+            <div class="product-body">
+              <div class="product-top">
+                <span class="tag">מפות</span><span class="code">#11</span>
+              </div>
+              <h3>מפה 2.20/2.20</h3>
+              <p>מפה נקייה ומגוהצת.</p>
+            </div>
+          </article>
+
+          <article
+            class="product"
+            data-category="napkins"
+            data-name="מפיות צבעוניות"
+            data-code="21"
+          >
+            <img class="product-img" src="images/p-21.jpg" alt="מפיות" />
+            <div class="product-body">
+              <div class="product-top">
+                <span class="tag">מפיות</span><span class="code">#21</span>
+              </div>
+              <h3>מפיות</h3>
+              <p>מבחר צבעים — להתאמה מושלמת.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING (UPDATED with real price list) -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <h2>מחירון</h2>
+          <p>מחירים כוללים מע״מ (הובלה לא כלולה).</p>
+        </div>
+
+        <div class="price-grid">
+          <!-- Basic tableware -->
+          <article class="price-card">
+            <div class="price-card-head">
+              <h3>כלי אוכל בסיסיים</h3>
+              <span class="badge">לפי פריט</span>
+            </div>
+
+            <div class="price-table">
+              <div class="row"><span>צלחת</span><b>₪ 1.40</b></div>
+              <div class="row"><span>כוס</span><b>₪ 1.40</b></div>
+              <div class="row"><span>סלטריה</span><b>₪ 1.40</b></div>
+              <div class="row">
+                <span>סכין / מזלג / כפות / כפיות</span><b>₪ 1.10</b>
+              </div>
+            </div>
+          </article>
+
+          <!-- Serving -->
+          <article class="price-card">
+            <div class="price-card-head">
+              <h3>הגשה וציוד לשולחן</h3>
+              <span class="badge">לפי פריט</span>
+            </div>
+
+            <div class="price-table">
+              <div class="row">
+                <span>פלטות להגשה (דגים/תוספות/בשרים)</span><b>₪ 3.10</b>
+              </div>
+              <div class="row"><span>כפות הגשה</span><b>₪ 1.60</b></div>
+              <div class="row">
+                <span>קערות מרק למרכז שולחן</span><b>₪ 3.10</b>
+              </div>
+              <div class="row"><span>קנקני שתייה (קראפ)</span><b>₪ 5</b></div>
+              <div class="row"><span>מגש מלצר</span><b>₪ 7</b></div>
+              <div class="row"><span>סטנד למגש מלצר</span><b>₪ 15</b></div>
+            </div>
+          </article>
+
+          <!-- Heating -->
+          <article class="price-card">
+            <div class="price-card-head">
+              <h3>חימום והגשה חמה</h3>
+              <span class="badge">לפי יח׳</span>
+            </div>
+
+            <div class="price-table">
+              <div class="row">
+                <span>שפינגדיש (מגיע עם 2 חימומיות)</span><b>₪ 55</b>
+              </div>
+              <div class="row"><span>קדרת מרק חשמלית</span><b>₪ 60</b></div>
+              <div class="row">
+                <span>ארון חימום עם פיקוד שבת</span><b>₪ 480</b>
+              </div>
+              <div class="row"><span>מקפיא אמבטיה</span><b>₪ 480</b></div>
+            </div>
+          </article>
+
+          <!-- Cloths / napkins -->
+          <article class="price-card">
+            <div class="price-card-head">
+              <h3>מפות ומפיות</h3>
+              <span class="badge">השכרה</span>
+            </div>
+
+            <div class="price-table">
+              <div class="row"><span>מפה 2.20/2.20</span><b>₪ 23</b></div>
+              <div class="row"><span>מפה 2.50/2.50</span><b>₪ 25</b></div>
+              <div class="row"><span>מפית</span><b>₪ 1.50</b></div>
+              <div class="row"><span>נר לד איכותי</span><b>₪ 4</b></div>
+            </div>
+
+            <div class="note">
+              🌺 מקבלים נקי ומגוהץ • מנערים בסיום האירוע ומחזירים ללא כביסה
+              וגיהוץ<br />
+              אין לשים מקור חם (נרות/פלטת שבת/זיקוקים) על המפות
+            </div>
+          </article>
+
+          <!-- Tables & chairs -->
+          <article class="price-card">
+            <div class="price-card-head">
+              <h3>שולחנות וכיסאות</h3>
+              <span class="badge">לפי יח׳</span>
+            </div>
+
+            <div class="price-table">
+              <div class="row">
+                <span>שולחן עץ עגול קוטר 1.60 (ל־10 סועדים)</span><b>₪ 45</b>
+              </div>
+              <div class="row"><span>כסא כתר לבן פלסטיק</span><b>₪ 4</b></div>
+            </div>
+          </article>
+
+          <!-- Damage pricing -->
+          <article class="price-card">
+            <div class="price-card-head">
+              <h3>עלות נזק למפות</h3>
+              <span class="badge danger">נזק</span>
+            </div>
+
+            <div class="price-table">
+              <div class="row">
+                <span>מפה 2.20/2.20 (נזק)</span><b>₪ 140</b>
+              </div>
+              <div class="row">
+                <span>מפה 2.50/2.50 (נזק)</span><b>₪ 200</b>
+              </div>
+            </div>
+
+            <div class="note">*ללא קשר לתשלום ההשכרה*</div>
+          </article>
+        </div>
+
+        <div class="pricing-foot">
+          <div class="pill-note">
+            מינימום הזמנה בכלים בלבד: <b>₪ 500</b> (לא כולל מפות/מפיות)
+          </div>
+          <div class="pill-note">
+            המחירים כוללים מע״מ • המחירים לא כוללים הובלה
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section section-alt" id="gallery">
+      <div class="container">
+        <div class="section-head center">
+          <h2>גלריה</h2>
+          <p>את כל התמונות כאן אתה תספק.</p>
+        </div>
+
+        <div class="gallery">
+          <img src="images/g-1.jpg" alt="גלריה 1" />
+          <img src="images/g-2.jpg" alt="גלריה 2" />
+          <img src="images/g-3.jpg" alt="גלריה 3" />
+          <img src="images/g-4.jpg" alt="גלריה 4" />
+          <img src="images/g-5.jpg" alt="גלריה 5" />
+          <img src="images/g-6.jpg" alt="גלריה 6" />
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <div class="brand-mark small">
+            <img
+              src="images/logo.png"
+              alt=""
+              onerror="this.style.display = 'none'"
+            />
+            <span class="brand-fallback">עמית</span>
+          </div>
+          <div>
+            <div class="brand-title">עמית</div>
+            <div class="brand-sub">כלים לאירועים</div>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <a href="#about">מי אנחנו</a>
+          <a href="#catalog">קטלוג</a>
+          <a href="#pricing">מחירון</a>
+        </div>
+
+        <button class="btn btn-primary" id="openWaFooter" type="button">
+          להזמנה
+        </button>
+      </div>
+
+      <div class="container footer-bottom">
+        <small
+          >© <span id="year"></span> עמית כלים לאירועים • בשמחות תמיד 🌹</small
+        >
+      </div>
+    </footer>
+
+    <!-- PROCEDURE MODAL -->
+    <div class="modal" id="procedureModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="true"></div>
+      <div
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-label="נוהל השכרת ציוד"
+      >
+        <div class="modal-head">
+          <div>
+            <div class="modal-title">נוהל השכרת ציוד</div>
+            <div class="modal-sub">נא לקרוא לפני הזמנה</div>
+          </div>
+          <button
+            class="icon-btn"
+            id="closeProcedure"
+            type="button"
+            aria-label="סגירה"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="proc-block">
+            <h4>כללי</h4>
+            <ul class="proc-list">
+              <li>
+                הכלים מגיעים בצורה מאורגנת ואיכותית — יש לשמור על תקינותם
+                ולהחזיר לפי הנוהל.
+              </li>
+              <li>
+                מקבלים את הכלים נקיים. בסיום הארוחה מורידים לכלוך כבד
+                <b>ללא שטיפה</b>.
+              </li>
+              <li>החזרת הכלים/מפות: עד <b>יום לאחר האירוע</b>.</li>
+              <li>הכלים <b>כשרים</b> ובהקפדה על הפרדה וכשרות.</li>
+            </ul>
+          </div>
+
+          <div class="proc-block">
+            <h4>מינימום הזמנה ותשלום</h4>
+            <ul class="proc-list">
+              <li>מינימום הזמנה בכלים בלבד (ללא מפות ומפיות): <b>₪ 500</b>.</li>
+              <li>תשלום בעת לקיחת הציוד.</li>
+              <li>המחירים כוללים מע״מ. המחירים לא כוללים הובלה.</li>
+            </ul>
+          </div>
+
+          <div class="proc-block">
+            <h4>תמחור מיוחד לפי סוג הזמנה</h4>
+            <ul class="proc-list">
+              <li>
+                בהשכרת כלים <b>ללא סכו״ם</b>: צלחות <b>₪ 4</b> • כוסות
+                <b>₪ 4</b> • פלטות להגשה <b>₪ 6</b>.
+              </li>
+              <li>בהשכרת <b>סכו״ם בלבד</b>: <b>₪ 3</b> לפריט.</li>
+              <li>
+                בהשכרת כלים ל־<b>2 ארוחות (שבת)</b>: אין לשטוף את הכלים מארוחה
+                לארוחה.
+              </li>
+            </ul>
+          </div>
+
+          <div class="proc-block">
+            <h4>אחריות, חוסרים וביטולים</h4>
+            <ul class="proc-list">
+              <li>
+                הזמנה שאושרה ויצאה מהמחסן — מחויבת בתשלום מלא גם אם נשאר ציוד
+                שלא היה בשימוש.
+              </li>
+              <li>
+                נזק/חוסרים לציוד (כלים/מפות) — יחויב הלקוח בעלות הציוד
+                שניזוק/חסר (ללא קשר להשכרה).
+              </li>
+              <li>
+                ביטול הזמנה שאושרה ע״י הלקוח — דמי ביטול <b>25%</b> מעלות
+                ההזמנה.
+              </li>
+            </ul>
+          </div>
+
+          <div class="proc-block">
+            <h4>מפות ומפיות</h4>
+            <ul class="proc-list">
+              <li>
+                מקבלים נקי ומגוהץ. מנערים בסיום האירוע ומחזירים ללא כביסה
+                וגיהוץ.
+              </li>
+              <li>
+                <b>אין לשים מקור חם</b> כמו נרות/פלטת שבת/זיקוקים על המפות.
+              </li>
+              <li>
+                מפה שניזוקה תחויב בעלות נזק (כמופיע במחירון) ללא קשר לדמי
+                ההשכרה.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="modal-actions proc-actions">
+          <label class="proc-ack">
+            <input type="checkbox" id="procedureAck" />
+            <span>קראתי את נוהל ההשכרה ואני מאשר/ת</span>
+          </label>
+
+          <div class="proc-actions-row">
+            <button
+              class="btn btn-primary"
+              id="approveProcedure"
+              type="button"
+              disabled
+            >
+              מאשר וממשיך לוואטסאפ
+            </button>
+            <button class="btn btn-ghost" id="backProcedure" type="button">
+              חזרה
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHATSAPP MODAL -->
+    <div class="modal" id="waModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="true"></div>
+      <div
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-label="הזמנה בוואטסאפ"
+      >
+        <div class="modal-head">
+          <div>
+            <div class="modal-title">הזמנה בוואטסאפ</div>
+            <div class="modal-sub">שם + תאריך + כמות מוזמנים → הודעה מוכנה</div>
+          </div>
+          <button
+            class="icon-btn"
+            id="closeWa"
+            type="button"
+            aria-label="סגירה"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form class="wa-form" id="waFormModal">
+            <label>
+              <span>שם</span>
+              <input
+                id="leadName"
+                type="text"
+                placeholder="לדוגמה: נתי"
+                autocomplete="name"
+              />
+            </label>
+
+            <label>
+              <span>תאריך האירוע</span>
+              <input id="eventDate" type="date" />
+            </label>
+
+            <label>
+              <span>כמות מוזמנים</span>
+              <input
+                id="guestCount"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="לדוגמה: 120"
+              />
+            </label>
+
+            <button class="btn btn-primary btn-wide" type="submit">
+              לשליחת ההודעה
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
