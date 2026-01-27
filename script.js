@@ -1,7 +1,7 @@
 // =========================
 // SETTINGS
 // =========================
-const WHATSAPP_PHONE = "9725XXXXXXXX"; // החלף למספר אמיתי
+const WHATSAPP_PHONE = "9725XXXXXXXX"; // החלף למספר אמיתי (ללא +)
 
 // =========================
 // Helpers
@@ -59,6 +59,26 @@ document.addEventListener("keydown", (e) => {
 });
 
 // =========================
+// Mobile menu
+// =========================
+const hamburger = document.getElementById("hamburger");
+const mobileNav = document.getElementById("mobileNav");
+
+hamburger?.addEventListener("click", () => {
+  const isOpen = mobileNav?.classList.toggle("is-open");
+  hamburger.setAttribute("aria-expanded", String(!!isOpen));
+  mobileNav?.setAttribute("aria-hidden", String(!isOpen));
+});
+
+mobileNav?.querySelectorAll("a").forEach((a) => {
+  a.addEventListener("click", () => {
+    mobileNav.classList.remove("is-open");
+    hamburger?.setAttribute("aria-expanded", "false");
+    mobileNav?.setAttribute("aria-hidden", "true");
+  });
+});
+
+// =========================
 // New flow state
 // =========================
 let pendingWhatsAppMessage = null;
@@ -84,20 +104,15 @@ approveProcedureBtn?.addEventListener("click", () => {
   if (!pendingWhatsAppMessage) return;
   if (!procedureAck?.checked) return;
 
-  // סוגרים את הנוהל
   closeModal(procedureModal);
-
-  // פותחים וואטסאפ עם הודעה מוכנה
   openWhatsAppWithMessage(pendingWhatsAppMessage);
 
-  // מנקים מצב
   pendingWhatsAppMessage = null;
   resetProcedureApprovalUI();
 });
 
 document.getElementById("backProcedure")?.addEventListener("click", () => {
   closeModal(procedureModal);
-  // לא מאפסים pending כדי לא לאבד הזמנה אם הוא סגר בטעות
   resetProcedureApprovalUI();
 });
 
@@ -107,7 +122,7 @@ document.getElementById("closeProcedure")?.addEventListener("click", () => {
 });
 
 // =========================
-// WhatsApp modal (form only)
+// WhatsApp modal (form)
 // =========================
 const waModal = document.getElementById("waModal");
 const leadNameInput = document.getElementById("leadName");
@@ -135,24 +150,18 @@ document.getElementById("openWaAbout")?.addEventListener("click", openWaPanel);
 document.getElementById("openWaMid")?.addEventListener("click", openWaPanel);
 document.getElementById("openWaFooter")?.addEventListener("click", openWaPanel);
 document
-  .getElementById("openWaFooterCta")
-  ?.addEventListener("click", openWaPanel);
-document
   .querySelectorAll(".openWaAnywhere")
   .forEach((b) => b.addEventListener("click", openWaPanel));
 
 document
   .getElementById("closeWa")
   ?.addEventListener("click", () => closeModal(waModal));
-document
-  .getElementById("backWa")
-  ?.addEventListener("click", () => closeModal(waModal));
 
 leadNameInput?.addEventListener("input", syncPreview);
 eventDateInput?.addEventListener("change", syncPreview);
 guestCountInput?.addEventListener("input", syncPreview);
 
-// ✅ שינוי: Submit במודאל => הולך לנוהל, לא לוואטסאפ
+// ✅ Submit במודאל => הולך לנוהל
 document.getElementById("waFormModal")?.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -162,24 +171,7 @@ document.getElementById("waFormModal")?.addEventListener("submit", (e) => {
 
   pendingWhatsAppMessage = buildMessage(name, datePretty, guests);
 
-  // סוגרים את טופס ההזמנה
   closeModal(waModal);
-
-  // פותחים נוהל השכרה ומכריחים אישור
-  resetProcedureApprovalUI();
-  openModal(procedureModal);
-});
-
-// ✅ שינוי: Submit בטופס הקצר ב־Hero => הולך לנוהל
-document.getElementById("waFormInline")?.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const n = document.getElementById("inlineName")?.value || "";
-  const d = document.getElementById("inlineDate")?.value || "";
-  const g = document.getElementById("inlineGuests")?.value || "";
-
-  const datePretty = formatDateForMessage(d);
-  pendingWhatsAppMessage = buildMessage(n, datePretty, g);
 
   resetProcedureApprovalUI();
   openModal(procedureModal);

@@ -24,7 +24,10 @@
             <img
               src="images/logo.png"
               alt="עמית כלים לאירועים"
-              onerror="this.style.display = 'none'"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'grid';
+              "
             />
             <span class="brand-fallback">עמית</span>
           </div>
@@ -34,7 +37,7 @@
           </div>
         </a>
 
-        <nav class="nav">
+        <nav class="nav" aria-label="תפריט">
           <a href="#about">מי אנחנו</a>
           <a href="#why">למה לבחור בנו</a>
           <a href="#catalog">קטלוג</a>
@@ -42,16 +45,36 @@
           <a href="#gallery">גלריה</a>
         </nav>
 
+        <!-- Mobile hamburger -->
+        <button
+          class="hamburger"
+          id="hamburger"
+          type="button"
+          aria-label="פתיחת תפריט"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+
         <button class="btn btn-primary" id="openWaHeader" type="button">
           להזמנה
         </button>
       </div>
+
+      <!-- Mobile nav -->
+      <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+        <a href="#about">מי אנחנו</a>
+        <a href="#why">למה לבחור בנו</a>
+        <a href="#catalog">קטלוג</a>
+        <a href="#pricing">מחירון</a>
+        <a href="#gallery">גלריה</a>
+      </div>
     </header>
 
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero" aria-label="פתיח">
       <img class="hero-bg" src="images/hero.jpeg" alt="תמונת אווירה" />
-      <div class="hero-overlay"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
 
       <div class="container hero-content">
         <div class="hero-card">
@@ -260,7 +283,7 @@
       </div>
     </section>
 
-    <!-- PRICING (UPDATED with real price list) -->
+    <!-- PRICING -->
     <section class="section" id="pricing">
       <div class="container">
         <div class="section-head">
@@ -269,13 +292,11 @@
         </div>
 
         <div class="price-grid">
-          <!-- Basic tableware -->
           <article class="price-card">
             <div class="price-card-head">
               <h3>כלי אוכל בסיסיים</h3>
               <span class="badge">לפי פריט</span>
             </div>
-
             <div class="price-table">
               <div class="row"><span>צלחת</span><b>₪ 1.40</b></div>
               <div class="row"><span>כוס</span><b>₪ 1.40</b></div>
@@ -286,13 +307,11 @@
             </div>
           </article>
 
-          <!-- Serving -->
           <article class="price-card">
             <div class="price-card-head">
               <h3>הגשה וציוד לשולחן</h3>
               <span class="badge">לפי פריט</span>
             </div>
-
             <div class="price-table">
               <div class="row">
                 <span>פלטות להגשה (דגים/תוספות/בשרים)</span><b>₪ 3.10</b>
@@ -307,16 +326,14 @@
             </div>
           </article>
 
-          <!-- Heating -->
           <article class="price-card">
             <div class="price-card-head">
               <h3>חימום והגשה חמה</h3>
               <span class="badge">לפי יח׳</span>
             </div>
-
             <div class="price-table">
               <div class="row">
-                <span>שפינגדיש (מגיע עם 2 חימומיות)</span><b>₪ 55</b>
+                <span>שפינגדיש (עם 2 חימומיות)</span><b>₪ 55</b>
               </div>
               <div class="row"><span>קדרת מרק חשמלית</span><b>₪ 60</b></div>
               <div class="row">
@@ -326,20 +343,17 @@
             </div>
           </article>
 
-          <!-- Cloths / napkins -->
           <article class="price-card">
             <div class="price-card-head">
               <h3>מפות ומפיות</h3>
               <span class="badge">השכרה</span>
             </div>
-
             <div class="price-table">
               <div class="row"><span>מפה 2.20/2.20</span><b>₪ 23</b></div>
               <div class="row"><span>מפה 2.50/2.50</span><b>₪ 25</b></div>
               <div class="row"><span>מפית</span><b>₪ 1.50</b></div>
               <div class="row"><span>נר לד איכותי</span><b>₪ 4</b></div>
             </div>
-
             <div class="note">
               🌺 מקבלים נקי ומגוהץ • מנערים בסיום האירוע ומחזירים ללא כביסה
               וגיהוץ<br />
@@ -347,13 +361,11 @@
             </div>
           </article>
 
-          <!-- Tables & chairs -->
           <article class="price-card">
             <div class="price-card-head">
               <h3>שולחנות וכיסאות</h3>
               <span class="badge">לפי יח׳</span>
             </div>
-
             <div class="price-table">
               <div class="row">
                 <span>שולחן עץ עגול קוטר 1.60 (ל־10 סועדים)</span><b>₪ 45</b>
@@ -362,13 +374,11 @@
             </div>
           </article>
 
-          <!-- Damage pricing -->
           <article class="price-card">
             <div class="price-card-head">
               <h3>עלות נזק למפות</h3>
               <span class="badge danger">נזק</span>
             </div>
-
             <div class="price-table">
               <div class="row">
                 <span>מפה 2.20/2.20 (נזק)</span><b>₪ 140</b>
@@ -377,7 +387,6 @@
                 <span>מפה 2.50/2.50 (נזק)</span><b>₪ 200</b>
               </div>
             </div>
-
             <div class="note">*ללא קשר לתשלום ההשכרה*</div>
           </article>
         </div>
@@ -420,7 +429,10 @@
             <img
               src="images/logo.png"
               alt=""
-              onerror="this.style.display = 'none'"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'grid';
+              "
             />
             <span class="brand-fallback">עמית</span>
           </div>
@@ -460,7 +472,7 @@
         <div class="modal-head">
           <div>
             <div class="modal-title">נוהל השכרת ציוד</div>
-            <div class="modal-sub">נא לקרוא לפני הזמנה</div>
+            <div class="modal-sub">נא לקרוא ולאשר לפני המשך</div>
           </div>
           <button
             class="icon-btn"
@@ -584,7 +596,9 @@
         <div class="modal-head">
           <div>
             <div class="modal-title">הזמנה בוואטסאפ</div>
-            <div class="modal-sub">שם + תאריך + כמות מוזמנים → הודעה מוכנה</div>
+            <div class="modal-sub">
+              שם + תאריך + כמות מוזמנים → ממשיכים לאישור נוהל
+            </div>
           </div>
           <button
             class="icon-btn"
@@ -624,8 +638,13 @@
               />
             </label>
 
+            <div class="preview">
+              <div class="preview-label">תצוגת הודעה</div>
+              <div class="preview-box" id="messagePreview"></div>
+            </div>
+
             <button class="btn btn-primary btn-wide" type="submit">
-              לשליחת ההודעה
+              המשך לנוהל השכרה
             </button>
           </form>
         </div>
