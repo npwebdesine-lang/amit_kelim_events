@@ -2662,3 +2662,90 @@ dialog[open] .modal__footer {
 .topbar {
   padding-top: var(--safe-t);
 }
+/* =========================================================
+   FIX: Modal bottom buttons cut by system nav (Android/iPhone)
+   Uses correct selectors in YOUR code: .modal-body / .modal-actions
+   Paste at END of style.css
+   ========================================================= */
+
+:root {
+  /* Safe areas (iOS) */
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+
+  /* Android fallback height for bottom system nav bar (env is often 0 there) */
+  --sysbar: 0px;
+}
+
+/* Only on phones: add fallback spacing for bottom system buttons */
+@media (max-width: 640px) {
+  :root {
+    --sysbar: 72px; /* עובד טוב ברוב מכשירי אנדרואיד (3 כפתורי מערכת) */
+  }
+}
+
+/* Make modal use dynamic viewport height (fixes 100vh issues on mobile browsers) */
+.modal {
+  height: 100dvh; /* dynamic viewport */
+}
+
+/* Use flex for proper centering & reliable height calc */
+.modal.is-open {
+  display: flex; /* override your display:block */
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Modal card: never touches the bottom UI */
+.modal-card {
+  margin: 0;
+  margin-top: max(14px, var(--safe-t));
+  max-height: calc(100dvh - (28px + var(--safe-t) + var(--safe-b)));
+  width: min(760px, calc(100% - 28px));
+}
+
+/* Keep head & actions visible while body scrolls */
+.modal-head {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* IMPORTANT:
+   body scrolls, but we add extra bottom padding INSIDE modal body
+   so the last product/button area won't sit behind system nav */
+.modal-body {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  /* This is the key: space for sticky footer + safe area + android bar */
+  padding-bottom: calc(18px + var(--safe-b) + var(--sysbar) + 84px);
+}
+
+/* Sticky footer (your bottom buttons) is lifted above system buttons */
+.modal-actions {
+  position: sticky;
+  z-index: 10;
+
+  /* lift the whole footer above the bottom system UI */
+  bottom: calc(var(--safe-b) + var(--sysbar));
+
+  /* also give it breathing room */
+  padding-bottom: calc(14px + var(--safe-b));
+}
+
+/* Specifically your catalog modal footer class */
+.catalog-footer-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Make buttons comfortable on mobile */
+@media (max-width: 640px) {
+  .modal-actions .btn {
+    min-height: 48px;
+    width: 100%;
+  }
+}
