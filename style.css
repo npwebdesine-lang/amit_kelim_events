@@ -2939,3 +2939,98 @@ dialog[open] .modal__footer {
     padding: 0 12px;
   }
 }
+/* =========================================
+   ONLY filters scroll horizontally
+   Prevent horizontal scroll on the whole catalog/modal
+   ========================================= */
+
+/* 1) חוסמים גלילה אופקית מכל המודאל/תוכן */
+.modal,
+.modal-content,
+.modal-body,
+.catalog,
+#catalogGrid {
+  overflow-x: hidden !important;
+}
+
+/* 2) תפריט הסינון בלבד מקבל גלילה אופקית */
+.modal-body .toolbar #filters,
+.modal-body .toolbar #subfilters {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  max-width: 100%;
+  width: 100%;
+
+  padding: 6px 4px 10px;
+  scrollbar-width: none; /* Firefox */
+}
+
+.modal-body .toolbar #filters::-webkit-scrollbar,
+.modal-body .toolbar #subfilters::-webkit-scrollbar {
+  height: 0; /* Chrome/Safari */
+}
+
+/* 3) כל צ'יפ לא נשבר ולא מתכווץ */
+.modal-body .toolbar #filters > *,
+.modal-body .toolbar #subfilters > * {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* 4) חשוב: מונעים מהגריד/כרטיסים "לברוח" לרוחב */
+#catalogGrid,
+.catalog {
+  width: 100%;
+  max-width: 100%;
+}
+
+#catalogGrid * {
+  box-sizing: border-box;
+}
+
+/* אם יש תמונות/כרטיסים שדוחפים רוחב */
+.catalog img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* מובייל: קצת יותר צפוף */
+@media (max-width: 520px) {
+  .modal-body .toolbar #filters,
+  .modal-body .toolbar #subfilters {
+    gap: 8px;
+    padding: 6px 2px 10px;
+  }
+}
+@media (max-width: 480px) {
+  #praising .pricing__title {
+    font-size: 24px;
+  }
+  #praising .pricingCard__title {
+    font-size: 20px;
+  }
+  #praising .pricingCard__hint {
+    font-size: 14px;
+  }
+  #praising .pricingRow dt,
+  #praising .pricingRow dd {
+    font-size: 13px;
+  }
+  #praising .pricingSpecial__title {
+    font-size: 15px;
+  }
+  #praising .pricingSpecial__list,
+  #praising .pricingSpecial__text {
+    font-size: 13px;
+  }
+  #praising .pricing__footnote {
+    font-size: 12px;
+  }
+}
