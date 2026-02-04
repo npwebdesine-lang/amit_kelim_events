@@ -18,12 +18,10 @@
 * {
   box-sizing: border-box;
 }
-
 html,
 body {
   height: 100%;
 }
-
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
@@ -47,12 +45,10 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
 img {
   max-width: 100%;
   display: block;
 }
-
 button,
 input {
   font: inherit;
@@ -68,7 +64,7 @@ input {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(245, 239, 230, 0.88);
+  background: rgba(245, 239, 230, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -77,78 +73,59 @@ input {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 0;
+  gap: 12px;
+  padding: 8px 0;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-width: 210px;
+  gap: 10px;
+  min-width: 0;
 }
-
 .brand-mark {
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
-  background: var(--white);
-  border: 1px solid rgba(107, 74, 47, 0.22);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+  width: 72px;
+  height: 72px;
   display: grid;
   place-items: center;
-  overflow: hidden;
-  position: relative;
 }
-
 .brand-mark img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
-
-.brand-mark.small {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-}
-
-.brand-fallback {
-  position: absolute;
-  inset: 0;
-  display: none;
-  place-items: center;
-  font-weight: 900;
-  color: var(--brown);
-}
-
 .brand-title {
-  font-weight: 900;
-  font-size: 18px;
+  font-weight: 1000;
+  font-size: 16px;
   line-height: 1;
 }
 .brand-sub {
   font-weight: 800;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 2px;
 }
 
 .nav {
   display: flex;
-  gap: 18px;
+  gap: 14px;
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
 }
-
 .nav a {
-  font-weight: 800;
-  font-size: 13px;
+  font-weight: 900;
+  font-size: 12px;
   color: var(--muted);
 }
 .nav a:hover {
   color: var(--ink);
+}
+
+.header-actions {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
 }
 
 /* Buttons */
@@ -156,14 +133,15 @@ input {
   border: 0;
   cursor: pointer;
   border-radius: 999px;
-  padding: 12px 18px;
-  font-weight: 900;
+  padding: 10px 14px;
+  font-weight: 1000;
   transition:
     transform 0.15s ease,
     filter 0.15s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
 }
 .btn:hover {
   transform: translateY(-1px);
@@ -192,14 +170,46 @@ input {
   width: 100%;
 }
 
-/* ✅ HERO (fixed: overlay full, clear image, consistent height) */
+/* Mobile nav */
+.hamburger {
+  display: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(31, 24, 18, 0.14);
+  background: rgba(255, 255, 255, 0.7);
+  font-weight: 1000;
+  cursor: pointer;
+}
+.mobile-nav {
+  display: none;
+  padding: 10px 16px 16px;
+  border-top: 1px solid var(--line);
+  background: rgba(245, 239, 230, 0.94);
+}
+.mobile-nav a {
+  display: block;
+  padding: 12px 10px;
+  border-radius: 14px;
+  color: var(--muted);
+  font-weight: 900;
+}
+.mobile-nav a:hover {
+  background: rgba(107, 74, 47, 0.1);
+  color: var(--ink);
+}
+.mobile-nav.is-open {
+  display: grid;
+  gap: 10px;
+}
+
+/* Hero */
 .hero {
   position: relative;
-  min-height: 92vh;
+  min-height: 88vh;
   border-bottom: 1px solid var(--line);
   overflow: hidden;
 }
-
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -209,11 +219,9 @@ input {
   transform: scale(1.03);
   filter: contrast(1.06) saturate(1.08);
 }
-
 .hero-overlay {
   position: absolute;
   inset: 0;
-  /* מעט כהה כדי להוציא פרטים, בלי "הלבנה" חזקה */
   background:
     radial-gradient(
       circle at 55% 35%,
@@ -223,16 +231,14 @@ input {
     ),
     linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.28));
 }
-
 .hero-content {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 92vh;
+  min-height: 88vh;
   padding: 36px 0;
 }
-
 .hero-card {
   width: min(720px, 100%);
   background: rgba(245, 239, 230, 0.88);
@@ -242,30 +248,25 @@ input {
   padding: 22px;
   text-align: center;
 }
-
 .hero-kicker {
-  font-weight: 900;
+  font-weight: 1000;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.85);
-  letter-spacing: 0.2px;
-  margin-bottom: 8px;
   text-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+  margin-bottom: 8px;
 }
-
 .hero-title {
   margin: 0 0 8px;
-  font-size: 48px;
+  font-size: 44px;
   line-height: 1.05;
   font-weight: 1000;
 }
-
 .hero-subtitle {
   margin: 0;
   color: var(--muted);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.85;
 }
-
 .hero-actions {
   margin-top: 14px;
   display: flex;
@@ -278,13 +279,11 @@ input {
 .section {
   padding: 44px 0;
 }
-
 .section-alt {
   background: rgba(255, 255, 255, 0.4);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
-
 .section-head h2 {
   margin: 0 0 6px;
   font-size: 32px;
@@ -293,426 +292,54 @@ input {
 .section-head p {
   margin: 0;
   color: var(--muted);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.85;
 }
 .section-head.center {
   text-align: center;
 }
 
-/* About */
-.about {
+/* Steps */
+.steps {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 18px;
-  align-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
 }
-
-.about-text {
-  background: rgba(255, 255, 255, 0.55);
+.step {
+  background: rgba(255, 255, 255, 0.65);
   border: 1px solid rgba(31, 24, 18, 0.12);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 18px;
-  color: var(--muted);
-  font-weight: 700;
-  line-height: 1.95;
+  padding: 14px;
 }
-
-.bullets {
-  margin: 14px 0 16px;
-  padding: 0;
-  display: grid;
-  gap: 10px;
-}
-.bullets li {
-  list-style: none;
-  padding-right: 28px;
-  position: relative;
-  color: var(--ink);
-  font-weight: 800;
-}
-.bullets li::before {
-  content: "✓";
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 8px;
-  background: rgba(107, 74, 47, 0.12);
-  border: 1px solid rgba(107, 74, 47, 0.22);
+.step-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
   display: grid;
   place-items: center;
-  color: var(--brown);
-  font-weight: 1000;
-}
-
-.about-media {
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(31, 24, 18, 0.12);
-}
-.about-media img {
-  width: 100%;
-  height: 360px;
-  object-fit: cover;
-}
-
-/* Why cards */
-.cards {
-  margin-top: 18px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.card {
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(31, 24, 18, 0.12);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-.card-img {
-  width: 100%;
-  height: 190px;
-  object-fit: cover;
-}
-.card-body {
-  padding: 14px;
-  text-align: center;
-}
-.card-body h3 {
-  margin: 0 0 6px;
-  font-weight: 1000;
-}
-.card-body p {
-  margin: 0 0 12px;
-  color: var(--muted);
-  font-weight: 700;
-  line-height: 1.75;
-}
-
-/* Visit */
-.visit {
-  margin-top: 6px;
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 18px;
-  align-items: center;
-}
-.visit-text {
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(31, 24, 18, 0.12);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 18px;
-}
-.visit-text h2 {
-  margin: 0 0 8px;
-  font-weight: 1000;
-}
-.visit-text p {
-  margin: 0 0 14px;
-  color: var(--muted);
-  font-weight: 700;
-  line-height: 1.9;
-}
-
-.visit-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.visit-grid img {
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(31, 24, 18, 0.12);
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
-.visit-grid img:nth-child(1) {
-  grid-column: 1 / -1;
-  height: 200px;
-}
-
-/* Catalog toolbar */
-.toolbar {
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.pill {
-  border: 1px solid rgba(31, 24, 18, 0.16);
-  background: rgba(255, 255, 255, 0.55);
-  color: var(--muted);
-  font-weight: 900;
-  padding: 10px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-}
-.pill.is-active {
-  background: rgba(107, 74, 47, 0.14);
-  border-color: rgba(107, 74, 47, 0.22);
-  color: var(--brown);
-}
-
-.search input {
-  width: min(380px, 85vw);
-  padding: 12px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(31, 24, 18, 0.16);
-  background: rgba(255, 255, 255, 0.8);
-  outline: none;
-}
-.search input:focus {
-  border-color: rgba(107, 74, 47, 0.35);
-  box-shadow: 0 0 0 4px rgba(107, 74, 47, 0.12);
-}
-
-/* Catalog grid */
-.catalog {
-  margin-top: 16px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.product {
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(31, 24, 18, 0.12);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-.product-img {
-  width: 100%;
-  height: 170px;
-  object-fit: cover;
-  border-bottom: 1px solid rgba(31, 24, 18, 0.12);
-}
-.product-body {
-  padding: 14px;
-}
-.product-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.tag {
   background: rgba(107, 74, 47, 0.12);
   border: 1px solid rgba(107, 74, 47, 0.22);
   color: var(--brown);
   font-weight: 1000;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
 }
-.code {
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(31, 24, 18, 0.12);
-  color: var(--muted);
-  font-weight: 1000;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-}
-.product-body h3 {
+.step h3 {
   margin: 10px 0 6px;
   font-weight: 1000;
 }
-.product-body p {
+.step p {
   margin: 0;
   color: var(--muted);
-  font-weight: 700;
-  line-height: 1.75;
-}
-
-/* Gallery */
-.gallery {
-  margin-top: 16px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-.gallery img {
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(31, 24, 18, 0.12);
-  height: 230px;
-  width: 100%;
-  object-fit: cover;
-}
-
-/* Footer */
-.footer {
-  border-top: 1px solid var(--line);
-  padding: 18px 0 22px;
-  background: rgba(245, 239, 230, 0.75);
-}
-.footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.footer-links {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  color: var(--muted);
   font-weight: 800;
-  font-size: 13px;
-}
-.footer-links a:hover {
-  color: var(--ink);
+  line-height: 1.7;
 }
 
-.footer-bottom {
-  margin-top: 10px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-/* Modal */
-.modal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  z-index: 80;
-}
-.modal.is-open {
-  display: block;
-}
-
-.modal-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-}
-
-/* ✅ FIX: גלילה בתוך מודאל */
-.modal-card {
-  position: relative;
-  width: min(720px, calc(100% - 28px));
-  margin: 8vh auto 0;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(31, 24, 18, 0.12);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-
+.cta-row {
+  margin-top: 16px;
   display: flex;
-  flex-direction: column;
-  max-height: 84vh;
-}
-
-.modal-head {
-  padding: 14px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
   gap: 10px;
-  border-bottom: 1px solid rgba(31, 24, 18, 0.1);
-  background: rgba(245, 239, 230, 0.75);
-  flex: 0 0 auto;
-}
-.modal-title {
-  font-weight: 1000;
-}
-.modal-sub {
-  color: var(--muted);
-  font-weight: 700;
-  margin-top: 3px;
-  font-size: 13px;
-}
-.icon-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  border: 1px solid rgba(31, 24, 18, 0.14);
-  background: rgba(255, 255, 255, 0.85);
-  cursor: pointer;
-  font-weight: 1000;
-}
-.modal-body {
-  padding: 14px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  flex: 1;
-  padding-bottom: 18px;
-}
-.modal-actions {
-  padding: 12px 14px 16px;
-  border-top: 1px solid rgba(31, 24, 18, 0.1);
-  background: rgba(245, 239, 230, 0.55);
-  flex: 0 0 auto;
-}
-
-/* WA form */
-.wa-form {
-  display: grid;
-  gap: 10px;
-}
-.wa-form label {
-  display: grid;
-  gap: 6px;
-}
-.wa-form span {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 900;
-}
-.wa-form input {
-  padding: 12px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(31, 24, 18, 0.16);
-  background: rgba(255, 255, 255, 0.8);
-  outline: none;
-}
-.wa-form input:focus {
-  border-color: rgba(107, 74, 47, 0.35);
-  box-shadow: 0 0 0 4px rgba(107, 74, 47, 0.12);
-}
-
-.preview {
-  margin-top: 6px;
-}
-.preview-label {
-  font-size: 12px;
-  font-weight: 1000;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-.preview-box {
-  padding: 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(31, 24, 18, 0.16);
-  background: rgba(255, 255, 255, 0.85);
-  min-height: 86px;
-  white-space: pre-wrap;
-  line-height: 1.85;
+  flex-wrap: wrap;
 }
 
 /* Pricing */
@@ -722,7 +349,6 @@ input {
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
-
 .price-card {
   background: rgba(255, 255, 255, 0.65);
   border: 1px solid rgba(31, 24, 18, 0.12);
@@ -755,12 +381,6 @@ input {
   color: var(--brown);
   white-space: nowrap;
 }
-.badge.danger {
-  background: rgba(180, 35, 35, 0.1);
-  border-color: rgba(180, 35, 35, 0.22);
-  color: rgba(180, 35, 35, 0.95);
-}
-
 .price-table {
   display: grid;
   gap: 10px;
@@ -777,7 +397,7 @@ input {
 }
 .price-table .row span {
   color: var(--muted);
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.5;
 }
 .price-table .row b {
@@ -788,7 +408,7 @@ input {
 
 .note {
   color: var(--muted);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.8;
   font-size: 13px;
   padding: 10px 12px;
@@ -796,28 +416,338 @@ input {
   background: rgba(245, 239, 230, 0.7);
   border: 1px solid rgba(31, 24, 18, 0.1);
 }
+.note-strong {
+  font-weight: 900;
+}
 
-.pricing-foot {
+/* Gallery */
+.gallery {
   margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.gallery img {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(31, 24, 18, 0.12);
+  height: 230px;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 14px 0;
+  background: rgba(245, 239, 230, 0.75);
+}
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+.footer-center {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 8px;
+}
+.footer-logo-img {
+  height: 46px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
+}
+.footer-copy {
+  color: var(--muted);
+  font-weight: 900;
+  font-size: 13px;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 80;
+}
+.modal.is-open {
+  display: block;
+}
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+.modal-card {
+  position: relative;
+  width: min(760px, calc(100% - 28px));
+  margin: 7vh auto 0;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(31, 24, 18, 0.12);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 86vh;
+}
+.modal-wide {
+  width: min(1120px, calc(100% - 28px));
+}
+
+.modal-head {
+  padding: 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid rgba(31, 24, 18, 0.1);
+  background: rgba(245, 239, 230, 0.75);
+}
+.modal-title {
+  font-weight: 1000;
+}
+.modal-sub {
+  color: var(--muted);
+  font-weight: 800;
+  margin-top: 3px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.modal-head-actions {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid rgba(31, 24, 18, 0.14);
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  font-weight: 1000;
+}
+.modal-body {
+  padding: 14px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  padding-bottom: 18px;
+}
+.modal-actions {
+  padding: 12px 14px 16px;
+  border-top: 1px solid rgba(31, 24, 18, 0.1);
+  background: rgba(245, 239, 230, 0.55);
+}
+
+/* Toolbar inside catalog modal */
+.toolbar {
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filters {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
-.pill-note {
+.pill {
+  border: 1px solid rgba(31, 24, 18, 0.16);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--muted);
+  font-weight: 1000;
   padding: 10px 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(31, 24, 18, 0.12);
-  color: var(--muted);
-  font-weight: 800;
+  cursor: pointer;
+}
+.pill.is-active {
+  background: rgba(107, 74, 47, 0.14);
+  border-color: rgba(107, 74, 47, 0.22);
+  color: var(--brown);
+}
+.search input {
+  width: min(380px, 85vw);
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(31, 24, 18, 0.16);
+  background: rgba(255, 255, 255, 0.8);
+  outline: none;
+}
+.search input:focus {
+  border-color: rgba(107, 74, 47, 0.35);
+  box-shadow: 0 0 0 4px rgba(107, 74, 47, 0.12);
 }
 
-/* Procedure formatting */
+/* Catalog grid inside modal */
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.product {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(31, 24, 18, 0.12);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.product-img-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(31, 24, 18, 0.12);
+  display: grid;
+  place-items: center;
+  padding: 10px;
+}
+.product-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 12px;
+}
+
+.product-body {
+  padding: 12px;
+}
+.product-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.tag {
+  background: rgba(107, 74, 47, 0.12);
+  border: 1px solid rgba(107, 74, 47, 0.22);
+  color: var(--brown);
+  font-weight: 1000;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.code {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(31, 24, 18, 0.12);
+  color: var(--muted);
+  font-weight: 1000;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.product-body h3 {
+  margin: 0 0 6px;
+  font-weight: 1000;
+  font-size: 16px;
+  line-height: 1.25;
+}
+.product-body p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+.product-foot {
+  padding: 12px;
+  border-top: 1px solid rgba(31, 24, 18, 0.1);
+  background: rgba(245, 239, 230, 0.55);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Pick button */
+.pick-btn {
+  width: 100%;
+  justify-content: center;
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+.pick-btn.is-picked {
+  background: linear-gradient(180deg, var(--brown), var(--brown2));
+  color: #fff;
+  border: 0;
+}
+.pick-badge {
+  font-size: 12px;
+  font-weight: 1000;
+  color: var(--muted);
+}
+
+/* Forms */
+.wa-form {
+  display: grid;
+  gap: 10px;
+}
+.wa-form label {
+  display: grid;
+  gap: 6px;
+}
+.wa-form span {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 1000;
+}
+.wa-form input {
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(31, 24, 18, 0.16);
+  background: rgba(255, 255, 255, 0.8);
+  outline: none;
+}
+.wa-form input:focus {
+  border-color: rgba(107, 74, 47, 0.35);
+  box-shadow: 0 0 0 4px rgba(107, 74, 47, 0.12);
+}
+
+.preview {
+  margin-top: 6px;
+}
+.preview-label {
+  font-size: 12px;
+  font-weight: 1000;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.preview-box {
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(31, 24, 18, 0.16);
+  background: rgba(255, 255, 255, 0.85);
+  min-height: 86px;
+  white-space: pre-wrap;
+  line-height: 1.85;
+}
+
+/* Procedure */
 .proc-block {
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(31, 24, 18, 0.1);
   border-radius: 16px;
-  padding: 12px 12px;
+  padding: 12px;
   margin-bottom: 12px;
 }
 .proc-block h4 {
@@ -836,7 +766,7 @@ input {
   padding-right: 26px;
   position: relative;
   color: var(--muted);
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.7;
 }
 .proc-list li::before {
@@ -849,18 +779,16 @@ input {
   line-height: 1;
 }
 
-/* Procedure approval UI */
 .proc-actions {
   display: grid;
   gap: 10px;
 }
-
 .proc-ack {
   display: flex;
   align-items: center;
   gap: 10px;
   user-select: none;
-  font-weight: 900;
+  font-weight: 1000;
   color: var(--muted);
   background: rgba(255, 255, 255, 0.65);
   border: 1px solid rgba(31, 24, 18, 0.12);
@@ -883,40 +811,19 @@ input {
   transform: none !important;
 }
 
-/* ✅ Mobile nav */
-.hamburger {
-  display: none;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  border: 1px solid rgba(31, 24, 18, 0.14);
-  background: rgba(255, 255, 255, 0.7);
-  font-weight: 1000;
-  cursor: pointer;
-}
-
-.mobile-nav {
-  display: none;
-  padding: 10px 16px 16px;
-  border-top: 1px solid var(--line);
-  background: rgba(245, 239, 230, 0.94);
-}
-.mobile-nav a {
-  display: block;
-  padding: 12px 10px;
-  border-radius: 14px;
-  color: var(--muted);
-  font-weight: 900;
-}
-.mobile-nav a:hover {
-  background: rgba(107, 74, 47, 0.1);
-  color: var(--ink);
-}
-.mobile-nav.is-open {
-  display: block;
+/* Footer actions in catalog modal */
+.catalog-footer-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 /* Responsive */
+@media (max-width: 1100px) {
+  .catalog {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 @media (max-width: 980px) {
   .nav {
     display: none;
@@ -926,66 +833,1720 @@ input {
     align-items: center;
     justify-content: center;
   }
-
-  .hero {
-    min-height: 88vh;
-  }
-  .hero-content {
-    min-height: 88vh;
-    padding: 22px 0;
-  }
-  .hero-card {
-    text-align: right;
-    padding: 16px;
-    border-radius: 18px;
-  }
-  .hero-actions {
-    justify-content: flex-start;
-  }
   .hero-title {
-    font-size: 36px;
+    font-size: 34px;
   }
-
-  .about,
-  .visit {
-    grid-template-columns: 1fr;
-  }
-  .cards {
-    grid-template-columns: 1fr;
-  }
-  .catalog {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .gallery {
+  .steps {
     grid-template-columns: repeat(2, 1fr);
   }
   .price-grid {
     grid-template-columns: 1fr;
   }
-}
-
-@media (max-width: 560px) {
-  .brand {
-    min-width: auto;
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
   }
+  .catalog {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+}
+@media (max-width: 560px) {
   .brand-text {
     display: none;
-  }
-
-  .catalog {
-    grid-template-columns: 1fr;
   }
   .gallery {
     grid-template-columns: 1fr;
   }
-
-  .hero {
-    min-height: 86vh;
-  }
-  .hero-content {
-    min-height: 86vh;
+  .catalog {
+    grid-template-columns: 1fr;
   }
   .hero-title {
-    font-size: 32px;
+    font-size: 30px;
   }
+}
+/* =========================
+   CATALOG MODAL FIXES
+   Paste at END of style.css
+   ========================= */
+
+/* 1) תן למודאל גובה נכון וגלילה פנימית מסודרת */
+.modal-card {
+  max-height: min(92vh, 860px);
+}
+
+.modal-head {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  flex-wrap: wrap; /* מאפשר שבירה לשורות */
+  align-items: center; /* מונע "חיתוך" ויישור מוזר */
+  gap: 10px;
+}
+
+/* כותרת + תת כותרת לא חונקות את עצמן */
+.modal-title {
+  line-height: 1.2;
+}
+.modal-sub {
+  line-height: 1.4;
+  max-width: 72ch;
+}
+
+/* אזור הכפתורים בכותרת: לא להידחס */
+.modal-head-actions {
+  margin-inline-start: auto; /* דוחף לקצה בצורה יציבה */
+  display: inline-flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* גוף המודאל: גלילה, בלי לחתוך כרטיסים */
+.modal-body {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px;
+}
+
+/* 2) כפתורי תחתית המודאל תמיד נראים ולא "נעלמים" */
+.modal-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  padding: 12px 14px;
+}
+
+/* 3) גריד קטלוג: יציב, פחות צפוף, בלי שבירות מוזרות */
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(
+    4,
+    minmax(0, 1fr)
+  ); /* minmax(0..) מונע גלישות */
+  gap: 14px;
+  align-items: stretch;
+}
+
+/* במסכים בינוניים/קטנים – פחות עמודות כדי למנוע חיתוך */
+@media (max-width: 1100px) {
+  .catalog {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 980px) {
+  .catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .catalog {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 4) כרטיס מוצר: לא חותכים שום דבר – מבנה יציב */
+.product {
+  min-width: 0; /* חובה ב-grid כדי שטקסט לא יגלוש */
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* תמונה | תוכן | תחתית */
+}
+
+/* 5) תמונה: לא "נחתכת" ולא יוצאת מהמסגרת */
+.product-img-wrap {
+  aspect-ratio: 16 / 10;
+  padding: 0; /* הפדינג היה גורם לצמצום שטח תמונה */
+  overflow: hidden;
+  display: block;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ממלא יפה ולא נראה "תקוע" */
+  object-position: center;
+  border-radius: 0;
+}
+
+/* 6) תוכן טקסט: בלי "לקפוץ" ובלי להגדיל את הכרטיס מעבר לגבולות */
+.product-body {
+  min-width: 0;
+}
+
+/* כותרת: 2 שורות מקסימום */
+.product-body h3 {
+  font-size: 15px;
+  line-height: 1.25;
+  margin: 0 0 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* תיאור: 2 שורות מקסימום (עם fallback) */
+.product-body p {
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
+  overflow: hidden;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  /* fallback נחמד אם clamp לא נתמך */
+  max-height: calc(1.55em * 2);
+}
+
+/* 7) אזור כפתור: תמיד נראה, לא נחתך */
+.product-foot {
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* כפתור בחירה: גובה אחיד ורוחב מלא */
+.pick-btn {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 14px;
+  justify-content: center;
+}
+
+/* 8) תגיות (מק"ט/קטגוריה) – שלא יגלשו */
+.product-top {
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tag,
+.code {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* =========================
+   PRICING SECTION
+   ========================= */
+
+#praising {
+  background: linear-gradient(180deg, #f6efe6 0%, #f2eadf 100%);
+  padding: 80px 0;
+  direction: rtl;
+}
+
+#praising .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.pricing-head {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.pricing-head h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #2c1e14;
+}
+
+.pricing-head .muted {
+  color: #6f6258;
+  font-size: 15px;
+}
+
+/* Grid */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+/* Card */
+.pricing-card {
+  background: #fbf8f4;
+  border-radius: 20px;
+  padding: 22px 22px 26px;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+}
+
+/* Badge */
+.pricing-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #e6d8c9;
+  color: #5b4635;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* Titles */
+.pricing-card h3 {
+  font-size: 22px;
+  color: #3a2a1f;
+  margin: 0;
+  padding-top: 10px;
+}
+
+/* Price rows */
+.price-rows {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.price-row span {
+  color: #4a3a2f;
+}
+
+.price-row strong {
+  color: #2c1e14;
+  font-weight: 700;
+}
+
+/* Notes */
+.pricing-note {
+  background: #f1e7da;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 13px;
+  color: #4d3d32;
+  line-height: 1.6;
+}
+
+.pricing-note strong {
+  color: #2c1e14;
+}
+
+.pricing-note ul {
+  margin: 8px 0 0;
+  padding-right: 16px;
+}
+
+.pricing-note li {
+  margin-bottom: 4px;
+}
+
+/* Danger note */
+.pricing-note.danger {
+  background: #f3e1de;
+  color: #6a2e27;
+}
+
+/* Inline price */
+.inline-price {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+/* Divider */
+.sep {
+  border: none;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 12px 0;
+}
+
+/* Text helpers */
+.muted {
+  color: #6f6258;
+}
+
+.small {
+  font-size: 12.5px;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 768px) {
+  #praising {
+    padding: 60px 0;
+  }
+
+  .pricing-head h2 {
+    font-size: 28px;
+  }
+
+  .pricing-card {
+    padding: 20px;
+  }
+
+  .price-row {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 420px) {
+  .pricing-card h3 {
+    font-size: 20px;
+  }
+
+  .pricing-badge {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
+/* =========================
+   PRICING (MINIMAL / PRO)
+   ========================= */
+
+#praising {
+  direction: rtl;
+  background: #f6f2ed;
+  padding: 72px 0;
+}
+
+#praising .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+/* Header */
+#praising .pricing-head {
+  text-align: right;
+  margin-bottom: 24px;
+}
+
+#praising .pricing-head h2 {
+  margin: 0 0 6px 0;
+  font-size: 34px;
+  letter-spacing: -0.3px;
+  color: #1f1a16;
+}
+
+#praising .pricing-head .muted {
+  margin: 0;
+  font-size: 14px;
+  color: #6f645c;
+}
+
+/* Grid */
+#praising .pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* Card */
+#praising .pricing-card {
+  background: #ffffff;
+  border: 1px solid rgba(20, 15, 12, 0.08);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+#praising .pricing-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f1a16;
+}
+
+/* Badge */
+#praising .pricing-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5a4a3f;
+  background: #f1ebe4;
+  border: 1px solid rgba(20, 15, 12, 0.08);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+/* Price list */
+#praising .price-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+#praising .price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(20, 15, 12, 0.08);
+  background: #fff;
+}
+
+#praising .price-row span {
+  font-size: 13.5px;
+  color: #2b241f;
+  line-height: 1.35;
+  min-width: 0;
+}
+
+#praising .price-row strong {
+  font-size: 13.5px;
+  color: #1f1a16;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Divider inside card */
+#praising .sep {
+  border: none;
+  height: 1px;
+  background: rgba(20, 15, 12, 0.08);
+  margin: 14px 0;
+}
+
+/* Notes block (clean) */
+#praising .pricing-note {
+  margin-top: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(20, 15, 12, 0.08);
+  background: #faf8f6;
+  padding: 12px 12px;
+  color: #3a312b;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+#praising .pricing-note strong {
+  color: #1f1a16;
+}
+
+#praising .pricing-note ul {
+  margin: 8px 0 0 0;
+  padding: 0 18px 0 0;
+}
+
+#praising .pricing-note li {
+  margin: 6px 0;
+}
+
+/* Danger note - still minimal */
+#praising .pricing-note.danger {
+  background: #fff7f7;
+  border-color: rgba(140, 40, 40, 0.16);
+  color: #6e2b2b;
+}
+
+#praising .muted {
+  color: #6f645c;
+}
+
+/* ==================================
+   Responsive
+   ================================== */
+
+@media (max-width: 980px) {
+  #praising .pricing-grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  #praising {
+    padding: 56px 0;
+  }
+
+  #praising .pricing-head h2 {
+    font-size: 28px;
+  }
+
+  #praising .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #praising .pricing-card {
+    padding: 16px;
+  }
+
+  #praising .price-row {
+    padding: 10px 10px;
+  }
+
+  #praising .price-row span,
+  #praising .price-row strong {
+    font-size: 13px;
+  }
+}
+/* =========================================
+   PRICING SECTION (id="praising")
+   Minimal + Professional + a touch of color
+   ========================================= */
+
+#praising.pricing {
+  direction: rtl;
+  padding: 72px 0;
+  background: linear-gradient(180deg, #f8f2eb 0%, #f4eee7 60%, #f7f2ec 100%);
+  color: #1f1a16;
+}
+
+#praising .pricing__container {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+#praising .pricing__header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+#praising .pricing__title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+}
+
+#praising .pricing__subtitle {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #6f645c;
+}
+
+/* Grid */
+#praising .pricing__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* Card Base */
+#praising .pricingCard {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(35, 25, 18, 0.1);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Color top line per card */
+#praising .pricingCard::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 5px;
+  background: linear-gradient(90deg, #b89a73, #7a4f2c);
+  opacity: 0.9;
+}
+
+#praising .pricingCard--linens::before {
+  background: linear-gradient(90deg, #d7a5b1, #9a6a78);
+}
+
+#praising .pricingCard--rules::before {
+  background: linear-gradient(90deg, #9ec6d1, #4f7b87);
+}
+
+/* Card head */
+#praising .pricingCard__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+#praising .pricingCard__badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #f3ebe3;
+  border: 1px solid rgba(35, 25, 18, 0.1);
+  font-size: 18px;
+}
+
+#praising .pricingCard--linens .pricingCard__badge {
+  background: #f6eef0;
+}
+
+#praising .pricingCard--rules .pricingCard__badge {
+  background: #eef6f7;
+}
+
+#praising .pricingCard__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+#praising .pricingCard__hint {
+  margin: 3px 0 0 0;
+  font-size: 12.5px;
+  color: #786c63;
+}
+
+/* List (DL) */
+#praising .pricingList {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+#praising .pricingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(35, 25, 18, 0.1);
+}
+
+#praising .pricingRow dt {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: #2b241f;
+  min-width: 0;
+}
+
+#praising .pricingRow dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 900;
+  white-space: nowrap;
+  color: #1f1a16;
+}
+
+#praising .pricingRow--muted dt {
+  color: #6f645c;
+}
+
+#praising .pricingList--compact .pricingRow {
+  padding: 9px 10px;
+}
+
+#praising .pricingList--compact dt,
+#praising .pricingList--compact dd {
+  font-size: 13px;
+}
+
+/* Note blocks */
+#praising .pricingNote {
+  margin-top: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(35, 25, 18, 0.1);
+  background: #fbf9f6;
+  padding: 12px;
+  color: #3a312b;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+#praising .pricingNote--tint {
+  background: linear-gradient(180deg, #fbf6ef, #fbf9f6);
+  border-color: rgba(122, 79, 44, 0.18);
+}
+
+#praising .pricingCard--linens .pricingNote--tint {
+  border-color: rgba(154, 106, 120, 0.2);
+  background: linear-gradient(180deg, #fbf2f4, #fbf9f6);
+}
+
+#praising .pricingCard--rules .pricingNote--tint {
+  border-color: rgba(79, 123, 135, 0.2);
+  background: linear-gradient(180deg, #f0f8fa, #fbf9f6);
+}
+
+#praising .pricingNote__title {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 900;
+  color: #1f1a16;
+}
+
+#praising .pricingNote__list {
+  margin: 0;
+  padding-right: 18px;
+}
+
+#praising .pricingNote__list li {
+  margin: 6px 0;
+}
+
+/* Alert (danger) */
+#praising .pricingAlert {
+  margin-top: 12px;
+  border-radius: 14px;
+  padding: 12px;
+  border: 1px solid rgba(140, 40, 40, 0.18);
+  background: #fff6f6;
+  color: #6e2b2b;
+}
+
+#praising .pricingAlert__title {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+#praising .pricingAlert__list {
+  margin: 0;
+  padding-right: 18px;
+}
+
+#praising .pricingAlert__list li {
+  margin: 6px 0;
+}
+
+#praising .pricingAlert__text {
+  margin: 8px 0 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+/* Pills */
+#praising .pricingPills {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 6px 0;
+}
+
+#praising .pricingPill {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(35, 25, 18, 0.1);
+  background: #fff;
+  font-size: 13px;
+}
+
+#praising .pricingPill strong {
+  font-weight: 900;
+  color: #7a4f2c;
+  white-space: nowrap;
+}
+
+#praising .pricingCard--rules .pricingPill strong {
+  color: #4f7b87;
+}
+
+/* Footnote */
+#praising .pricing__footnote {
+  margin: 12px 0 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #6f645c;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  #praising .pricing__grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  #praising.pricing {
+    padding: 56px 0;
+  }
+
+  #praising .pricing__title {
+    font-size: 28px;
+  }
+
+  #praising .pricing__grid {
+    grid-template-columns: 1fr;
+  }
+
+  #praising .pricingCard {
+    padding: 16px;
+  }
+
+  #praising .pricingRow {
+    padding: 10px 10px;
+  }
+}
+/* =========================================
+   PRICING (id="praising") — prices only
+   Minimal + professional + a touch of color
+   ========================================= */
+
+#praising.pricing {
+  direction: rtl;
+  padding: 72px 0;
+  background: linear-gradient(180deg, #f8f2eb 0%, #f4eee7 60%, #f7f2ec 100%);
+  color: #1f1a16;
+}
+
+#praising .pricing__container {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+#praising .pricing__header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+#praising .pricing__title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+}
+
+#praising .pricing__subtitle {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #6f645c;
+}
+
+/* Grid */
+#praising .pricing__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* Card */
+#praising .pricingCard {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(35, 25, 18, 0.1);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  position: relative;
+}
+
+#praising .pricingCard::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 5px;
+  background: linear-gradient(90deg, #b89a73, #7a4f2c);
+  opacity: 0.9;
+}
+
+#praising .pricingCard--linens::before {
+  background: linear-gradient(90deg, #d7a5b1, #9a6a78);
+}
+
+#praising .pricingCard--special::before {
+  background: linear-gradient(90deg, #9ec6d1, #4f7b87);
+}
+
+/* Card head */
+#praising .pricingCard__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+#praising .pricingCard__badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #f3ebe3;
+  border: 1px solid rgba(35, 25, 18, 0.1);
+  font-size: 18px;
+}
+
+#praising .pricingCard--linens .pricingCard__badge {
+  background: #f6eef0;
+}
+#praising .pricingCard--special .pricingCard__badge {
+  background: #eef6f7;
+}
+
+#praising .pricingCard__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+#praising .pricingCard__hint {
+  margin: 3px 0 0 0;
+  font-size: 12.5px;
+  color: #786c63;
+}
+
+/* Price rows */
+#praising .pricingList {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+#praising .pricingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(35, 25, 18, 0.1);
+}
+
+#praising .pricingRow dt {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: #2b241f;
+  min-width: 0;
+}
+
+#praising .pricingRow dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 900;
+  white-space: nowrap;
+  color: #1f1a16;
+}
+
+#praising .pricingRow--muted dt {
+  color: #6f645c;
+}
+
+/* Specials */
+#praising .pricingSpecial {
+  display: grid;
+  gap: 12px;
+}
+
+#praising .pricingSpecial__box {
+  border-radius: 14px;
+  border: 1px solid rgba(79, 123, 135, 0.18);
+  background: linear-gradient(180deg, #f0f8fa, #fbf9f6);
+  padding: 12px;
+}
+
+#praising .pricingSpecial__box--alt {
+  border-color: rgba(122, 79, 44, 0.18);
+  background: linear-gradient(180deg, #fbf6ef, #fbf9f6);
+}
+
+#praising .pricingSpecial__title {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 900;
+  color: #1f1a16;
+}
+
+#praising .pricingSpecial__list {
+  margin: 0;
+  padding-right: 18px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #3a312b;
+}
+
+#praising .pricingSpecial__list li {
+  margin: 6px 0;
+}
+
+#praising .pricingSpecial__text {
+  margin: 0;
+  font-size: 14px;
+  color: #3a312b;
+}
+
+#praising .pricingSpecial__text strong {
+  color: #4f7b87;
+  font-weight: 900;
+}
+
+/* Footnote */
+#praising .pricing__footnote {
+  margin: 12px 0 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #6f645c;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  #praising .pricing__grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  #praising.pricing {
+    padding: 56px 0;
+  }
+  #praising .pricing__title {
+    font-size: 28px;
+  }
+  #praising .pricing__grid {
+    grid-template-columns: 1fr;
+  }
+  #praising .pricingCard {
+    padding: 16px;
+  }
+  #praising .pricingRow {
+    padding: 10px 10px;
+  }
+}
+/* =========================
+   PRICING (id="praising") — Wide stacked cards
+   Minimal + a touch of color, no column layout
+   ========================= */
+
+#praising .pricing__grid {
+  display: grid;
+  grid-template-columns: 1fr; /* כרטיסים רחבים אחד מתחת לשני */
+  gap: 18px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* הכרטיס */
+#praising .pricingCard {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 18px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* פס צבע עדין למעלה לפי סוג הכרטיס */
+#praising .pricingCard--tools {
+  border-top: 6px solid rgba(180, 135, 95, 0.9);
+}
+#praising .pricingCard--linens {
+  border-top: 6px solid rgba(198, 122, 152, 0.9);
+}
+#praising .pricingCard--special {
+  border-top: 6px solid rgba(120, 150, 170, 0.9);
+}
+
+/* כותרת הכרטיס */
+#praising .pricingCard__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 18px 12px;
+}
+
+#praising .pricingCard__badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  flex: 0 0 auto;
+}
+
+#praising .pricingCard__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: rgba(20, 20, 20, 0.92);
+}
+
+#praising .pricingCard__hint {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: rgba(20, 20, 20, 0.55);
+}
+
+/* תוכן הכרטיס */
+#praising .pricingList {
+  margin: 0;
+  padding: 0 18px 18px;
+  display: grid;
+  gap: 10px;
+}
+
+/* שורת מחיר (dl) */
+#praising .pricingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+}
+
+#praising .pricingRow dt {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+  color: rgba(20, 20, 20, 0.88);
+  line-height: 1.35;
+}
+
+#praising .pricingRow dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 900;
+  color: rgba(20, 20, 20, 0.95);
+  white-space: nowrap;
+}
+
+/* שורה "Muted" */
+#praising .pricingRow--muted {
+  background: rgba(0, 0, 0, 0.02);
+}
+#praising .pricingRow--muted dt,
+#praising .pricingRow--muted dd {
+  color: rgba(20, 20, 20, 0.65);
+}
+
+/* אזור מחירים מיוחדים */
+#praising .pricingSpecial {
+  padding: 0 18px 18px;
+  display: grid;
+  gap: 12px;
+}
+
+#praising .pricingSpecial__box {
+  background: linear-gradient(
+    180deg,
+    rgba(180, 135, 95, 0.1),
+    rgba(255, 255, 255, 0.92)
+  );
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+#praising .pricingSpecial__box--alt {
+  background: linear-gradient(
+    180deg,
+    rgba(120, 150, 170, 0.12),
+    rgba(255, 255, 255, 0.92)
+  );
+}
+
+#praising .pricingSpecial__title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 850;
+  color: rgba(20, 20, 20, 0.88);
+}
+
+#praising .pricingSpecial__list {
+  margin: 0;
+  padding: 0 18px 0 0;
+  display: grid;
+  gap: 8px;
+}
+
+#praising .pricingSpecial__list li {
+  font-size: 14px;
+  color: rgba(20, 20, 20, 0.8);
+}
+
+#praising .pricingSpecial__text {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(20, 20, 20, 0.8);
+}
+
+/* פוטר */
+#praising .pricing__footnote {
+  margin: 0;
+  padding: 0 18px 18px;
+  font-size: 13px;
+  color: rgba(20, 20, 20, 0.55);
+  line-height: 1.55;
+}
+
+/* מובייל */
+@media (max-width: 640px) {
+  #praising .pricing__grid {
+    padding: 0 12px;
+    gap: 14px;
+  }
+  #praising .pricingCard__head {
+    padding: 16px 14px 10px;
+  }
+  #praising .pricingList {
+    padding: 0 14px 14px;
+  }
+  #praising .pricingSpecial {
+    padding: 0 14px 14px;
+  }
+  #praising .pricing__footnote {
+    padding: 0 14px 14px;
+  }
+  #praising .pricingRow {
+    padding: 11px 12px;
+  }
+  #praising .pricingRow dt {
+    font-size: 13.5px;
+  }
+}
+/* =========================
+   Color Decorations (subtle)
+   Paste at END of your CSS
+   ========================= */
+
+/* צבעים רכים – אפשר לשנות חופשי */
+:root {
+  --accentA: 170, 120, 70; /* חום-זהב */
+  --accentB: 210, 160, 210; /* סגול-ורוד עדין */
+  --accentC: 120, 190, 180; /* טורקיז עדין */
+  --accentD: 240, 200, 120; /* שמפניה */
+}
+
+/* חשוב כדי שפסאודו-אלמנטים יהיו מאחורי התוכן */
+html,
+body {
+  height: 100%;
+}
+body {
+  position: relative;
+  overflow-x: hidden;
+  isolation: isolate; /* מאפשר z-index:-1 לעבוד יציב */
+  background:
+    radial-gradient(
+      1200px 700px at 50% -10%,
+      rgba(var(--accentD), 0.1),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 600px at 10% 20%,
+      rgba(var(--accentB), 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 600px at 90% 30%,
+      rgba(var(--accentC), 0.08),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #fbf7f1 0%, #f6efe6 45%, #fbf7f1 100%);
+}
+
+/* עיטורי צד “וילונות” צבעוניים (עדין) */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+body::before {
+  background:
+    radial-gradient(
+      550px 700px at -8% 18%,
+      rgba(var(--accentB), 0.18),
+      transparent 65%
+    ),
+    radial-gradient(
+      520px 680px at 108% 30%,
+      rgba(var(--accentA), 0.18),
+      transparent 65%
+    ),
+    radial-gradient(
+      420px 520px at -6% 75%,
+      rgba(var(--accentC), 0.14),
+      transparent 70%
+    ),
+    radial-gradient(
+      420px 520px at 106% 85%,
+      rgba(var(--accentD), 0.12),
+      transparent 70%
+    );
+  filter: blur(2px);
+}
+
+body::after {
+  /* “גריין” עדין כדי להרגיש פרימיום (לא חייב) */
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(255, 255, 255, 0.35),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 255, 255, 0.25),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 30% 85%,
+      rgba(255, 255, 255, 0.22),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(255, 255, 255, 0.18),
+      transparent 35%
+    );
+  mix-blend-mode: soft-light;
+  opacity: 0.35;
+}
+
+/* הפרדה “אלגנטית” בין סקשנים */
+section {
+  position: relative;
+}
+section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--accentA), 0.25),
+    rgba(var(--accentB), 0.18),
+    transparent
+  );
+  opacity: 0.55;
+}
+
+/* נגיעה צבעונית עדינה לכרטיסים (לא חובה, אבל יפה) */
+.pricingCard,
+.stepCard,
+.card,
+.panel,
+.modalCard {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.6) inset;
+}
+
+/* פס עליון צבעוני לכרטיסי מחירון (מתיישב טוב עם מה שכבר בנית) */
+.pricingCard::before {
+  content: "";
+  display: block;
+  height: 6px;
+  border-radius: 16px 16px 0 0;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--accentA), 0.85),
+    rgba(var(--accentB), 0.75),
+    rgba(var(--accentC), 0.75)
+  );
+  opacity: 0.55;
+}
+
+/* תגיות/באדג'ים קצת יותר “חיים” */
+.pricingCard__badge,
+.badge,
+.pill {
+  background: rgba(var(--accentD), 0.18);
+  border: 1px solid rgba(var(--accentA), 0.18);
+}
+
+/* כפתורים – הדגשה עדינה בלי לצעוק */
+.buttonPrimary,
+.btnPrimary,
+button.primary {
+  box-shadow: 0 10px 24px rgba(var(--accentA), 0.18);
+}
+/* =========================
+   More Color (Green + Purple)
+   Subtle diagonal background
+   Paste at END of CSS
+   ========================= */
+
+:root {
+  /* ירוק + סגול */
+  --g1: 120, 220, 180;
+  --g2: 80, 180, 140;
+
+  --p1: 185, 130, 255;
+  --p2: 135, 90, 235;
+
+  --warm: 210, 150, 95; /* נגיעה חמימה לכפתורים/זהב */
+}
+
+/* רקע עשיר יותר: כתמים + אלכסונים */
+body {
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+
+  background:
+    /* אלכסונים עדינים */
+    repeating-linear-gradient(
+      135deg,
+      rgba(var(--p1), 0.09) 0px,
+      rgba(var(--p1), 0.09) 22px,
+      rgba(var(--g1), 0.07) 22px,
+      rgba(var(--g1), 0.07) 44px
+    ),
+    /* שכבת "אור" רכה עליונה */
+    radial-gradient(
+        1100px 700px at 50% -10%,
+        rgba(255, 255, 255, 0.65),
+        transparent 60%
+      ),
+    /* כתמי צבע גדולים בצדדים */
+    radial-gradient(
+        700px 900px at -10% 20%,
+        rgba(var(--p2), 0.26),
+        transparent 65%
+      ),
+    radial-gradient(
+      700px 900px at 110% 35%,
+      rgba(var(--g2), 0.24),
+      transparent 65%
+    ),
+    radial-gradient(
+      600px 800px at -8% 85%,
+      rgba(var(--g1), 0.2),
+      transparent 70%
+    ),
+    radial-gradient(
+      600px 800px at 108% 80%,
+      rgba(var(--p1), 0.18),
+      transparent 70%
+    ),
+    /* בסיס שמנת */
+    linear-gradient(180deg, #fbf7f1 0%, #f4ecdf 55%, #fbf7f1 100%);
+}
+
+/* "וילונות" אלכסוניים עדינים בצדדים – נותן אופי בלי להעמיס */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background: linear-gradient(
+    135deg,
+    rgba(var(--p1), 0.16) 0%,
+    rgba(var(--p1), 0) 35%,
+    rgba(var(--g1), 0.14) 55%,
+    rgba(var(--g1), 0) 78%
+  );
+
+  /* הופך את זה ליותר "רקע" ופחות שכבה */
+  mix-blend-mode: multiply;
+  opacity: 0.65;
+}
+
+/* גריין עדין שנותן פרימיום */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 18% 22%,
+      rgba(255, 255, 255, 0.35),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 82% 18%,
+      rgba(255, 255, 255, 0.25),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 30% 88%,
+      rgba(255, 255, 255, 0.22),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 78% 78%,
+      rgba(255, 255, 255, 0.18),
+      transparent 35%
+    );
+
+  mix-blend-mode: soft-light;
+  opacity: 0.35;
+}
+
+/* כרטיסים – טיפה יותר “חי” */
+.pricingCard,
+.stepCard,
+.card,
+.panel,
+.modalCard {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.65) inset;
+}
+
+/* פס צבע חזק יותר לכרטיסי מחירון */
+.pricingCard::before {
+  content: "";
+  display: block;
+  height: 7px;
+  border-radius: 16px 16px 0 0;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--p2), 0.95),
+    rgba(var(--p1), 0.8),
+    rgba(var(--g1), 0.8),
+    rgba(var(--g2), 0.95)
+  );
+  opacity: 0.65;
+}
+
+/* באדג’ים / פילס */
+.pricingCard__badge,
+.badge,
+.pill {
+  background: rgba(var(--p1), 0.18);
+  border: 1px solid rgba(var(--g1), 0.22);
+}
+
+/* כפתור ראשי – עם הצללה ירוק/סגול עדינה */
+.buttonPrimary,
+.btnPrimary,
+button.primary {
+  box-shadow:
+    0 12px 28px rgba(var(--p2), 0.14),
+    0 10px 24px rgba(var(--g2), 0.12);
+}
+
+/* אם יש לך כפתור “חום” (כמו המשך/סיכום) – תן לו חיזוק עדין */
+.buttonPrimary:hover,
+.btnPrimary:hover,
+button.primary:hover {
+  filter: brightness(1.02);
+}
+
+/* הפרדה דקה בין סקשנים עם צבע */
+section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--p2), 0.22),
+    rgba(var(--g2), 0.18),
+    transparent
+  );
+  opacity: 0.55;
+}
+/* =========================
+   Pricing: Bigger Typography
+   Paste at END of CSS
+   ========================= */
+
+/* שליטה כללית על טיפוגרפיה במחירון */
+.pricing {
+  --pricing-title: clamp(20px, 2.2vw, 26px);
+  --pricing-hint: clamp(13px, 1.35vw, 15px);
+  --pricing-text: clamp(15px, 1.55vw, 17px);
+  --pricing-strong: clamp(16px, 1.7vw, 18px);
+  --pricing-price: clamp(16px, 1.8vw, 19px);
+}
+
+/* כותרת הכרטיס */
+.pricingCard__title {
+  font-size: var(--pricing-title);
+  line-height: 1.15;
+}
+
+/* טקסט קטן מתחת לכותרת */
+.pricingCard__hint {
+  font-size: var(--pricing-hint);
+  line-height: 1.35;
+}
+
+/* שורות מחירון */
+.pricingRow dt,
+.pricingRow dd {
+  font-size: var(--pricing-text);
+  line-height: 1.4;
+}
+
+/* מחיר מודגש יותר */
+.pricingRow dd {
+  font-weight: 700;
+  font-size: var(--pricing-price);
+}
+
+/* מחירים מיוחדים */
+.pricingSpecial__title {
+  font-size: var(--pricing-strong);
+  line-height: 1.25;
+}
+
+.pricingSpecial__list,
+.pricingSpecial__text {
+  font-size: var(--pricing-text);
+  line-height: 1.45;
+}
+
+/* פוטנוט */
+.pricing__footnote {
+  font-size: var(--pricing-hint);
+  line-height: 1.45;
 }
