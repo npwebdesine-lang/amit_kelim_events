@@ -2864,3 +2864,78 @@ dialog[open] .modal__footer {
   width: 100%;
   max-width: none;
 }
+/* =========================
+   Catalog footer actions (המשך להזמנה / נקה בחירות)
+   ========================= */
+
+/* שהמודל יתנהג כמו עמוד עם footer דביק */
+.catalog-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  max-height: 92vh;
+}
+
+/* הגוף יהיה גליל, ומשאיר מקום לכפתורים */
+.catalog-modal .modal-body {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 110px; /* מקום ל-footer */
+}
+
+/* footer דביק בתחתית */
+.catalog-modal .catalog-footer-actions {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  padding: 10px 14px calc(12px + env(safe-area-inset-bottom));
+  background: rgba(245, 242, 238, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* כפתור המשך – גמיש ורחב */
+.catalog-modal .catalog-footer-actions #goToOrderFromCatalog {
+  flex: 1;
+  height: 44px;
+  padding: 0 14px;
+  font-size: 15px;
+  border-radius: 999px;
+}
+
+/* כפתור נקה – קטן יותר */
+.catalog-modal .catalog-footer-actions #clearPicks {
+  flex: 0 0 auto;
+  height: 40px;
+  padding: 0 14px;
+  font-size: 13.5px;
+  border-radius: 999px;
+}
+
+/* במובייל: עוד טיפה כיווץ כדי שלא יתפסו מסך */
+@media (max-width: 520px) {
+  .catalog-modal .modal-body {
+    padding-bottom: 98px;
+  }
+  .catalog-modal .catalog-footer-actions {
+    padding: 8px 12px calc(10px + env(safe-area-inset-bottom));
+    gap: 8px;
+  }
+  .catalog-modal .catalog-footer-actions #goToOrderFromCatalog {
+    height: 42px;
+    font-size: 14px;
+  }
+  .catalog-modal .catalog-footer-actions #clearPicks {
+    height: 38px;
+    font-size: 12.8px;
+    padding: 0 12px;
+  }
+}

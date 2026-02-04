@@ -804,3 +804,89 @@ if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 resetProcedureApprovalUI();
 syncPreview();
 refreshPickedUI();
+
+// =========================
+// Catalog image preview
+// =========================
+(() => {
+  const preview = document.getElementById("catalogImagePreview");
+  if (!preview) return;
+
+  const imgEl = document.getElementById("catalogPreviewImg");
+  const btnBack = document.getElementById("catalogPreviewBack");
+  const btnLike = document.getElementById("catalogPreviewLike");
+
+  let currentSku = null;
+
+  const LS_KEY = "catalog_likes";
+  const getLikes = () => {
+    try {
+      return JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+    } catch {
+      return [];
+    }
+  };
+  const setLikes = (arr) => localStorage.setItem(LS_KEY, JSON.stringify(arr));
+
+  function syncLikeButton() {
+    const likes = getLikes();
+    const liked = currentSku && likes.includes(currentSku);
+    btnLike.textContent = liked ? "אהבתי ✓" : "אהבתי";
+  }
+
+  function openPreview(src, sku) {
+    currentSku = sku || null;
+    imgEl.src = src;
+    syncLikeButton();
+
+    preview.classList.add("is-open");
+    preview.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden"; // מונע גלילה מאחורה
+  }
+
+  function closePreview() {
+    preview.classList.remove("is-open");
+    preview.setAttribute("aria-hidden", "true");
+    imgEl.src = "";
+    currentSku = null;
+    document.body.style.overflow = "";
+  }
+
+  // לחיצה על תמונות בקטלוג (התאם selector אם צריך)
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest(
+      ".catalog-item img, .catalog-card img, .catalog-grid img, .catalog-products img",
+    );
+    if (!img) return;
+
+    const src = img.getAttribute("data-full") || img.currentSrc || img.src;
+    const sku =
+      img.getAttribute("data-sku") ||
+      img.closest("[data-sku]")?.getAttribute("data-sku");
+
+    openPreview(src, sku);
+  });
+
+  // חזרה / לחיצה על רקע / ESC
+  btnBack.addEventListener("click", closePreview);
+  preview.addEventListener("click", (e) => {
+    if (e.target?.dataset?.close === "1") closePreview();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && preview.classList.contains("is-open"))
+      closePreview();
+  });
+
+  // אהבתי (שומר ב-localStorage לפי מק"ט)
+  btnLike.addEventListener("click", () => {
+    if (!currentSku) return; // אם אין מק"ט – לא שומרים
+    const likes = getLikes();
+    const idx = likes.indexOf(currentSku);
+
+    if (idx >= 0) likes.splice(idx, 1);
+    else likes.push(currentSku);
+
+    setLikes(likes);
+    syncLikeButton();
+  });
+})();
