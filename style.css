@@ -2550,3 +2550,115 @@ section::before {
   font-size: var(--pricing-hint);
   line-height: 1.45;
 }
+/* =========================================================
+   Mobile Safe-Area + Bottom Bar Fix
+   Paste at END of CSS
+   ========================================================= */
+
+/* 1) משתנה אחיד לרווח תחתון בטוח (Android + iPhone) */
+:root {
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --app-pad: 16px; /* padding בסיסי */
+}
+
+/* 2) שלא יזום התקרבות מוזרה בשדות/כפתורים */
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-bottom: calc(24px + var(--safe-b));
+}
+
+/* 3) ריווח תחתון גלובלי כדי שתכנים לא "יישבו" על כפתורי מערכת */
+body {
+  padding-bottom: calc(12px + var(--safe-b));
+}
+
+/* 4) כל אזור של עמוד/סקשן ראשי יקבל ריווח יפה במובייל */
+@media (max-width: 640px) {
+  .container,
+  .section,
+  main {
+    padding-left: var(--app-pad);
+    padding-right: var(--app-pad);
+  }
+}
+
+/* =========================================================
+   Catalog Modal – כפתורים תחתונים לא ייחתכו
+   (עדכן את הסלקטורים אם השמות אצלך שונים)
+   ========================================================= */
+
+/* 5) אם יש "כרטיס/מודאל" של הקטלוג עם גלילה פנימית: לתת לו ריווח תחתון */
+.catalogModal,
+.catalogSheet,
+.catalogDrawer,
+.modal,
+dialog[open] {
+  /* לא חובה לכולם, אבל זה בטוח אם אתה משתמש באחד מהם */
+}
+
+/* 6) תוכן הקטלוג (האזור שגולל) – ריווח תחתון כדי שהכפתורים יהיו מעל הניווט */
+.catalogModal__body,
+.catalogSheet__body,
+.catalogDrawer__body,
+.modal__body,
+dialog[open] .modal__body,
+.catalogGrid {
+  padding-bottom: calc(90px + var(--safe-b)); /* 90px ≈ מקום לכפתורים/פוטר */
+}
+
+/* 7) פוטר/כפתורים בתחתית הקטלוג – להרים אותם מעל safe area */
+.catalogModal__footer,
+.catalogSheet__footer,
+.catalogDrawer__footer,
+.modal__footer,
+dialog[open] .modal__footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  padding-bottom: calc(12px + var(--safe-b));
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 255, 255, 0.75)
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* =========================================================
+   אם יש לך כפתורים/בר "קבוע" בתחתית (fixed) בעמוד הראשי
+   ========================================================= */
+
+.bottomBar,
+.stickyActions,
+.floatingActions {
+  /* אם זה fixed אצלך, זה מה שימנע חיתוך */
+  padding-bottom: calc(12px + var(--safe-b));
+}
+
+/* 8) כפתורים גבוהים יותר במובייל (נגישות + פחות "נמחץ") */
+@media (max-width: 640px) {
+  button,
+  .btn,
+  .pricingRow,
+  .chip {
+    min-height: 44px;
+  }
+}
+
+/* 9) תמונות בכרטיס מוצר – לא להיחתך מוזר במובייל */
+.product-media img,
+.productCard img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* 10) אם יש לך header fixed למעלה – שלא יחתוך */
+.header,
+.topbar {
+  padding-top: var(--safe-t);
+}
