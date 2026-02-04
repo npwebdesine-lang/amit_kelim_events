@@ -1,17 +1,164 @@
 // =========================
 // SETTINGS
 // =========================
-const WHATSAPP_PHONE = "972585055011"; // ✅ החלף למספר אמיתי ללא + (לדוגמה: 972501234567)
+const WHATSAPP_PHONE = "972585055011"; // ללא +
+
+// =========================
+// COLOR MAPS (code -> color name)
+// =========================
+const NAPKIN_COLORS = {
+  // Satin 01-14
+  "01": "זהב מבריק",
+  "02": "זהב מט",
+  "03": "שחור",
+  "04": "כחול נייבי",
+  "05": "טורקיז",
+  "06": "תכלת",
+  "07": "לילך",
+  "08": "סגול",
+  "09": "ורוד בייבי",
+  10: "ורוד פוקסיה",
+  11: "בורדו",
+  12: "לבן",
+  13: "קרם",
+  14: "ירוק תפוח",
+
+  // Linen 15-29
+  15: "שחרחר",
+  16: "ירוק תפוח",
+  17: "מוקה",
+  18: "כחלחל",
+  19: "אפור",
+  20: "לבן",
+  21: "ורדרד",
+  22: "ג׳ינס",
+  23: "ורוד עתיק",
+  24: "מנטה כחול",
+  25: "קרם",
+  26: "קפה",
+  27: "תכלת",
+  28: "מנטה פיסטוק",
+  29: "אבן",
+};
+
+const MAP220_SATEN_COLORS = {
+  "01": "לבן מעוטר",
+  "02": "אפור מעוטר",
+  "03": "ירוק מעוטר",
+  "04": "שמנת זאקרד",
+  "05": "בורדו",
+  "06": "סגול",
+  "07": "ורוד פוקסיה",
+  "08": "כחול נייבי",
+  "09": "טורקיז",
+  10: "ירוק תפוח",
+};
+
+const MAP220_PISHTAN_COLORS = {
+  11: "לבן",
+  12: "אפור",
+  13: "מוקה",
+  14: "ורדרד",
+  15: "כחלחל אפרפר",
+  16: "סגלגל",
+  17: "שחרחר",
+  18: "פודרה",
+  19: "קרם",
+  20: "שחור",
+};
+
+const MAP250_PISHTAN_COLORS = {
+  21: "קרם",
+  22: "ג׳ינס",
+  23: "ורוד עתיק",
+  24: "מנטה כחול",
+  25: "קפה",
+  26: "תכלת",
+  27: "מנטה פיסטוק",
+  28: "אבן",
+};
+
+// =========================
+// HELPERS
+// =========================
+function escapeHtml(s) {
+  return String(s || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function parseLeadingNumber(filename) {
+  const m = filename.match(/^(\d{1,3})[_-]/);
+  return m ? m[1].padStart(2, "0") : null;
+}
+
+function formatDateForMessage(dateInputValue) {
+  if (!dateInputValue) return "";
+  const [y, m, d] = dateInputValue.split("-");
+  if (!y || !m || !d) return dateInputValue;
+  return `${d}/${m}/${y}`;
+}
+
+// Build a "display name" that includes color based on code map
+function buildDisplayName(baseName, code, colorMap) {
+  const c = code ? String(code).padStart(2, "0") : null;
+  const color = c && colorMap ? colorMap[c] : null;
+  return color ? `${baseName} – ${color}` : baseName;
+}
+
+// Generic numeric items builder (for coded items)
+function makeNumericItems({
+  folder,
+  files,
+  baseName,
+  category,
+  tag,
+  note,
+  variant,
+  colorMap,
+}) {
+  return files.map((f) => {
+    const code = parseLeadingNumber(f);
+    const id = `${category}::${variant || "na"}::${f}`;
+    const displayName = buildDisplayName(baseName, code, colorMap);
+
+    return {
+      id,
+      kind: "coded",
+      code: code ? String(code).padStart(2, "0") : null,
+      name: displayName, // ✅ includes color
+      baseName,
+      category,
+      variant: variant || null, // ✅ saten / pishtan (for napkins)
+      tag,
+      img: `${folder}/${f}`,
+      note,
+    };
+  });
+}
+
+function makeKelimItem({ name, category, tag, img, note }) {
+  return {
+    id: `kelim::${img}`,
+    kind: "named",
+    code: null,
+    name,
+    category,
+    variant: null,
+    tag,
+    img,
+    note,
+  };
+}
 
 // =========================
 // CATALOG DATA
 // =========================
-// כלל: מפות/מפיות => יש מק"ט (מספר בתחילת שם קובץ) והוא יופיע בהודעה.
-// kelim => אין מק"ט, בהודעה נשלח שם המוצר בלבד.
 const CATALOG = [
-  // =========================
-  // KELIM (ללא מק"ט בהודעה)
-  // =========================
+  // ===== KELIM =====
   makeKelimItem({
     name: "צלחות (חלבי)",
     category: "plates_halavi",
@@ -76,32 +223,7 @@ const CATALOG = [
     note: "קערת מרק למרכז שולחן",
   }),
 
-  // =========================
-  // MAPOT 2.20 - pishtan (עם מק"ט)
-  // =========================
-  ...makeNumericItems({
-    folder: "catalog_pics/mapot/2.2/pishtan",
-    files: [
-      "11_white_pishtan.jpeg",
-      "12_gray_pishtan.jpeg",
-      "13_moca_pishtan.jpeg",
-      "14_pinky_pishtan.jpeg",
-      "15_blue_gray_pishtan.jpeg",
-      "16_purply_pishtan.jpeg",
-      "17_blacky_pishtan.jpeg",
-      "18_pudra_pishtan.jpeg",
-      "19_cream_pishtan.jpeg",
-      "20_dark_black_pishtan.jpeg",
-    ],
-    name: "מפה 2.20 (פשתן)",
-    category: "mapot_220",
-    tag: "מפות 2.20",
-    note: "מפה נקייה ומגוהצת",
-  }),
-
-  // =========================
-  // MAPOT 2.20 - saten (עם מק"ט)
-  // =========================
+  // ===== MAPOT 2.20 SATEN (01-10) =====
   ...makeNumericItems({
     folder: "catalog_pics/mapot/2.2/saten",
     files: [
@@ -116,15 +238,38 @@ const CATALOG = [
       "09_turkiz_saten.jpeg",
       "10_apple_green.jpeg",
     ],
-    name: "מפה 2.20 (סאטן)",
+    baseName: "מפה 2.20 (סאטן)",
     category: "mapot_220",
     tag: "מפות 2.20",
     note: "מפה נקייה ומגוהצת",
+    variant: "saten",
+    colorMap: MAP220_SATEN_COLORS,
   }),
 
-  // =========================
-  // MAPOT 2.50 - pishtan (עם מק"ט)
-  // =========================
+  // ===== MAPOT 2.20 PISHTAN (11-20) =====
+  ...makeNumericItems({
+    folder: "catalog_pics/mapot/2.2/pishtan",
+    files: [
+      "11_white_pishtan.jpeg",
+      "12_gray_pishtan.jpeg",
+      "13_moca_pishtan.jpeg",
+      "14_pinky_pishtan.jpeg",
+      "15_blue_gray_pishtan.jpeg",
+      "16_purply_pishtan.jpeg",
+      "17_blacky_pishtan.jpeg",
+      "18_pudra_pishtan.jpeg",
+      "19_cream_pishtan.jpeg",
+      "20_dark_black_pishtan.jpeg",
+    ],
+    baseName: "מפה 2.20 (פשתן)",
+    category: "mapot_220",
+    tag: "מפות 2.20",
+    note: "מפה נקייה ומגוהצת",
+    variant: "pishtan",
+    colorMap: MAP220_PISHTAN_COLORS,
+  }),
+
+  // ===== MAPOT 2.50 PISHTAN (21-28) =====
   ...makeNumericItems({
     folder: "catalog_pics/mapot/2.5/pishtan",
     files: [
@@ -137,15 +282,15 @@ const CATALOG = [
       "27_fistuck_menta_pishtan.jpeg",
       "28_even_pishtan.jpeg",
     ],
-    name: "מפה 2.50 (פשתן)",
+    baseName: "מפה 2.50 (פשתן)",
     category: "mapot_250",
     tag: "מפות 2.50",
     note: "מפה נקייה ומגוהצת",
+    variant: "pishtan",
+    colorMap: MAP250_PISHTAN_COLORS,
   }),
 
-  // =========================
-  // MAPIYOT - saten (עם מק"ט)
-  // =========================
+  // ===== NAPKINS SATEN (01-14) =====
   ...makeNumericItems({
     folder: "catalog_pics/mapiyot/saten",
     files: [
@@ -164,15 +309,15 @@ const CATALOG = [
       "13_cream_saten.jpeg",
       "14_apple_green_saten.jpeg",
     ],
-    name: "מפית (סאטן)",
+    baseName: "מפית (סאטן)",
     category: "mapiyot",
     tag: "מפיות",
     note: "מפית צבעונית לשולחן",
+    variant: "saten",
+    colorMap: NAPKIN_COLORS,
   }),
 
-  // =========================
-  // MAPIYOT - pishtan (עם מק"ט)
-  // =========================
+  // ===== NAPKINS PISHTAN (15-29) =====
   ...makeNumericItems({
     folder: "catalog_pics/mapiyot/pishtan",
     files: [
@@ -192,15 +337,17 @@ const CATALOG = [
       "28_menta_phistuk.jpeg",
       "29_even_pishtan.jpeg",
     ],
-    name: "מפית (פשתן)",
+    baseName: "מפית (פשתן)",
     category: "mapiyot",
     tag: "מפיות",
     note: "מפית צבעונית לשולחן",
+    variant: "pishtan",
+    colorMap: NAPKIN_COLORS,
   }),
 ];
 
 // =========================
-// FILTERS
+// FILTERS (keep, but horizontal scroll makes it clean)
 // =========================
 const FILTERS = [
   { key: "all", label: "הכל" },
@@ -216,68 +363,19 @@ const FILTERS = [
   { key: "mapiyot", label: "מפיות" },
 ];
 
+const NAPKIN_SUBFILTERS = [
+  { key: "all", label: "כל המפיות" },
+  { key: "saten", label: "מפיות סאטן" },
+  { key: "pishtan", label: "מפיות פשתן" },
+];
+
 // =========================
 // STATE
 // =========================
 let activeFilter = "all";
-const picked = new Set(); // מחזיק itemId
-let includeCatalogItemsInMessage = true; // "בלי פירוט" => false
-
-// =========================
-// HELPERS
-// =========================
-function escapeHtml(s) {
-  return String(s || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function parseLeadingNumber(filename) {
-  // "23_xxx.jpeg" -> "23"
-  const m = filename.match(/^(\d{1,3})[_-]/);
-  return m ? m[1] : null;
-}
-
-function makeNumericItems({ folder, files, name, category, tag, note }) {
-  return files.map((f) => {
-    const code = parseLeadingNumber(f); // ✅ מק"ט למפות/מפיות בלבד
-    const id = `${category}::${f}`; // מזהה פנימי
-    return {
-      id,
-      kind: "coded", // יש קוד (מק"ט)
-      code: code ? String(code) : null,
-      name,
-      category,
-      tag,
-      img: `${folder}/${f}`,
-      note,
-    };
-  });
-}
-
-function makeKelimItem({ name, category, tag, img, note }) {
-  // ✅ אין מק"ט
-  return {
-    id: `kelim::${img}`, // מזהה פנימי יציב לפי הנתיב
-    kind: "named",
-    code: null,
-    name,
-    category,
-    tag,
-    img,
-    note,
-  };
-}
-
-function formatDateForMessage(dateInputValue) {
-  if (!dateInputValue) return "";
-  const [y, m, d] = dateInputValue.split("-");
-  if (!y || !m || !d) return dateInputValue;
-  return `${d}/${m}/${y}`;
-}
+let activeSubFilter = "all"; // only applies when mapiyot
+const picked = new Set();
+let includeCatalogItemsInMessage = true;
 
 // =========================
 // MODALS CORE
@@ -354,6 +452,7 @@ document
 function openCatalog() {
   openModal(catalogModal);
   renderFilters();
+  renderSubfilters();
   renderCatalog();
   applyCatalogFilters();
   refreshPickedUI();
@@ -363,6 +462,8 @@ function openCatalog() {
 // FILTERS RENDER
 // =========================
 const filtersEl = document.getElementById("filters");
+const subfiltersEl = document.getElementById("subfilters");
+
 function renderFilters() {
   if (!filtersEl) return;
   filtersEl.innerHTML = FILTERS.map((f) => {
@@ -373,7 +474,37 @@ function renderFilters() {
   filtersEl.querySelectorAll("[data-filter]").forEach((btn) => {
     btn.addEventListener("click", () => {
       activeFilter = btn.dataset.filter || "all";
+
+      // Reset subfilter when leaving napkins
+      if (activeFilter !== "mapiyot") activeSubFilter = "all";
+
       renderFilters();
+      renderSubfilters();
+      applyCatalogFilters();
+    });
+  });
+}
+
+function renderSubfilters() {
+  if (!subfiltersEl) return;
+
+  // show only for napkins
+  if (activeFilter !== "mapiyot") {
+    subfiltersEl.innerHTML = "";
+    subfiltersEl.style.display = "none";
+    return;
+  }
+
+  subfiltersEl.style.display = "flex";
+  subfiltersEl.innerHTML = NAPKIN_SUBFILTERS.map((sf) => {
+    const cls = sf.key === activeSubFilter ? "pill is-active" : "pill";
+    return `<button class="${cls}" data-subfilter="${sf.key}" type="button">${sf.label}</button>`;
+  }).join("");
+
+  subfiltersEl.querySelectorAll("[data-subfilter]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      activeSubFilter = btn.dataset.subfilter || "all";
+      renderSubfilters();
       applyCatalogFilters();
     });
   });
@@ -395,7 +526,6 @@ function renderCatalog() {
       : "btn btn-soft pick-btn";
     const pickText = isPicked ? "נבחר ✓" : "בחרתי";
 
-    // ✅ הצגת מק"ט רק אם יש (כלומר: מפות/מפיות)
     const codeChip = p.code
       ? `<span class="code">מק״ט: ${escapeHtml(p.code)}</span>`
       : "";
@@ -404,6 +534,7 @@ function renderCatalog() {
       <article class="product"
         data-id="${escapeHtml(p.id)}"
         data-category="${escapeHtml(p.category)}"
+        data-variant="${escapeHtml(p.variant || "")}"
         data-name="${escapeHtml(p.name)}"
         data-code="${escapeHtml(p.code || "")}"
       >
@@ -430,7 +561,10 @@ function renderCatalog() {
     `;
   }).join("");
 
-  catalogGrid.addEventListener("click", onCatalogClick);
+  // avoid multiple listeners
+  catalogGrid.replaceWith(catalogGrid.cloneNode(true));
+  const freshGrid = document.getElementById("catalogGrid");
+  freshGrid.addEventListener("click", onCatalogClick);
 }
 
 function onCatalogClick(e) {
@@ -445,36 +579,43 @@ function onCatalogClick(e) {
     if (picked.has(id)) picked.delete(id);
     else picked.add(id);
 
-    // עדכון הכרטיס בלי רינדור מלא
-    updateCardPickedState(card, btn, picked.has(id));
+    updateCardPickedState(btn, picked.has(id));
     refreshPickedUI();
-    syncPreview(); // התצוגה המקדימה בהזמנה מתעדכנת בזמן אמת
+    syncPreview();
   }
 }
 
-function updateCardPickedState(card, btn, isPicked) {
-  if (!btn) return;
+function updateCardPickedState(btn, isPicked) {
   btn.className = isPicked ? "btn pick-btn is-picked" : "btn btn-soft pick-btn";
   btn.textContent = isPicked ? "נבחר ✓" : "בחרתי";
 }
 
 function applyCatalogFilters() {
+  const grid = document.getElementById("catalogGrid");
+  const cards = grid?.querySelectorAll(".product") || [];
   const q = (searchInput?.value || "").trim().toLowerCase();
-  const cards = catalogGrid?.querySelectorAll(".product") || [];
 
   cards.forEach((card) => {
-    const cat = card.dataset.category;
+    const cat = card.dataset.category || "";
+    const variant = (card.dataset.variant || "").toLowerCase();
     const name = (card.dataset.name || "").toLowerCase();
-    const code = (card.dataset.code || "").toLowerCase(); // רק למפות/מפיות יהיה משהו
+    const code = (card.dataset.code || "").toLowerCase();
 
     const matchFilter = activeFilter === "all" ? true : cat === activeFilter;
 
-    // חיפוש: שם תמיד, מק"ט רק אם קיים
+    // Subfilter only for napkins
+    const matchSub =
+      activeFilter !== "mapiyot"
+        ? true
+        : activeSubFilter === "all"
+          ? true
+          : variant === activeSubFilter;
+
     const matchSearch = !q
       ? true
       : name.includes(q) || (code && code.includes(q));
 
-    card.style.display = matchFilter && matchSearch ? "" : "none";
+    card.style.display = matchFilter && matchSub && matchSearch ? "" : "none";
   });
 }
 
@@ -491,7 +632,6 @@ function refreshPickedUI() {
 document.getElementById("clearPicks")?.addEventListener("click", () => {
   picked.clear();
   refreshPickedUI();
-  // רינדור מחדש כדי לנקות סטייט של כפתורים
   renderCatalog();
   applyCatalogFilters();
   syncPreview();
@@ -500,7 +640,7 @@ document.getElementById("clearPicks")?.addEventListener("click", () => {
 document
   .getElementById("goToOrderFromCatalog")
   ?.addEventListener("click", () => {
-    includeCatalogItemsInMessage = picked.size > 0; // אם אין בחירה, לא שולחים פירוט
+    includeCatalogItemsInMessage = picked.size > 0;
     closeModal(catalogModal);
     openWaPanel();
   });
@@ -529,10 +669,10 @@ function buildPickedLinesForMessage() {
   const pickedItems = CATALOG.filter((it) => picked.has(it.id));
 
   const lines = pickedItems.map((it) => {
-    // ✅ kelim: רק שם
+    // kelim: name only (already good)
     if (!it.code) return `• ${it.name}`;
 
-    // ✅ מפות/מפיות: שם + מק"ט
+    // coded: name already includes color + add code
     return `• ${it.name} | מק״ט: ${it.code}`;
   });
 

@@ -2594,7 +2594,7 @@ body {
 .catalogDrawer,
 .modal,
 dialog[open] {
-  /* לא חובה לכולם, אבל זה בטוח אם אתה משתמש באחד מהם */
+  /* Add your styles here */
 }
 
 /* 6) תוכן הקטלוג (האזור שגולל) – ריווח תחתון כדי שהכפתורים יהיו מעל הניווט */
@@ -2748,4 +2748,119 @@ dialog[open] .modal__footer {
     min-height: 48px;
     width: 100%;
   }
+}
+/* =========================================================
+   FIX: Chrome Android modal footer cut + Horizontal filters
+   Paste at END of style.css
+   ========================================================= */
+
+/* Safe area + Android system bar fallback */
+:root {
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --sysbar: 0px;
+}
+@media (max-width: 640px) {
+  :root {
+    --sysbar: 78px; /* פולבק לאנדרואיד (3 כפתורים/gesture bar) */
+  }
+}
+
+/* Modal uses dynamic viewport so vh won't lie on mobile */
+.modal {
+  height: 100dvh;
+}
+.modal.is-open {
+  display: flex; /* override display:block */
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Card stays above system UI */
+.modal-card {
+  margin: 0;
+  margin-top: max(14px, var(--safe-t));
+  margin-bottom: calc(14px + var(--safe-b) + var(--sysbar));
+  max-height: calc(
+    100dvh - (28px + var(--safe-t) + var(--safe-b) + var(--sysbar))
+  );
+}
+
+/* Sticky head/footer – always visible */
+.modal-head {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+/* Key: give scroll-body extra space so footer never hides content */
+.modal-body {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  /* מקום לפוטר + safe area + sysbar */
+  padding-bottom: calc(18px + var(--safe-b) + var(--sysbar) + 110px);
+}
+
+/* Footer lifted above system bar (not just safe-area) */
+.modal-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+
+  /* ריווח פנימי שמרים בפועל את הכפתורים */
+  padding-bottom: calc(14px + var(--safe-b) + var(--sysbar));
+  background: rgba(245, 239, 230, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ---------------------------------------------------------
+   Filters: horizontal scroll (desktop + mobile)
+   --------------------------------------------------------- */
+.toolbar {
+  align-items: stretch;
+}
+
+.filters,
+.subfilters {
+  display: flex;
+  flex-wrap: nowrap; /* לא נשבר לשורות */
+  overflow-x: auto; /* גלילה אופקית */
+  overflow-y: hidden;
+  gap: 10px;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.filters::-webkit-scrollbar,
+.subfilters::-webkit-scrollbar {
+  height: 6px;
+}
+.filters::-webkit-scrollbar-thumb,
+.subfilters::-webkit-scrollbar-thumb {
+  background: rgba(31, 24, 18, 0.18);
+  border-radius: 999px;
+}
+
+.pill {
+  flex: 0 0 auto; /* כל פילטר נשאר “גלולה” */
+  white-space: nowrap;
+}
+
+/* תת-סינון קצת יותר קטן ואלגנטי */
+.subfilters .pill {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+/* Search takes full width nicely */
+.search {
+  width: 100%;
+}
+.search input {
+  width: 100%;
+  max-width: none;
 }
