@@ -403,12 +403,24 @@
 
         <div class="modal-body">
           <div class="toolbar">
-            <div
-              class="filters"
-              role="group"
-              aria-label="סינון קטלוג"
-              id="filters"
-            ></div>
+            <div class="toolbar-row">
+              <div
+                class="filters"
+                role="group"
+                aria-label="סינון קטלוג"
+                id="filters"
+              ></div>
+
+              <!-- כפתור "נבחרים בלבד" -->
+              <button
+                class="pill pill-toggle"
+                id="togglePickedOnly"
+                type="button"
+                aria-pressed="false"
+              >
+                נבחרים בלבד
+              </button>
+            </div>
 
             <!-- תת-סינון שמופיע רק כשנמצאים ב"מפיות" -->
             <div
@@ -418,13 +430,25 @@
               id="subfilters"
             ></div>
 
-            <div class="search">
-              <input
-                id="catalogSearch"
-                type="search"
-                placeholder="חיפוש…"
-                autocomplete="off"
-              />
+            <div class="search-row">
+              <div class="search">
+                <input
+                  id="catalogSearch"
+                  type="search"
+                  placeholder="חיפוש… (שם/מק״ט)"
+                  autocomplete="off"
+                />
+                <button
+                  class="icon-clear"
+                  id="clearSearch"
+                  type="button"
+                  aria-label="נקה חיפוש"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div class="results-meta">מוצגים: <b id="resultsCount">0</b></div>
             </div>
           </div>
 

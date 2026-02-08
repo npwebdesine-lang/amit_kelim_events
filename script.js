@@ -102,14 +102,12 @@ function formatDateForMessage(dateInputValue) {
   return `${d}/${m}/${y}`;
 }
 
-// Build a "display name" that includes color based on code map
 function buildDisplayName(baseName, code, colorMap) {
   const c = code ? String(code).padStart(2, "0") : null;
   const color = c && colorMap ? colorMap[c] : null;
   return color ? `${baseName} – ${color}` : baseName;
 }
 
-// Generic numeric items builder (for coded items)
 function makeNumericItems({
   folder,
   files,
@@ -129,10 +127,10 @@ function makeNumericItems({
       id,
       kind: "coded",
       code: code ? String(code).padStart(2, "0") : null,
-      name: displayName, // ✅ includes color
+      name: displayName,
       baseName,
       category,
-      variant: variant || null, // ✅ saten / pishtan (for napkins)
+      variant: variant || null,
       tag,
       img: `${folder}/${f}`,
       note,
@@ -347,7 +345,7 @@ const CATALOG = [
 ];
 
 // =========================
-// FILTERS (keep, but horizontal scroll makes it clean)
+// FILTERS
 // =========================
 const FILTERS = [
   { key: "all", label: "הכל" },
@@ -373,7 +371,9 @@ const NAPKIN_SUBFILTERS = [
 // STATE
 // =========================
 let activeFilter = "all";
-let activeSubFilter = "all"; // only applies when mapiyot
+let activeSubFilter = "all";
+let showPickedOnly = false;
+
 const picked = new Set();
 let includeCatalogItemsInMessage = true;
 
@@ -386,6 +386,7 @@ function openModal(modalEl) {
   modalEl.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 }
+
 function closeModal(modalEl) {
   if (!modalEl) return;
   modalEl.classList.remove("is-open");
@@ -413,11 +414,13 @@ document.addEventListener("keydown", (e) => {
 // =========================
 const hamburger = document.getElementById("hamburger");
 const mobileNav = document.getElementById("mobileNav");
+
 hamburger?.addEventListener("click", () => {
   const isOpen = mobileNav?.classList.toggle("is-open");
   hamburger.setAttribute("aria-expanded", String(!!isOpen));
   mobileNav?.setAttribute("aria-hidden", String(!isOpen));
 });
+
 mobileNav?.querySelectorAll("a").forEach((a) => {
   a.addEventListener("click", () => {
     mobileNav.classList.remove("is-open");
@@ -430,32 +433,36 @@ mobileNav?.querySelectorAll("a").forEach((a) => {
 // CATALOG MODAL OPENERS
 // =========================
 const catalogModal = document.getElementById("catalogModal");
+
 document
   .getElementById("openCatalogBtn")
-  ?.addEventListener("click", () => openCatalog());
+  ?.addEventListener("click", openCatalog);
 document
   .getElementById("openCatalogBtnMobile")
-  ?.addEventListener("click", () => openCatalog());
+  ?.addEventListener("click", openCatalog);
 document
   .getElementById("openCatalogHero")
-  ?.addEventListener("click", () => openCatalog());
+  ?.addEventListener("click", openCatalog);
 document
   .getElementById("openCatalogFromHow")
-  ?.addEventListener("click", () => openCatalog());
+  ?.addEventListener("click", openCatalog);
 document
   .getElementById("openCatalogFooter")
-  ?.addEventListener("click", () => openCatalog());
+  ?.addEventListener("click", openCatalog);
 document
   .getElementById("closeCatalog")
   ?.addEventListener("click", () => closeModal(catalogModal));
 
 function openCatalog() {
   openModal(catalogModal);
+
   renderFilters();
   renderSubfilters();
-  renderCatalog();
+  renderCatalogOnce();
   applyCatalogFilters();
   refreshPickedUI();
+  syncPickedOnlyUI();
+  syncScrollUX();
 }
 
 // =========================
@@ -463,9 +470,11 @@ function openCatalog() {
 // =========================
 const filtersEl = document.getElementById("filters");
 const subfiltersEl = document.getElementById("subfilters");
+const togglePickedOnlyBtn = document.getElementById("togglePickedOnly");
 
 function renderFilters() {
   if (!filtersEl) return;
+
   filtersEl.innerHTML = FILTERS.map((f) => {
     const cls = f.key === activeFilter ? "pill is-active" : "pill";
     return `<button class="${cls}" data-filter="${f.key}" type="button">${f.label}</button>`;
@@ -474,13 +483,11 @@ function renderFilters() {
   filtersEl.querySelectorAll("[data-filter]").forEach((btn) => {
     btn.addEventListener("click", () => {
       activeFilter = btn.dataset.filter || "all";
-
-      // Reset subfilter when leaving napkins
       if (activeFilter !== "mapiyot") activeSubFilter = "all";
-
       renderFilters();
       renderSubfilters();
       applyCatalogFilters();
+      syncScrollUX();
     });
   });
 }
@@ -488,7 +495,6 @@ function renderFilters() {
 function renderSubfilters() {
   if (!subfiltersEl) return;
 
-  // show only for napkins
   if (activeFilter !== "mapiyot") {
     subfiltersEl.innerHTML = "";
     subfiltersEl.style.display = "none";
@@ -506,18 +512,24 @@ function renderSubfilters() {
       activeSubFilter = btn.dataset.subfilter || "all";
       renderSubfilters();
       applyCatalogFilters();
+      syncScrollUX();
     });
   });
 }
 
 // =========================
-// CATALOG RENDER
+// CATALOG RENDER (less crowded cards)
 // =========================
 const catalogGrid = document.getElementById("catalogGrid");
 const searchInput = document.getElementById("catalogSearch");
+const clearSearchBtn = document.getElementById("clearSearch");
+const resultsCountEl = document.getElementById("resultsCount");
 
-function renderCatalog() {
-  if (!catalogGrid) return;
+// נרנדר פעם אחת ונעבוד עם event delegation (בלי cloneNode)
+let catalogRendered = false;
+
+function renderCatalogOnce() {
+  if (!catalogGrid || catalogRendered) return;
 
   catalogGrid.innerHTML = CATALOG.map((p) => {
     const isPicked = picked.has(p.id);
@@ -548,8 +560,8 @@ function renderCatalog() {
             <span class="tag">${escapeHtml(p.tag)}</span>
             ${codeChip}
           </div>
-          <h3>${escapeHtml(p.name)}</h3>
-          <p>${escapeHtml(p.note || "")}</p>
+          <h3 class="product-title">${escapeHtml(p.name)}</h3>
+          <p class="product-note">${escapeHtml(p.note || "")}</p>
         </div>
 
         <div class="product-foot">
@@ -561,14 +573,12 @@ function renderCatalog() {
     `;
   }).join("");
 
-  // avoid multiple listeners
-  catalogGrid.replaceWith(catalogGrid.cloneNode(true));
-  const freshGrid = document.getElementById("catalogGrid");
-  freshGrid.addEventListener("click", onCatalogClick);
+  catalogGrid.addEventListener("click", onCatalogClick);
+  catalogRendered = true;
 }
 
 function onCatalogClick(e) {
-  const btn = e.target.closest("[data-action]");
+  const btn = e.target.closest?.("[data-action]");
   if (!btn) return;
 
   if (btn.dataset.action === "toggle-pick") {
@@ -581,6 +591,9 @@ function onCatalogClick(e) {
 
     updateCardPickedState(btn, picked.has(id));
     refreshPickedUI();
+
+    // אם אנחנו במצב נבחרים בלבד — מסתיר/מציג בהתאם
+    applyCatalogFilters();
     syncPreview();
   }
 }
@@ -591,11 +604,13 @@ function updateCardPickedState(btn, isPicked) {
 }
 
 function applyCatalogFilters() {
-  const grid = document.getElementById("catalogGrid");
-  const cards = grid?.querySelectorAll(".product") || [];
+  const cards = catalogGrid?.querySelectorAll(".product") || [];
   const q = (searchInput?.value || "").trim().toLowerCase();
 
+  let visibleCount = 0;
+
   cards.forEach((card) => {
+    const id = card.dataset.id || "";
     const cat = card.dataset.category || "";
     const variant = (card.dataset.variant || "").toLowerCase();
     const name = (card.dataset.name || "").toLowerCase();
@@ -603,7 +618,6 @@ function applyCatalogFilters() {
 
     const matchFilter = activeFilter === "all" ? true : cat === activeFilter;
 
-    // Subfilter only for napkins
     const matchSub =
       activeFilter !== "mapiyot"
         ? true
@@ -615,16 +629,49 @@ function applyCatalogFilters() {
       ? true
       : name.includes(q) || (code && code.includes(q));
 
-    card.style.display = matchFilter && matchSub && matchSearch ? "" : "none";
+    const matchPickedOnly = showPickedOnly ? picked.has(id) : true;
+
+    const show = matchFilter && matchSub && matchSearch && matchPickedOnly;
+    card.style.display = show ? "" : "none";
+
+    if (show) visibleCount += 1;
   });
+
+  if (resultsCountEl) resultsCountEl.textContent = String(visibleCount);
 }
 
 searchInput?.addEventListener("input", applyCatalogFilters);
+
+clearSearchBtn?.addEventListener("click", () => {
+  if (!searchInput) return;
+  searchInput.value = "";
+  searchInput.focus();
+  applyCatalogFilters();
+});
+
+// =========================
+// PICKED ONLY TOGGLE
+// =========================
+function syncPickedOnlyUI() {
+  if (!togglePickedOnlyBtn) return;
+  togglePickedOnlyBtn.classList.toggle("is-active", showPickedOnly);
+  togglePickedOnlyBtn.setAttribute("aria-pressed", String(showPickedOnly));
+  togglePickedOnlyBtn.textContent = showPickedOnly
+    ? "נבחרים בלבד ✓"
+    : "נבחרים בלבד";
+}
+
+togglePickedOnlyBtn?.addEventListener("click", () => {
+  showPickedOnly = !showPickedOnly;
+  syncPickedOnlyUI();
+  applyCatalogFilters();
+});
 
 // =========================
 // PICKED UI + ACTIONS
 // =========================
 const pickedCountEl = document.getElementById("pickedCount");
+
 function refreshPickedUI() {
   if (pickedCountEl) pickedCountEl.textContent = String(picked.size);
 }
@@ -632,7 +679,7 @@ function refreshPickedUI() {
 document.getElementById("clearPicks")?.addEventListener("click", () => {
   picked.clear();
   refreshPickedUI();
-  renderCatalog();
+  syncPickedOnlyUI();
   applyCatalogFilters();
   syncPreview();
 });
@@ -669,10 +716,7 @@ function buildPickedLinesForMessage() {
   const pickedItems = CATALOG.filter((it) => picked.has(it.id));
 
   const lines = pickedItems.map((it) => {
-    // kelim: name only (already good)
     if (!it.code) return `• ${it.name}`;
-
-    // coded: name already includes color + add code
     return `• ${it.name} | מק״ט: ${it.code}`;
   });
 
@@ -730,7 +774,6 @@ document
     includeCatalogItemsInMessage = false;
     openWaPanel();
   });
-
 document
   .getElementById("closeWa")
   ?.addEventListener("click", () => closeModal(waModal));
@@ -799,94 +842,106 @@ const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
 // =========================
+// Horizontal scroll UX (drag + indicator + fades)
+// =========================
+function enableDragScroll(el) {
+  if (!el) return;
+
+  let isDown = false;
+  let startX = 0;
+  let scrollLeft = 0;
+
+  el.addEventListener("mousedown", (e) => {
+    isDown = true;
+    el.classList.add("dragging");
+    startX = e.pageX - el.offsetLeft;
+    scrollLeft = el.scrollLeft;
+  });
+
+  window.addEventListener("mouseup", () => {
+    isDown = false;
+    el.classList.remove("dragging");
+  });
+
+  el.addEventListener("mouseleave", () => {
+    isDown = false;
+    el.classList.remove("dragging");
+  });
+
+  el.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startX) * 1.1;
+    el.scrollLeft = scrollLeft - walk;
+  });
+}
+
+function addScrollIndicator(container) {
+  if (!container) return;
+  if (container.dataset.hasIndicator === "1") return;
+  container.dataset.hasIndicator = "1";
+
+  const wrap = document.createElement("div");
+  wrap.className =
+    container.id === "subfilters" ? "subfilters-wrap" : "filters-wrap";
+  container.parentNode.insertBefore(wrap, container);
+  wrap.appendChild(container);
+
+  const indicator = document.createElement("div");
+  indicator.className = "scroll-indicator";
+  indicator.innerHTML = `<div class="scroll-indicator__bar"></div>`;
+  wrap.appendChild(indicator);
+
+  const bar = indicator.querySelector(".scroll-indicator__bar");
+
+  function update() {
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    if (maxScroll <= 1) {
+      indicator.classList.add("is-hidden");
+      bar.style.width = "0%";
+      wrap.classList.add("no-scroll");
+      return;
+    } else {
+      indicator.classList.remove("is-hidden");
+      wrap.classList.remove("no-scroll");
+    }
+    const pct = (container.scrollLeft / maxScroll) * 100;
+    bar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+  }
+
+  container.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  requestAnimationFrame(update);
+  setTimeout(update, 150);
+}
+
+// מפעיל UX רק כשפותחים קטלוג (כדי להבטיח שהאלמנטים קיימים ובגובה נכון)
+function syncScrollUX() {
+  const f = document.querySelector("#filters");
+  const sf = document.querySelector("#subfilters");
+  addScrollIndicator(f);
+  addScrollIndicator(sf);
+  enableDragScroll(f);
+  enableDragScroll(sf);
+}
+
+// =========================
 // INIT
 // =========================
 resetProcedureApprovalUI();
 syncPreview();
 refreshPickedUI();
+document.getElementById("clearPicks")?.addEventListener("click", () => {
+  picked.clear();
 
-// =========================
-// Catalog image preview
-// =========================
-(() => {
-  const preview = document.getElementById("catalogImagePreview");
-  if (!preview) return;
-
-  const imgEl = document.getElementById("catalogPreviewImg");
-  const btnBack = document.getElementById("catalogPreviewBack");
-  const btnLike = document.getElementById("catalogPreviewLike");
-
-  let currentSku = null;
-
-  const LS_KEY = "catalog_likes";
-  const getLikes = () => {
-    try {
-      return JSON.parse(localStorage.getItem(LS_KEY) || "[]");
-    } catch {
-      return [];
-    }
-  };
-  const setLikes = (arr) => localStorage.setItem(LS_KEY, JSON.stringify(arr));
-
-  function syncLikeButton() {
-    const likes = getLikes();
-    const liked = currentSku && likes.includes(currentSku);
-    btnLike.textContent = liked ? "אהבתי ✓" : "אהבתי";
+  // ✅ במובייל: אם אין בחירות, אין טעם להשאיר "נבחרים בלבד"
+  if (window.matchMedia("(max-width: 520px)").matches) {
+    showPickedOnly = false;
   }
 
-  function openPreview(src, sku) {
-    currentSku = sku || null;
-    imgEl.src = src;
-    syncLikeButton();
-
-    preview.classList.add("is-open");
-    preview.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden"; // מונע גלילה מאחורה
-  }
-
-  function closePreview() {
-    preview.classList.remove("is-open");
-    preview.setAttribute("aria-hidden", "true");
-    imgEl.src = "";
-    currentSku = null;
-    document.body.style.overflow = "";
-  }
-
-  // לחיצה על תמונות בקטלוג (התאם selector אם צריך)
-  document.addEventListener("click", (e) => {
-    const img = e.target.closest(
-      ".catalog-item img, .catalog-card img, .catalog-grid img, .catalog-products img",
-    );
-    if (!img) return;
-
-    const src = img.getAttribute("data-full") || img.currentSrc || img.src;
-    const sku =
-      img.getAttribute("data-sku") ||
-      img.closest("[data-sku]")?.getAttribute("data-sku");
-
-    openPreview(src, sku);
-  });
-
-  // חזרה / לחיצה על רקע / ESC
-  btnBack.addEventListener("click", closePreview);
-  preview.addEventListener("click", (e) => {
-    if (e.target?.dataset?.close === "1") closePreview();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && preview.classList.contains("is-open"))
-      closePreview();
-  });
-
-  // אהבתי (שומר ב-localStorage לפי מק"ט)
-  btnLike.addEventListener("click", () => {
-    if (!currentSku) return; // אם אין מק"ט – לא שומרים
-    const likes = getLikes();
-    const idx = likes.indexOf(currentSku);
-
-    if (idx >= 0) likes.splice(idx, 1);
-    else likes.push(currentSku);
-
-    setLikes(likes);
-    syncLikeButton();
-  });
-})();
+  refreshPickedUI();
+  syncPickedOnlyUI();
+  applyCatalogFilters();
+  syncPreview();
+});
