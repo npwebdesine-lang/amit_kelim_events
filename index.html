@@ -2,613 +2,456 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>עמית כלים לאירועים</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="description"
+      content="עמית כלים לאירועים - השכרת כלים, מפות ומפיות לאירועים יוקרתיים."
+    />
+    <title>עמית כלים לאירועים | השכרת ציוד לאירועים</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" type="image/png" href="images/logo_no_background.png" />
-
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body id="top">
-    <!-- HEADER -->
+    <div class="decorative-shape shape-1"></div>
+    <div class="decorative-shape shape-2"></div>
+
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="#top" aria-label="עמית כלים לאירועים">
+        <a class="brand" href="#top" aria-label="חזרה לראש העמוד">
           <div class="brand-mark">
             <img
               src="images/logo_no_background.png"
-              alt="עמית כלים לאירועים"
-              onerror="this.style.display = 'none'"
+              alt="לוגו עמית כלים לאירועים"
             />
           </div>
-
           <div class="brand-text">
-            <div class="brand-sub">השכרה • מפות • מפיות • כלים</div>
+            <div class="brand-title">להוסיף צבע לאירוע שלכם</div>
           </div>
         </a>
 
-        <nav class="nav" aria-label="תפריט">
+        <nav class="nav desktop-nav">
           <a href="#how">איך זה עובד</a>
-          <a href="#catalog">קטלוג</a>
           <a href="#pricing">מחירון</a>
           <a href="#gallery">גלריה</a>
         </nav>
 
-        <button
-          class="hamburger"
-          id="hamburger"
-          type="button"
-          aria-label="פתיחת תפריט"
-          aria-expanded="false"
-        >
-          ☰
-        </button>
-
         <div class="header-actions">
           <button class="btn btn-ghost" id="openCatalogBtn" type="button">
-            פתיחת הקטלוג
+            📖 קטלוג
           </button>
           <button class="btn btn-primary" id="openWaHeader" type="button">
             להזמנה
           </button>
+          <button
+            class="hamburger"
+            id="hamburger"
+            type="button"
+            aria-label="תפריט"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
 
-      <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <nav class="mobile-nav" id="mobileNav">
         <a href="#how">איך זה עובד</a>
         <a href="#pricing">מחירון</a>
         <a href="#gallery">גלריה</a>
-        <button
-          class="btn btn-ghost btn-wide"
-          id="openCatalogBtnMobile"
-          type="button"
-        >
+        <button class="btn btn-primary btn-wide" id="openCatalogBtnMobile">
           פתיחת הקטלוג
         </button>
-      </div>
+      </nav>
     </header>
 
-    <!-- HERO -->
-    <section class="hero" aria-label="פתיח">
-      <img class="hero-bg" src="images/hero.jpeg" alt="תמונת אווירה" />
-      <div class="hero-overlay" aria-hidden="true"></div>
+    <main>
+      <section class="hero">
+        <div class="hero-bg-wrap">
+          <img class="hero-bg" src="images/hero.jpeg" alt="עיצוב שולחן" />
+          <div class="hero-overlay"></div>
+        </div>
+        <div class="container hero-content">
+          <article class="hero-text-box fade-in-up">
+            <h1 class="hero-title">עמית כלים לאירועים</h1>
+            <h2 class="hero-subtitle-large">
+              להפוך כל אירוע לחוויה בלתי נשכחת
+            </h2>
+            <p class="hero-desc">
+              השכרת כלים יוקרתיים, מפות ומפיות במחירים לכל כיס.<br />כי לאירוע
+              שלכם מגיע הטוב ביותר.
+            </p>
+            <div class="hero-buttons">
+              <button class="btn btn-primary btn-lg" id="openCatalogHero">
+                לצפייה בקטלוג
+              </button>
+              <button
+                class="btn btn-outline-light btn-lg"
+                id="quickOrderNoCatalog"
+              >
+                הזמנה מהירה
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
 
-      <div class="container hero-content">
-        <div class="hero-card">
-          <div class="hero-kicker">כלים • מפות • מפיות • עיצוב אווירה</div>
-          <h1 class="hero-title">עמית כלים לאירועים</h1>
-          <p class="hero-subtitle">מכניסים <b>צבע</b> לאירוע שלכם</p>
+      <section class="section" id="how">
+        <div class="container">
+          <header class="section-header center">
+            <h2>איך זה עובד?</h2>
+            <p>תהליך פשוט ומהיר</p>
+          </header>
+          <ol class="steps-grid">
+            <li>
+              <article class="step-card">
+                <div class="step-icon">1</div>
+                <h3>בוחרים</h3>
+                <p>בוחרים מהקטלוג כלים ועיצובים שאהבתם.</p>
+              </article>
+            </li>
+            <li>
+              <article class="step-card">
+                <div class="step-icon">2</div>
+                <h3>מאשרים</h3>
+                <p>מאשרים את פרטי ההזמנה והאירוע לקבלת הצעת מחיר בווצאפ.</p>
+              </article>
+            </li>
+            <li>
+              <article class="step-card">
+                <div class="step-icon">3</div>
+                <h3>אוספים</h3>
+                <p>
+                  אוספים את הכלים ביום האירוע (יש אפשרות להובלה במחיר מותאם).
+                </p>
+              </article>
+            </li>
+            <li>
+              <article class="step-card">
+                <div class="step-icon">4</div>
+                <h3>מחזירים</h3>
+                <p>
+                  מחזירים את הכלים עד יום לאחר האירוע ללא שטיפה (רק ניקוי גס).
+                </p>
+              </article>
+            </li>
+          </ol>
+        </div>
+      </section>
 
-          <div class="hero-actions">
-            <button class="btn btn-primary" id="openCatalogHero" type="button">
-              פתיחת הקטלוג
-            </button>
-            <button
-              class="btn btn-ghost"
-              id="quickOrderNoCatalog"
-              type="button"
-            >
-              הזמנה מהירה בלי פירוט
-            </button>
+      <section class="section section-bg" id="pricing">
+        <div class="container">
+          <header class="section-header center">
+            <h2>מחירון</h2>
+            <p>מחירים שקופים והוגנים (כולל מע״מ)</p>
+          </header>
+          <div class="pricing-grid">
+            <article class="pricing-card">
+              <div class="pc-head">
+                <h3>🍽️ כלי אוכל והגשה</h3>
+                <span class="pc-sub">מחיר ליחידה</span>
+              </div>
+              <div class="pc-body">
+                <div class="price-row">
+                  <span>צלחת / כוס / סלטריה</span> <strong>₪1.40</strong>
+                </div>
+                <div class="price-row">
+                  <span>סכו"ם (לפריט)</span> <strong>₪1.10</strong>
+                </div>
+                <div class="price-row">
+                  <span>פלטת הגשה מרכזית</span> <strong>₪3.10</strong>
+                </div>
+                <div class="price-row">
+                  <span>קערת מרק מרכזית</span> <strong>₪3.10</strong>
+                </div>
+                <div class="price-row">
+                  <span>כפות הגשה</span> <strong>₪1.60</strong>
+                </div>
+                <div class="price-row">
+                  <span>קנקן שתייה</span> <strong>₪5.00</strong>
+                </div>
+                <div class="price-row">
+                  <span>מגש מלצר</span> <strong>₪7.00</strong>
+                </div>
+                <div class="price-row">
+                  <span>סטנד למגש</span> <strong>₪15.00</strong>
+                </div>
+              </div>
+            </article>
+            <article class="pricing-card">
+              <div class="pc-head">
+                <h3>✨ ציוד וריהוט</h3>
+                <span class="pc-sub">חימום, קירור וישיבה</span>
+              </div>
+              <div class="pc-body">
+                <div class="price-row big">
+                  <span>שפינגדיש (כולל חימום)</span> <strong>₪55</strong>
+                </div>
+                <div class="price-row big">
+                  <span>קדרת מרק חשמלית</span> <strong>₪60</strong>
+                </div>
+                <div class="price-row">
+                  <span>ארון חימום (שבת)</span> <strong>₪480</strong>
+                </div>
+                <div class="price-row">
+                  <span>מקפיא אמבטיה</span> <strong>₪480</strong>
+                </div>
+                <div class="price-row">
+                  <span>שולחן עגול 1.60</span> <strong>₪45</strong>
+                </div>
+                <div class="price-row">
+                  <span>כיסא כתר לבן</span> <strong>₪4</strong>
+                </div>
+                <div class="price-row highlight">
+                  <span>נר לד איכותי</span> <strong>₪4</strong>
+                </div>
+              </div>
+            </article>
+            <article class="pricing-card">
+              <div class="pc-head">
+                <h3>🎀 מפות ומפיות</h3>
+                <span class="pc-sub">כולל גיהוץ וניקוי</span>
+              </div>
+              <div class="pc-body">
+                <div class="price-row">
+                  <span>מפה 2.20X2.20</span> <strong>₪23</strong>
+                </div>
+                <div class="price-row">
+                  <span>מפה 2.50X2.50</span> <strong>₪25</strong>
+                </div>
+                <div class="price-row">
+                  <span>מפית בד</span> <strong>₪1.50</strong>
+                </div>
+                <div class="alert-box">
+                  ⚠️ <b>שים לב:</b> אין להניח נרות/זיקוקים/פלטות על המפות.<br />מפה
+                  שניזוקה תחויב: 2.20 ב-140₪ | 2.50 ב-200₪
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="special-prices-box mt-4">
+            <h3 class="center">תנאים ומחירים מיוחדים</h3>
+            <div class="sp-grid">
+              <div class="sp-item">
+                <strong>הזמנת מינימום</strong>
+                <p>בכלים בלבד: 500 ₪</p>
+              </div>
+              <div class="sp-item">
+                <strong>השכרת כלים ללא סכו"ם</strong>
+                <p>צלחות/כוסות: 4 ₪ | פלטות הגשה: 6 ₪</p>
+              </div>
+              <div class="sp-item">
+                <strong>השכרת סכו"ם בלבד</strong>
+                <p>עלות לפריט: 3 ₪</p>
+              </div>
+            </div>
+            <p class="center text-muted mt-2 small">
+              * המחירים כוללים מע"מ | לא כולל הובלה | תשלום באיסוף
+            </p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="section section-alt" id="how">
-      <div class="container">
-        <div class="section-head">
-          <h2>איך זה עובד</h2>
-          <p>תהליך קצר ופשוט</p>
+      <section class="section" id="gallery">
+        <div class="container">
+          <header class="section-header center">
+            <h2>גלריה</h2>
+            <p>טעימה מהאירועים של הלקוחות שלנו</p>
+          </header>
+          <div class="gallery-pager-container">
+            <button class="gallery-nav prev" id="galleryPrev">‹</button>
+            <div class="gallery-viewport">
+              <div class="gallery-grid" id="galleryGrid"></div>
+            </div>
+            <button class="gallery-nav next" id="galleryNext">›</button>
+          </div>
+          <div class="gallery-dots" id="galleryDots"></div>
         </div>
+      </section>
+    </main>
 
-        <div class="steps">
-          <article class="step">
-            <div class="step-num">1</div>
-            <h3>פותחים קטלוג ומזמינים כלים שאתם אוהבים</h3>
-            <p>כפתור הקטלוג יפתח את כל המוצרים שיש לנו להציע.</p>
-          </article>
-          <article class="step">
-            <div class="step-num">2</div>
-            <h3>מאשרים את נוהל ההשכרה</h3>
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <div class="footer-brand">
+          <img src="images/logo_no_background.png" alt="לוגו" />
+          <div class="footer-text">
+            <h3>עמית כלים לאירועים</h3>
             <p>
-              לאחר בחירת המוצרים, תקבלו את נוהל ההשכרה לקריאה ואישור לפני המשך
-              להזמנה בוואטסאפ.
+              © <span id="year"></span> כל הזכויות שמורות<br />בשמחות תמיד 🌹
             </p>
-          </article>
-          <article class="step">
-            <div class="step-num">3</div>
-            <h3>אוספים את הכלים ביום האירוע</h3>
-            <p>שימו לב שהתשלום יהיה באסיפת הכלים</p>
-          </article>
-          <article class="step">
-            <div class="step-num">4</div>
-            <h3>מחזירים את הכלים לאחר האירוע</h3>
-            <p>
-              הכלים מוחזרים ללא שטיפה, מנערים מכלוך כבד ומסודרים בארגזים עד יום
-              לאחר האירוע.
-            </p>
-          </article>
-        </div>
-
-        <div class="cta-row">
-          <button class="btn btn-primary" id="openCatalogFromHow" type="button">
-            פתיחת הקטלוג
-          </button>
-          <button class="btn btn-ghost" id="openWaFooterLike" type="button">
-            הזמנה
-          </button>
-        </div>
-      </div>
-    </section>
-    <section id="praising" class="pricing" aria-labelledby="pricingTitle">
-      <div class="pricing__container">
-        <header class="pricing__header">
-          <h2 id="pricingTitle" class="pricing__title">מחירון</h2>
-          <p class="pricing__subtitle">כל המחירים ליחידה (כולל מע״מ).</p>
-        </header>
-
-        <div class="pricing__grid">
-          <!-- כלים -->
-          <article
-            class="pricingCard pricingCard--tools"
-            aria-label="מחירון כלים"
-          >
-            <div class="pricingCard__head">
-              <div class="pricingCard__badge">🍽️</div>
-              <div>
-                <h3 class="pricingCard__title">כלים</h3>
-                <p class="pricingCard__hint">מחירים ליחידה</p>
-              </div>
-            </div>
-
-            <dl class="pricingList">
-              <div class="pricingRow">
-                <dt>צלחת</dt>
-                <dd>₪ 1.40</dd>
-              </div>
-              <div class="pricingRow">
-                <dt>כוס</dt>
-                <dd>₪ 1.40</dd>
-              </div>
-              <div class="pricingRow">
-                <dt>סלטריה</dt>
-                <dd>₪ 1.40</dd>
-              </div>
-
-              <div class="pricingRow">
-                <dt>סכין / מזלג / כפות / כפיות (לפריט)</dt>
-                <dd>₪ 1.10</dd>
-              </div>
-
-              <div class="pricingRow">
-                <dt>פלטות להגשה מרכזית (דגים/תוספות/בשרים)</dt>
-                <dd>₪ 3.10</dd>
-              </div>
-              <div class="pricingRow">
-                <dt>כפות הגשה</dt>
-                <dd>₪ 1.60</dd>
-              </div>
-              <div class="pricingRow">
-                <dt>קערות מרק למרכז שולחן</dt>
-                <dd>₪ 3.10</dd>
-              </div>
-
-              <div class="pricingRow">
-                <dt>קנקני שתייה (קראפ)</dt>
-                <dd>₪ 5</dd>
-              </div>
-              <div class="pricingRow">
-                <dt>מגש מלצר</dt>
-                <dd>₪ 7</dd>
-              </div>
-              <div class="pricingRow">
-                <dt>סטנד למגש מלצר</dt>
-                <dd>₪ 15</dd>
-              </div>
-
-              <div class="pricingRow">
-                <dt>שפינגדיש (כולל 2 חימומיות)</dt>
-                <dd>₪ 55</dd>
-              </div>
-
-              <div class="pricingRow">
-                <dt>קדרת מרק חשמלית</dt>
-                <dd>₪ 60</dd>
-              </div>
-
-              <div class="pricingRow pricingRow--muted">
-                <dt>כסא כתר לבן פלסטיק</dt>
-                <dd>₪ 4</dd>
-              </div>
-
-              <div class="pricingRow pricingRow--muted">
-                <dt>שולחנות עץ עגולים קוטר 1.60 מתאימים ל -10 סועדים</dt>
-                <dd>₪ 45</dd>
-              </div>
-
-              <div class="pricingRow pricingRow--muted">
-                <dt>ארון חימום עם פיקוד שבת</dt>
-                <dd>₪ 480</dd>
-              </div>
-
-              <div class="pricingRow pricingRow--muted">
-                <dt>מקפיא אמבטיה</dt>
-                <dd>₪ 480</dd>
-              </div>
-
-              <div class="pricingRow pricingRow--muted">
-                <dt>נר לד</dt>
-                <dd>₪ 4</dd>
-              </div>
-            </dl>
-          </article>
-
-          <!-- מפות ומפיות -->
-          <article
-            class="pricingCard pricingCard--linens"
-            aria-label="מחירון מפות ומפיות"
-          >
-            <div class="pricingCard__head">
-              <div class="pricingCard__badge">🌺</div>
-              <div>
-                <h3 class="pricingCard__title">מפות ומפיות</h3>
-                <p class="pricingCard__hint">מחירים ליחידה</p>
-              </div>
-            </div>
-
-            <dl class="pricingList">
-              <div class="pricingRow">
-                <dt>מפה 2.20×2.20</dt>
-                <dd>₪ 23</dd>
-              </div>
-              <div class="pricingRow">
-                <dt>מפה 2.50×2.50</dt>
-                <dd>₪ 25</dd>
-              </div>
-              <div class="pricingRow">
-                <dt>מפית</dt>
-                <dd>₪ 1.50</dd>
-              </div>
-            </dl>
-          </article>
-
-          <!-- מחירים מיוחדים -->
-          <article
-            class="pricingCard pricingCard--special"
-            aria-label="מחירים מיוחדים"
-          >
-            <div class="pricingCard__head">
-              <div class="pricingCard__badge">✨</div>
-              <div>
-                <h3 class="pricingCard__title">מחירים מיוחדים</h3>
-                <p class="pricingCard__hint">מתעדכן לפי סוג ההשכרה</p>
-              </div>
-            </div>
-
-            <div class="pricingSpecial">
-              <div class="pricingSpecial__box">
-                <h4 class="pricingSpecial__title">בהשכרת כלים ללא סכו״ם</h4>
-                <ul class="pricingSpecial__list">
-                  <li><strong>צלחות</strong> ₪ 4</li>
-                  <li><strong>כוסות</strong> ₪ 4</li>
-                  <li><strong>פלטות להגשה</strong> ₪ 6</li>
-                </ul>
-              </div>
-
-              <div class="pricingSpecial__box pricingSpecial__box--alt">
-                <h4 class="pricingSpecial__title">בהשכרת סכו״ם בלבד</h4>
-                <p class="pricingSpecial__text"><strong>₪ 3</strong> לפריט</p>
-              </div>
-            </div>
-
-            <p class="pricing__footnote">
-              המחירים כוללים מע״מ • המחירים לא כוללים הובלה
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- GALLERY -->
-    <section class="section section-alt" id="gallery">
-      <div class="container">
-        <div class="section-head center">
-          <h2>גלריה</h2>
-          <p>קצת צבע שהכנסנו לאירועים</p>
-        </div>
-
-        <div class="gallery">
-          <img src="images/gallery_1.jpeg" alt="גלריה 1" />
-          <img src="images/gallery_2.jpeg" alt="גלריה 2" />
-          <img src="images/gallery_blue.jpeg" alt="גלריה 3" />
-          <img src="images/gallery_blue_green.jpeg" alt="גלריה 4" />
-          <img src="images/gallery_purple.jpeg" alt="גלריה 5" />
-          <img src="images/gallery_silver.jpeg" alt="גלריה 6" />
-          <img src="images/gallery_7.jpeg" alt="גלריה 7" />
-          <img src="images/gallery_8.jpeg" alt="גלריה 8" />
-          <img src="images/gallery_9.jpeg" alt="גלריה 9" />
-          <img src="images/gallery_10.jpeg" alt="גלריה 10" />
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="container footer-inner">
-        <button class="btn btn-ghost" id="openCatalogFooter" type="button">
-          פתיחת הקטלוג
-        </button>
-
-        <div class="footer-center">
-          <img
-            class="footer-logo-img"
-            src="images/logo_no_background.png"
-            alt="עמית כלים לאירועים"
-          />
-          <div class="footer-copy">
-            © <span id="year"></span> עמית כלים לאירועים • בשמחות תמיד 🌹
           </div>
         </div>
-
-        <button class="btn btn-primary" id="openWaFooter" type="button">
-          להזמנה
-        </button>
+        <div class="footer-actions">
+          <button class="btn btn-outline" id="openCatalogFooter">
+            קטלוג מוצרים
+          </button>
+          <button class="btn btn-primary" id="openWaFooter">
+            יצירת קשר בוואטסאפ
+          </button>
+        </div>
       </div>
     </footer>
 
-    <!-- =========================
-         CATALOG MODAL (הקטלוג כולו בכרטיס)
-    ========================= -->
-    <div class="modal" id="catalogModal" aria-hidden="true">
+    <div
+      class="modal full-screen"
+      id="catalogModal"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+    >
       <div class="modal-backdrop" data-close="true"></div>
-
-      <div
-        class="modal-card modal-wide"
-        role="dialog"
-        aria-modal="true"
-        aria-label="קטלוג"
-      >
-        <div class="modal-head">
-          <div>
-            <div class="modal-title">קטלוג מוצרים</div>
-            <div class="modal-sub">
-              מסמנים “בחרתי” על מוצרים שאהבתם והם יופיעו בהודעת הווצאפ. נבחרו:
-              <b id="pickedCount">0</b>
-            </div>
+      <div class="modal-panel">
+        <header class="modal-header compact">
+          <div class="mh-start">
+            <h3>קטלוג</h3>
+            <div class="picked-badge">נבחרו: <b id="pickedCount">0</b></div>
           </div>
-
-          <div class="modal-head-actions">
-            <button
-              class="btn btn-ghost"
-              id="continueNoCatalogFromCatalog"
-              type="button"
-            >
-              המשך בלי פירוט מהקטלוג
-            </button>
-            <button
-              class="icon-btn"
-              id="closeCatalog"
-              type="button"
-              aria-label="סגירה"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-
-        <div class="modal-body">
-          <div class="toolbar">
-            <div
-              class="filters"
-              role="group"
-              aria-label="סינון קטלוג"
-              id="filters"
-            ></div>
-
-            <!-- תת-סינון שמופיע רק כשנמצאים ב"מפיות" -->
-            <div
-              class="subfilters"
-              role="group"
-              aria-label="תת סינון"
-              id="subfilters"
-            ></div>
-
-            <div class="search">
+          <div class="catalog-controls">
+            <div class="search-box compact">
               <input
-                id="catalogSearch"
                 type="search"
-                placeholder="חיפוש…"
+                id="catalogSearch"
+                placeholder="🔍 חיפוש..."
                 autocomplete="off"
               />
             </div>
+            <div class="filters-scroll compact" id="filters"></div>
           </div>
+          <button class="close-btn" id="closeCatalog" aria-label="סגור">
+            ✕
+          </button>
+        </header>
 
-          <div class="catalog" id="catalogGrid" aria-label="רשימת מוצרים"></div>
+        <div class="subfilters-bar" id="subfilters"></div>
+
+        <div class="modal-body bg-light">
+          <div class="catalog-grid" id="catalogGrid"></div>
         </div>
 
-        <div class="modal-actions catalog-footer-actions">
-          <button
-            class="btn btn-primary"
-            id="goToOrderFromCatalog"
-            type="button"
-          >
-            המשך להזמנה
+        <footer class="modal-footer">
+          <button class="btn btn-ghost text-danger" id="clearPicks">
+            ניקוי
           </button>
-          <button class="btn btn-ghost" id="clearPicks" type="button">
-            נקה בחירות
+          <button class="btn btn-primary flex-fill" id="goToOrderFromCatalog">
+            המשך להזמנה ←
           </button>
+        </footer>
+      </div>
+    </div>
+
+    <div class="modal center-popup" id="productModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="true"></div>
+      <div class="modal-card product-card-modal">
+        <button class="close-abs" id="closeProduct">✕</button>
+        <div class="pcm-image"><img id="productModalImg" src="" alt="" /></div>
+        <div class="pcm-details">
+          <h3 id="productModalName"></h3>
+          <p id="productModalNote" class="text-muted"></p>
+          <div id="productModalChips" class="tags-row"></div>
+          <div class="pcm-actions">
+            <button
+              class="btn btn-primary btn-block"
+              id="productTogglePick"
+            ></button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- WHATSAPP FORM MODAL -->
-    <div class="modal" id="waModal" aria-hidden="true">
+    <div class="modal center-popup" id="waModal" aria-hidden="true">
       <div class="modal-backdrop" data-close="true"></div>
-
-      <div
-        class="modal-card"
-        role="dialog"
-        aria-modal="true"
-        aria-label="פרטי הזמנה"
-      >
-        <div class="modal-head">
-          <div>
-            <div class="modal-title">פרטי הזמנה</div>
-            <div class="modal-sub">שם + תאריך + כמות מוזמנים</div>
-          </div>
-          <button
-            class="icon-btn"
-            id="closeWa"
-            type="button"
-            aria-label="סגירה"
-          >
-            ✕
-          </button>
-        </div>
-
+      <div class="modal-card order-card">
+        <header class="order-header">
+          <h3>פרטי הזמנה</h3>
+          <button class="close-abs-corner" id="closeWa">✕</button>
+        </header>
         <div class="modal-body">
-          <form class="wa-form" id="waFormModal">
-            <label>
-              <span>שם מלא</span>
+          <form id="waFormModal" class="order-form">
+            <div class="form-group">
+              <label>שם מלא</label>
               <input
-                id="leadName"
                 type="text"
-                placeholder="לדוגמה: דוד לוי"
-                autocomplete="name"
+                id="leadName"
                 required
+                placeholder="לדוגמה: ישראל ישראלי"
               />
-            </label>
-
-            <label>
-              <span>תאריך האירוע</span>
-              <input id="eventDate" type="date" required />
-            </label>
-
-            <label>
-              <span>כמות מוזמנים</span>
-              <input
-                id="guestCount"
-                type="number"
-                min="1"
-                step="1"
-                placeholder="לדוגמה: 120"
-                required
-              />
-            </label>
-
-            <div class="preview">
-              <div class="preview-label">תצוגה מקדימה (הודעת וואטסאפ)</div>
+            </div>
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label>תאריך</label
+                ><input type="date" id="eventDate" required />
+              </div>
+              <div class="form-group">
+                <label>מוזמנים</label
+                ><input
+                  type="number"
+                  id="guestCount"
+                  required
+                  placeholder="100"
+                />
+              </div>
+            </div>
+            <div class="form-group preview-group">
+              <label>סיכום הודעה:</label>
               <div class="preview-box" id="messagePreview"></div>
             </div>
-
-            <button class="btn btn-primary btn-wide" type="submit">
-              המשך לתנאי השכרה
+            <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
+              המשך לאישור
             </button>
           </form>
         </div>
       </div>
     </div>
 
-    <!-- PROCEDURE MODAL -->
-    <div class="modal" id="procedureModal" aria-hidden="true">
+    <div class="modal center-popup" id="procedureModal" aria-hidden="true">
       <div class="modal-backdrop" data-close="true"></div>
-
-      <div
-        class="modal-card"
-        role="dialog"
-        aria-modal="true"
-        aria-label="נוהל השכרת ציוד"
-      >
-        <div class="modal-head">
-          <div>
-            <div class="modal-title">נוהל השכרת ציוד</div>
-            <div class="modal-sub">נא לקרוא ולאשר לפני המשך</div>
+      <div class="modal-card md">
+        <header class="modal-header">
+          <h3>נוהל השכרת ציוד</h3>
+          <button class="close-btn" id="closeProcedure">✕</button>
+        </header>
+        <div class="modal-body scrollable-text">
+          <div class="policy-box">
+            <p>
+              <strong>כללי:</strong> הכלים מגיעים מאורגנים ואיכותיים. יש לשמור
+              על תקינותם ולהחזירם לפי הנוהל.
+            </p>
+            <p>
+              <strong>נקיון:</strong> מקבלים נקי. בסיום הארוחה מורידים לכלוך כבד
+              (ללא שטיפה) ומחזירים.
+            </p>
+            <p><strong>החזרות:</strong> עד יום לאחר האירוע.</p>
+            <p>
+              <strong>תנאי תשלום וביטול:</strong> תשלום מלא באיסוף. ביטול יחויב
+              ב-25%.
+            </p>
+            <p><strong>נזקים:</strong> הלקוח יחויב בעלות ציוד שניזוק/אבד.</p>
           </div>
-          <button
-            class="icon-btn"
-            id="closeProcedure"
-            type="button"
-            aria-label="סגירה"
+          <label class="checkbox-wrapper"
+            ><input type="checkbox" id="procedureAck" /><span
+              class="checkmark"
+            ></span
+            ><span class="label-text">מאשר/ת את התנאים</span></label
           >
-            ✕
+        </div>
+        <footer class="modal-footer">
+          <button
+            class="btn btn-whatsapp btn-block"
+            id="approveProcedure"
+            disabled
+          >
+            שליחה לווצאפ
           </button>
-        </div>
-
-        <div class="modal-body">
-          <div class="proc-block">
-            <h4>כללי</h4>
-            <ul class="proc-list">
-              <li>
-                הכלים מגיעים ללקוח בצורה מאורגנת ואיכותית יש לשמור על תקינותם
-                להחזירם לפי הנוהל שיוסבר ללקוח.
-              </li>
-              <li>
-                מקבלים את הכלים נקיים ובסיום הארוחה מורידים את הלכלוך הכבד ללא
-                שטיפה.
-              </li>
-              <li>החזרת הכלים או המפות תהיה עד יום לאחר האירוע</li>
-              <li>
-                הזמנה שאושרה ע"י הלקוח ויצאה מהמחסן מחוייבת בתשלום מלא ללא קשר
-                באם נשארו כלים / מפות שלא היו בשימוש.
-              </li>
-              <li>
-                בהשכרת כלים ל - 2 ארוחות (שבת) אין לשטוף את הכלים מארוחה לארוחה
-              </li>
-              <li>הכלים כשרים ובהקפדה על הפרדה וכשרות.</li>
-            </ul>
-          </div>
-
-          <div class="proc-block">
-            <h4>תמחור מיוחד</h4>
-            <ul class="proc-list">
-              <li>
-                בהשכרת כלים ללא סכו״ם: צלחות ₪ 4 • כוסות ₪ 4 • פלטות להגשה ₪ 6.
-              </li>
-              <li>בהשכרת סכו״ם בלבד: ₪ 3 לפריט.</li>
-            </ul>
-          </div>
-
-          <div class="proc-block">
-            <h4>מפות ומפיות</h4>
-            <ul class="proc-list">
-              <li>
-                מקבלים נקי ומגוהץ. מנערים בסיום האירוע ומחזירים ללא כביסה
-                וגיהוץ.
-              </li>
-              <li>אין לשים מקור חם כמו נרות/פלטת שבת/זיקוקים על המפות.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="modal-actions proc-actions">
-          <label class="proc-ack">
-            <input type="checkbox" id="procedureAck" />
-            <span>קראתי את נוהל ההשכרה ואני מאשר/ת</span>
-          </label>
-
-          <div class="proc-actions-row">
-            <button
-              class="btn btn-primary"
-              id="approveProcedure"
-              type="button"
-              disabled
-            >
-              מאשר וממשיך לוואטסאפ
-            </button>
-            <button class="btn btn-ghost" id="backProcedure" type="button">
-              חזרה
-            </button>
-          </div>
-        </div>
+        </footer>
       </div>
     </div>
 

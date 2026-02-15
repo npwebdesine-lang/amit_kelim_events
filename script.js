@@ -1,892 +1,913 @@
-// =========================
-// SETTINGS
-// =========================
-const WHATSAPP_PHONE = "972585055011"; // ללא +
+/* ================= הגדרות בסיס ================= */
 
-// =========================
-// COLOR MAPS (code -> color name)
-// =========================
-const NAPKIN_COLORS = {
-  // Satin 01-14
-  "01": "זהב מבריק",
-  "02": "זהב מט",
-  "03": "שחור",
-  "04": "כחול נייבי",
-  "05": "טורקיז",
-  "06": "תכלת",
-  "07": "לילך",
-  "08": "סגול",
-  "09": "ורוד בייבי",
-  10: "ורוד פוקסיה",
-  11: "בורדו",
-  12: "לבן",
-  13: "קרם",
-  14: "ירוק תפוח",
+// נתיב הבסיס לתיקייה הראשית של התמונות
+// שים לב: זה חייב להתאים בדיוק לשם התיקייה במחשב שלך
+const BASE_PATH = "catalog_pics";
+/* ================= רשימת המוצרים המלאה ================= */
+// כאן כל מוצר מופיע בנפרד. אפשר לשנות שם, מק"ט או תמונה לכל אחד בנפרד.
 
-  // Linen 15-29
-  15: "שחרחר",
-  16: "ירוק תפוח",
-  17: "מוקה",
-  18: "כחלחל",
-  19: "אפור",
-  20: "לבן",
-  21: "ורדרד",
-  22: "ג׳ינס",
-  23: "ורוד עתיק",
-  24: "מנטה כחול",
-  25: "קרם",
-  26: "קפה",
-  27: "תכלת",
-  28: "מנטה פיסטוק",
-  29: "אבן",
-};
-
-const MAP220_SATEN_COLORS = {
-  "01": "לבן מעוטר",
-  "02": "אפור מעוטר",
-  "03": "ירוק מעוטר",
-  "04": "שמנת זאקרד",
-  "05": "בורדו",
-  "06": "סגול",
-  "07": "ורוד פוקסיה",
-  "08": "כחול נייבי",
-  "09": "טורקיז",
-  10: "ירוק תפוח",
-};
-
-const MAP220_PISHTAN_COLORS = {
-  11: "לבן",
-  12: "אפור",
-  13: "מוקה",
-  14: "ורדרד",
-  15: "כחלחל אפרפר",
-  16: "סגלגל",
-  17: "שחרחר",
-  18: "פודרה",
-  19: "קרם",
-  20: "שחור",
-};
-
-const MAP250_PISHTAN_COLORS = {
-  21: "קרם",
-  22: "ג׳ינס",
-  23: "ורוד עתיק",
-  24: "מנטה כחול",
-  25: "קפה",
-  26: "תכלת",
-  27: "מנטה פיסטוק",
-  28: "אבן",
-};
-
-// =========================
-// HELPERS
-// =========================
-function escapeHtml(s) {
-  return String(s || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function parseLeadingNumber(filename) {
-  const m = filename.match(/^(\d{1,3})[_-]/);
-  return m ? m[1].padStart(2, "0") : null;
-}
-
-function formatDateForMessage(dateInputValue) {
-  if (!dateInputValue) return "";
-  const [y, m, d] = dateInputValue.split("-");
-  if (!y || !m || !d) return dateInputValue;
-  return `${d}/${m}/${y}`;
-}
-
-// Build a "display name" that includes color based on code map
-function buildDisplayName(baseName, code, colorMap) {
-  const c = code ? String(code).padStart(2, "0") : null;
-  const color = c && colorMap ? colorMap[c] : null;
-  return color ? `${baseName} – ${color}` : baseName;
-}
-
-// Generic numeric items builder (for coded items)
-function makeNumericItems({
-  folder,
-  files,
-  baseName,
-  category,
-  tag,
-  note,
-  variant,
-  colorMap,
-}) {
-  return files.map((f) => {
-    const code = parseLeadingNumber(f);
-    const id = `${category}::${variant || "na"}::${f}`;
-    const displayName = buildDisplayName(baseName, code, colorMap);
-
-    return {
-      id,
-      kind: "coded",
-      code: code ? String(code).padStart(2, "0") : null,
-      name: displayName, // ✅ includes color
-      baseName,
-      category,
-      variant: variant || null, // ✅ saten / pishtan (for napkins)
-      tag,
-      img: `${folder}/${f}`,
-      note,
-    };
-  });
-}
-
-function makeKelimItem({ name, category, tag, img, note }) {
-  return {
-    id: `kelim::${img}`,
-    kind: "named",
-    code: null,
-    name,
-    category,
-    variant: null,
-    tag,
-    img,
-    note,
-  };
-}
-
-// =========================
-// CATALOG DATA
-// =========================
-const CATALOG = [
-  // ===== KELIM =====
-  makeKelimItem({
-    name: "צלחות (חלבי)",
-    category: "plates_halavi",
-    tag: "צלחות • חלבי",
-    img: "catalog_pics/kelim/plates_halavi.jpeg",
-    note: "צלחות איכותיות לאירוח",
-  }),
-  makeKelimItem({
-    name: "צלחות (בשרי) – מלבן",
-    category: "plates_besari",
-    tag: "צלחות • בשרי",
+let catalogItems = [
+  // ============================================
+  // 🍽️ חלק 1: כלים (צלחות, סכו"ם, כוסות)
+  // ============================================
+  {
+    id: "plate_besari",
+    name: "צלחת בשרית",
+    category: "tools",
+    sub: "צלחות",
     img: "catalog_pics/kelim/plates_besari_malben.jpeg",
-    note: "סט צלחות בשרי",
-  }),
-  makeKelimItem({
-    name: "צלחות (בשרי) – עגול",
-    category: "plates_besari",
-    tag: "צלחות • בשרי",
+  },
+  {
+    id: "plate_besari_agol",
+    name: "צלחת בשרית עגולה",
+    category: "tools",
+    sub: "צלחות",
     img: "catalog_pics/kelim/plates_besari_agol.jpeg",
-    note: "סט צלחות בשרי (עגול)",
-  }),
-  makeKelimItem({
-    name: "סכו״ם (חלבי)",
-    category: "cutlery_halavi",
-    tag: "סכו״ם • חלבי",
-    img: "catalog_pics/kelim/sakum_halavi.jpeg",
-    note: "סכו״ם לאירוח (חלבי)",
-  }),
-  makeKelimItem({
-    name: "סכו״ם (בשרי)",
-    category: "cutlery_besari",
-    tag: "סכו״ם • בשרי",
+  },
+  {
+    id: "plate_halavi",
+    name: "צלחת חלבית",
+    category: "tools",
+    sub: "צלחות",
+    img: "catalog_pics/kelim/plates_halavi.jpeg",
+  },
+  {
+    id: "sakum_set_besari",
+    name: "סט סכו״ם בשרי",
+    category: "tools",
+    sub: "סכו״ם",
     img: "catalog_pics/kelim/sakum_besari.jpeg",
-    note: "סכו״ם לאירוח (בשרי)",
-  }),
-  makeKelimItem({
-    name: "סלטריה (בשרי)",
-    category: "salaterya_besari",
-    tag: "סלטריה",
-    img: "catalog_pics/kelim/satateria_besari.jpeg",
-    note: "קעריות/סלטריות לשולחן",
-  }),
-  makeKelimItem({
-    name: "פלטות להגשה",
-    category: "serving",
-    tag: "הגשה",
-    img: "catalog_pics/kelim/serving_traces.jpeg",
-    note: "פלטות להגשה (דגים/בשרים/תוספות)",
-  }),
-  makeKelimItem({
-    name: "כוסות – סוגים",
-    category: "cups",
-    tag: "כוסות",
+  },
+  {
+    id: "sakum_set_halavi",
+    name: "סט סכו״ם חלבי",
+    category: "tools",
+    sub: "סכו״ם",
+    img: "catalog_pics/kelim/sakum_halavi.jpeg",
+  },
+  {
+    id: "types_of glasses",
+    name: "סוגי כוסות",
+    category: "tools",
+    sub: "כוסות",
     img: "catalog_pics/kelim/glasses_types.jpeg",
-    note: "כוסות לאירוח",
-  }),
-  makeKelimItem({
-    name: "מרקייה (קערת מרק)",
-    category: "serving",
-    tag: "הגשה",
+  },
+  {
+    id: "salateria_besari",
+    name: "סלטיה בשרית",
+    category: "tools",
+    sub: "כלים",
+    img: "catalog_pics/kelim/salateria_besari.jpeg",
+  },
+
+  // ============================================
+  // 🪑 חלק 2: ציוד וריהוט
+  // ============================================
+  {
+    id: "shpindagesh",
+    name: "שפינגדיש (הגשה)",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/serving_traces.jpeg",
+  },
+  {
+    id: "marakia",
+    name: "מרקיה",
+    category: "tools",
+    sub: "ריהוט",
     img: "catalog_pics/kelim/marakia.jpeg",
-    note: "קערת מרק למרכז שולחן",
-  }),
+  },
+  {
+    id: "led_candle",
+    name: "נר לד לאווירה",
+    category: "others",
+    sub: "עיצוב",
+    img: "",
+  },
+  {
+    id: "chair",
+    name: "כיסא כתר לבן",
+    category: "others",
+    sub: "ריהוט",
+    img: "",
+  },
+  {
+    id: "table",
+    name: "שולחן עגול 1.60",
+    category: "others",
+    sub: "ריהוט",
+    img: "",
+  },
 
-  // ===== MAPOT 2.20 SATEN (01-10) =====
-  ...makeNumericItems({
-    folder: "catalog_pics/mapot/2.2/saten",
-    files: [
-      "01_white_meutar_saten.jpeg",
-      "02_gray_meutar_saten.jpeg",
-      "03_green_meutar_saten.jpeg",
-      "04_cream_meutar_saten.jpeg",
-      "05_bordo_saten.jpeg",
-      "06_purple_saten.jpeg",
-      "07_fuksia_pink_saten.jpeg",
-      "08_naevi_blue_saten.jpeg",
-      "09_turkiz_saten.jpeg",
-      "10_apple_green.jpeg",
-    ],
-    baseName: "מפה 2.20 (סאטן)",
-    category: "mapot_220",
-    tag: "מפות 2.20",
-    note: "מפה נקייה ומגוהצת",
-    variant: "saten",
-    colorMap: MAP220_SATEN_COLORS,
-  }),
+  // ============================================
+  // 🎀 חלק 3: מפיות סאטן (01-14)
+  // ============================================
+  {
+    id: "napkin_01",
+    sku: "01",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן זהב מבריק",
+    img: "catalog_pics/mapiyot/saten/01_shiny_gold_saten.jpeg",
+  },
+  {
+    id: "napkin_02",
+    sku: "02",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן זהב מט",
+    img: "catalog_pics/mapiyot/saten/02_mat_gold_saten.jpeg",
+  },
+  {
+    id: "napkin_03",
+    sku: "03",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן שחור",
+    img: "catalog_pics/mapiyot/saten/03_black_saten.jpeg",
+  },
+  {
+    id: "napkin_04",
+    sku: "04",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן כחול נייבי",
+    img: "catalog_pics/mapiyot/saten/04_naivy_blue_saten.jpeg",
+  },
+  {
+    id: "napkin_05",
+    sku: "05",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן טורקיז",
+    img: "catalog_pics/mapiyot/saten/05_turkiz_saten.jpeg",
+  },
+  {
+    id: "napkin_06",
+    sku: "06",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן תכלת",
+    img: "catalog_pics/mapiyot/saten/06_tchelet_saten.jpeg",
+  },
+  {
+    id: "napkin_07",
+    sku: "07",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן לילך",
+    img: "catalog_pics/mapiyot/saten/07_lilach_saten.jpeg",
+  },
+  {
+    id: "napkin_08",
+    sku: "08",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן סגול",
+    img: "catalog_pics/mapiyot/saten/08_purple_saten.jpeg",
+  },
+  {
+    id: "napkin_09",
+    sku: "09",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן ורוד בייבי",
+    img: "catalog_pics/mapiyot/saten/09_baby_pink_saten.jpeg",
+  },
+  {
+    id: "napkin_10",
+    sku: "10",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן ורוד פוקסיה",
+    img: "catalog_pics/mapiyot/saten/10_fuksia_pink_saten.jpeg",
+  },
+  {
+    id: "napkin_11",
+    sku: "11",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן בורדו",
+    img: "catalog_pics/mapiyot/saten/11_bordo_saten.jpeg",
+  },
+  {
+    id: "napkin_12",
+    sku: "12",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן לבן",
+    img: "catalog_pics/mapiyot/saten/12_white_saten.jpeg",
+  },
+  {
+    id: "napkin_13",
+    sku: "13",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן קרם",
+    img: "catalog_pics/mapiyot/saten/13_cream_saten.jpeg",
+  },
+  {
+    id: "napkin_14",
+    sku: "14",
+    category: "napkins",
+    sub: "סאטן",
+    name: "מפית סאטן ירוק תפוח",
+    img: "catalog_pics/mapiyot/saten/14_apple_green_saten.jpeg",
+  },
 
-  // ===== MAPOT 2.20 PISHTAN (11-20) =====
-  ...makeNumericItems({
-    folder: "catalog_pics/mapot/2.2/pishtan",
-    files: [
-      "11_white_pishtan.jpeg",
-      "12_gray_pishtan.jpeg",
-      "13_moca_pishtan.jpeg",
-      "14_pinky_pishtan.jpeg",
-      "15_blue_gray_pishtan.jpeg",
-      "16_purply_pishtan.jpeg",
-      "17_blacky_pishtan.jpeg",
-      "18_pudra_pishtan.jpeg",
-      "19_cream_pishtan.jpeg",
-      "20_dark_black_pishtan.jpeg",
-    ],
-    baseName: "מפה 2.20 (פשתן)",
-    category: "mapot_220",
-    tag: "מפות 2.20",
-    note: "מפה נקייה ומגוהצת",
-    variant: "pishtan",
-    colorMap: MAP220_PISHTAN_COLORS,
-  }),
+  // ============================================
+  // 🎀 חלק 4: מפיות פשתן (15-29)
+  // ============================================
+  {
+    id: "napkin_15",
+    sku: "15",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן שחרחר",
+    img: "catalog_pics/mapiyot/pishtan/15_blacky_pishtan.jpeg",
+  },
+  {
+    id: "napkin_16",
+    sku: "16",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן ירוק תפוח",
+    img: "catalog_pics/mapiyot/pishtan/16_apple_green_pishtan.jpeg",
+  },
+  {
+    id: "napkin_17",
+    sku: "17",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן מוקה",
+    img: "catalog_pics/mapiyot/pishtan/17_moca_pishtan.jpeg",
+  },
+  {
+    id: "napkin_18",
+    sku: "18",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן כחלחל",
+    img: "catalog_pics/mapiyot/pishtan/18_bluy_pishtan.jpeg",
+  },
+  {
+    id: "napkin_19",
+    sku: "19",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן אפור",
+    img: "catalog_pics/mapiyot/pishtan/19_gray_pishtan.jpeg",
+  },
+  {
+    id: "napkin_20",
+    sku: "20",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן לבן",
+    img: "catalog_pics/mapiyot/pishtan/20_white_pishtan.jpeg",
+  },
+  {
+    id: "napkin_21",
+    sku: "21",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן ורדרד",
+    img: "catalog_pics/mapiyot/pishtan/21_pinky_pishtan.jpeg",
+  },
+  {
+    id: "napkin_22",
+    sku: "22",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן ג׳ינס",
+    img: "catalog_pics/mapiyot/pishtan/22_jeans_pishtan.jpeg",
+  },
+  {
+    id: "napkin_23",
+    sku: "23",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן ורוד עתיק",
+    img: "catalog_pics/mapiyot/pishtan/23_pink_atik_pishtan.jpeg",
+  },
+  {
+    id: "napkin_24",
+    sku: "24",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן מנטה כחול",
+    img: "catalog_pics/mapiyot/pishtan/24_menta_blue_pishtan.jpeg",
+  },
+  {
+    id: "napkin_25",
+    sku: "25",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן קרם",
+    img: "catalog_pics/mapiyot/pishtan/25_cream_pishtan.jpeg",
+  },
+  {
+    id: "napkin_26",
+    sku: "26",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן קפה",
+    img: "catalog_pics/mapiyot/pishtan/26_coffie_pishtan.jpeg",
+  },
+  {
+    id: "napkin_27",
+    sku: "27",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן תכלת",
+    img: "catalog_pics/mapiyot/pishtan/27_tchelet_pishtan.jpeg",
+  },
+  {
+    id: "napkin_28",
+    sku: "28",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן מנטה פיסטוק",
+    img: "catalog_pics/mapiyot/pishtan/28_menta_phistuk.jpeg",
+  },
+  {
+    id: "napkin_29",
+    sku: "29",
+    category: "napkins",
+    sub: "פשתן",
+    name: "מפית פשתן אבן",
+    img: "catalog_pics/mapiyot/pishtan/29_even_pishtan.jpeg",
+  },
 
-  // ===== MAPOT 2.50 PISHTAN (21-28) =====
-  ...makeNumericItems({
-    folder: "catalog_pics/mapot/2.5/pishtan",
-    files: [
-      "21_cream_pishtan.jpeg",
-      "22_jeans_pishtan.jpeg",
-      "23_pink_atik_pishtan.jpeg",
-      "24_menta_blue_pishtan.jpeg",
-      "25_coffie_pishtan.jpeg",
-      "26_tchelet_pishtan.jpeg",
-      "27_fistuck_menta_pishtan.jpeg",
-      "28_even_pishtan.jpeg",
-    ],
-    baseName: "מפה 2.50 (פשתן)",
-    category: "mapot_250",
-    tag: "מפות 2.50",
-    note: "מפה נקייה ומגוהצת",
-    variant: "pishtan",
-    colorMap: MAP250_PISHTAN_COLORS,
-  }),
+  // ============================================
+  // ✨ חלק 5: מפות סאטן 2.20 (01-10)
+  // ============================================
+  {
+    id: "map22s_01",
+    sku: "01",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן לבן מעוטר",
+    img: "catalog_pics/mapot/2.2/saten/01_white_meutar_saten.jpeg",
+  },
+  {
+    id: "map22s_02",
+    sku: "02",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן אפור מעוטר",
+    img: "catalog_pics/mapot/2.2/saten/02_gray_meutar_saten.jpeg",
+  },
+  {
+    id: "map22s_03",
+    sku: "03",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן ירוק מעוטר",
+    img: "catalog_pics/mapot/2.2/saten/03_green_meutar_saten.jpeg",
+  },
+  {
+    id: "map22s_04",
+    sku: "04",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן שמנת מעוטר",
+    img: "catalog_pics/mapot/2.2/saten/04_cream_meutar_saten.jpeg",
+  },
+  {
+    id: "map22s_05",
+    sku: "05",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן בורדו",
+    img: "catalog_pics/mapot/2.2/saten/05_bordo_saten.jpeg",
+  },
+  {
+    id: "map22s_06",
+    sku: "06",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן סגול",
+    img: "catalog_pics/mapot/2.2/saten/06_purple_saten.jpeg",
+  },
+  {
+    id: "map22s_07",
+    sku: "07",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן ורוד פוקסיה",
+    img: "catalog_pics/mapot/2.2/saten/07_fuksia_pink_saten.jpeg",
+  },
+  {
+    id: "map22s_08",
+    sku: "08",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן כחול נייבי",
+    img: "catalog_pics/mapot/2.2/saten/08_naevi_blue_saten.jpeg",
+  },
+  {
+    id: "map22s_09",
+    sku: "09",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן טורקיז",
+    img: "catalog_pics/mapot/2.2/saten/09_turkiz_saten.jpeg",
+  },
+  {
+    id: "map22s_10",
+    sku: "10",
+    category: "maps",
+    sub: "2.20",
+    fabric: "סאטן",
+    name: "מפה 2.20 סאטן ירוק תפוח",
+    img: "catalog_pics/mapot/2.2/saten/10_apple_green.jpeg",
+  },
 
-  // ===== NAPKINS SATEN (01-14) =====
-  ...makeNumericItems({
-    folder: "catalog_pics/mapiyot/saten",
-    files: [
-      "01_shiny_gold_saten.jpeg",
-      "02_mat_gold_saten.jpeg",
-      "03_black_saten.jpeg",
-      "04_naivy_blue_saten.jpeg",
-      "05_turkiz_saten.jpeg",
-      "06_tchelet_saten.jpeg",
-      "07_lilach_saten.jpeg",
-      "08_purple_saten.jpeg",
-      "09_baby_pink_saten.jpeg",
-      "10_fuksia_pink_saten.jpeg",
-      "11_bordo_saten.jpeg",
-      "12_white_saten.jpeg",
-      "13_cream_saten.jpeg",
-      "14_apple_green_saten.jpeg",
-    ],
-    baseName: "מפית (סאטן)",
-    category: "mapiyot",
-    tag: "מפיות",
-    note: "מפית צבעונית לשולחן",
-    variant: "saten",
-    colorMap: NAPKIN_COLORS,
-  }),
+  // ============================================
+  // ✨ חלק 6: מפות פשתן 2.20 (11-20)
+  // ============================================
+  {
+    id: "map22p_11",
+    sku: "11",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן לבן",
+    img: "catalog_pics/mapot/2.2/pishtan/11_white_pishtan.jpeg",
+  },
+  {
+    id: "map22p_12",
+    sku: "12",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן אפור",
+    img: "catalog_pics/mapot/2.2/pishtan/12_gray_pishtan.jpeg",
+  },
+  {
+    id: "map22p_13",
+    sku: "13",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן מוקה",
+    img: "catalog_pics/mapot/2.2/pishtan/13_moca_pishtan.jpeg",
+  },
+  {
+    id: "map22p_14",
+    sku: "14",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן ורדרד",
+    img: "catalog_pics/mapot/2.2/pishtan/14_pinky_pishtan.jpeg",
+  },
+  {
+    id: "map22p_15",
+    sku: "15",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן כחלחל אפרפר",
+    img: "catalog_pics/mapot/2.2/pishtan/15_blue_gray_pishtan.jpeg",
+  },
+  {
+    id: "map22p_16",
+    sku: "16",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן סגלגל",
+    img: "catalog_pics/mapot/2.2/pishtan/16_purply_pishtan.jpeg",
+  },
+  {
+    id: "map22p_17",
+    sku: "17",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן שחרחר",
+    img: "catalog_pics/mapot/2.2/pishtan/17_blacky_pishtan.jpeg",
+  },
+  {
+    id: "map22p_18",
+    sku: "18",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן פודרה",
+    img: "catalog_pics/mapot/2.2/pishtan/18_pudra_pishtan.jpeg",
+  },
+  {
+    id: "map22p_19",
+    sku: "19",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן קרם",
+    img: "catalog_pics/mapot/2.2/pishtan/19_cream_pishtan.jpeg",
+  },
+  {
+    id: "map22p_20",
+    sku: "20",
+    category: "maps",
+    sub: "2.20",
+    fabric: "פשתן",
+    name: "מפה 2.20 פשתן שחור",
+    img: "catalog_pics/mapot/2.2/pishtan/20_dark_black_pishtan.jpeg",
+  },
 
-  // ===== NAPKINS PISHTAN (15-29) =====
-  ...makeNumericItems({
-    folder: "catalog_pics/mapiyot/pishtan",
-    files: [
-      "15_blacky_pishtan.jpeg",
-      "16_apple_green_pishtan.jpeg",
-      "17_moca_pishtan.jpeg",
-      "18_bluy_pishtan.jpeg",
-      "19_gray_pishtan.jpeg",
-      "20_white_pishtan.jpeg",
-      "21_pinky_pishtan.jpeg",
-      "22_jeans_pishtan.jpeg",
-      "23_pink_atik_pishtan.jpeg",
-      "24_menta_blue_pishtan.jpeg",
-      "25_cream_pishtan.jpeg",
-      "26_coffie_pishtan.jpeg",
-      "27_tchelet_pishtan.jpeg",
-      "28_menta_phistuk.jpeg",
-      "29_even_pishtan.jpeg",
-    ],
-    baseName: "מפית (פשתן)",
-    category: "mapiyot",
-    tag: "מפיות",
-    note: "מפית צבעונית לשולחן",
-    variant: "pishtan",
-    colorMap: NAPKIN_COLORS,
-  }),
+  // ============================================
+  // ✨ חלק 7: מפות פשתן 2.50 (21-29)
+  // ============================================
+  {
+    id: "map25p_21",
+    sku: "21",
+    category: "maps",
+    sub: "2.50",
+    fabric: "פשתן",
+    name: "מפה 2.50 פשתן קרם",
+    img: "catalog_pics/mapot/2.5/pishtan/21_cream_pishtan.jpeg",
+  },
+  {
+    id: "map25p_22",
+    sku: "22",
+    category: "maps",
+    sub: "2.50",
+    fabric: "פשתן",
+    name: "מפה 2.50 פשתן ג׳ינס",
+    img: "catalog_pics/mapot/2.5/pishtan/22_jeans_pishtan.jpeg",
+  },
+  {
+    id: "map25p_23",
+    sku: "23",
+    category: "maps",
+    sub: "2.50",
+    fabric: "פשתן",
+    name: "מפה 2.50 פשתן ורוד עתיק",
+    img: "catalog_pics/mapot/2.5/pishtan/23_pink_atik_pishtan.jpeg",
+  },
+  {
+    id: "map25p_24",
+    sku: "24",
+    category: "maps",
+    sub: "2.50",
+    fabric: "פשתן",
+    name: "מפה 2.50 פשתן מנטה כחול",
+    img: "catalog_pics/mapot/2.5/pishtan/24_menta_blue_pishtan.jpeg",
+  },
+  {
+    id: "map25p_25",
+    sku: "25",
+    category: "maps",
+    sub: "2.50",
+    fabric: "פשתן",
+    name: "מפה 2.50 פשתן קפה",
+    img: "catalog_pics/mapot/2.5/pishtan/25_coffie_pishtan.jpeg",
+  },
+  {
+    id: "map25p_26",
+    sku: "26",
+    category: "maps",
+    sub: "2.50",
+    fabric: "פשתן",
+    name: "מפה 2.50 פשתן תכלת",
+    img: "catalog_pics/mapot/2.5/pishtan/26_tchelet_pishtan.jpeg",
+  },
+  {
+    id: "map25p_27",
+    sku: "27",
+    category: "maps",
+    sub: "2.50",
+    fabric: "פשתן",
+    name: "מפה 2.50 פשתן מנטה פיסטוק",
+    img: "catalog_pics/mapot/2.5/pishtan/27_fistuck_menta_pishtan.jpeg",
+  },
+  {
+    id: "map25p_28",
+    sku: "28",
+    category: "maps",
+    sub: "2.50",
+    fabric: "פשתן",
+    name: "מפה 2.50 פשתן אבן",
+    img: "catalog_pics/mapot/2.5/pishtan/28_even_pishtan.jpeg",
+  },
 ];
 
-// =========================
-// FILTERS (keep, but horizontal scroll makes it clean)
-// =========================
-const FILTERS = [
-  { key: "all", label: "הכל" },
-  { key: "plates_halavi", label: "צלחות חלבי" },
-  { key: "plates_besari", label: "צלחות בשרי" },
-  { key: "cutlery_halavi", label: "סכו״ם חלבי" },
-  { key: "cutlery_besari", label: "סכו״ם בשרי" },
-  { key: "cups", label: "כוסות" },
-  { key: "salaterya_besari", label: "סלטריה" },
-  { key: "serving", label: "הגשה" },
-  { key: "mapot_220", label: "מפות 2.20" },
-  { key: "mapot_250", label: "מפות 2.50" },
-  { key: "mapiyot", label: "מפיות" },
+/* =========================================================================
+   מכאן והלאה זה הקוד שמפעיל את האתר (סינונים, גלריה, ווצאפ).
+   אין צורך לגעת בזה אלא אם משנים לוגיקה.
+========================================================================= */
+
+const state = {
+  picked: new Set(),
+  category: "tools",
+  subFilter: "all",
+  search: "",
+  galleryPage: 0,
+};
+
+const galleryImages = [
+  "images/gallery_1.jpeg",
+  "images/gallery_2.jpeg",
+  "images/gallery_blue.jpeg",
+  "images/gallery_blue_green.jpeg",
+  "images/gallery_purple.jpeg",
+  "images/gallery_silver.jpeg",
+  "images/gallery_7.jpeg",
+  "images/gallery_8.jpeg",
+  "images/gallery_9.jpeg",
+  "images/gallery_10.jpeg",
+  "images/hero.jpeg",
 ];
 
-const NAPKIN_SUBFILTERS = [
-  { key: "all", label: "כל המפיות" },
-  { key: "saten", label: "מפיות סאטן" },
-  { key: "pishtan", label: "מפיות פשתן" },
-];
+const $ = (id) => document.getElementById(id);
+const $$ = (sel) => document.querySelectorAll(sel);
+const modals = {
+  catalog: $("catalogModal"),
+  product: $("productModal"),
+  wa: $("waModal"),
+  procedure: $("procedureModal"),
+};
 
-// =========================
-// STATE
-// =========================
-let activeFilter = "all";
-let activeSubFilter = "all"; // only applies when mapiyot
-const picked = new Set();
-let includeCatalogItemsInMessage = true;
-
-// =========================
-// MODALS CORE
-// =========================
-function openModal(modalEl) {
-  if (!modalEl) return;
-  modalEl.classList.add("is-open");
-  modalEl.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-}
-function closeModal(modalEl) {
-  if (!modalEl) return;
-  modalEl.classList.remove("is-open");
-  modalEl.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-}
-
-document.querySelectorAll(".modal").forEach((modal) => {
-  modal.addEventListener("click", (e) => {
-    const t = e.target;
-    if (t && t.dataset && t.dataset.close === "true") closeModal(modal);
-  });
-});
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    closeModal(document.getElementById("catalogModal"));
-    closeModal(document.getElementById("waModal"));
-    closeModal(document.getElementById("procedureModal"));
-  }
-});
-
-// =========================
-// MOBILE MENU
-// =========================
-const hamburger = document.getElementById("hamburger");
-const mobileNav = document.getElementById("mobileNav");
-hamburger?.addEventListener("click", () => {
-  const isOpen = mobileNav?.classList.toggle("is-open");
-  hamburger.setAttribute("aria-expanded", String(!!isOpen));
-  mobileNav?.setAttribute("aria-hidden", String(!isOpen));
-});
-mobileNav?.querySelectorAll("a").forEach((a) => {
-  a.addEventListener("click", () => {
-    mobileNav.classList.remove("is-open");
-    hamburger?.setAttribute("aria-expanded", "false");
-    mobileNav?.setAttribute("aria-hidden", "true");
-  });
-});
-
-// =========================
-// CATALOG MODAL OPENERS
-// =========================
-const catalogModal = document.getElementById("catalogModal");
-document
-  .getElementById("openCatalogBtn")
-  ?.addEventListener("click", () => openCatalog());
-document
-  .getElementById("openCatalogBtnMobile")
-  ?.addEventListener("click", () => openCatalog());
-document
-  .getElementById("openCatalogHero")
-  ?.addEventListener("click", () => openCatalog());
-document
-  .getElementById("openCatalogFromHow")
-  ?.addEventListener("click", () => openCatalog());
-document
-  .getElementById("openCatalogFooter")
-  ?.addEventListener("click", () => openCatalog());
-document
-  .getElementById("closeCatalog")
-  ?.addEventListener("click", () => closeModal(catalogModal));
-
-function openCatalog() {
-  openModal(catalogModal);
+document.addEventListener("DOMContentLoaded", () => {
   renderFilters();
-  renderSubfilters();
   renderCatalog();
-  applyCatalogFilters();
-  refreshPickedUI();
+  renderGallery();
+  setupEventListeners();
+  $("year").textContent = new Date().getFullYear();
+
+  // בדיקה: מדפיס לקונסול דוגמה לנתיב
+  console.log("דוגמה לנתיב:", catalogItems[15].img);
+});
+
+function setupEventListeners() {
+  $$(
+    "#openCatalogBtn, #openCatalogBtnMobile, #openCatalogHero, #openCatalogFromHow, #openCatalogFooter",
+  ).forEach((btn) =>
+    btn?.addEventListener("click", () => openModal("catalog")),
+  );
+
+  $("closeCatalog").addEventListener("click", () => closeModal("catalog"));
+  $("closeProduct").addEventListener("click", () => closeModal("product"));
+  $("closeWa").addEventListener("click", () => closeModal("wa"));
+  $("closeProcedure").addEventListener("click", () => closeModal("procedure"));
+
+  $$(".modal-backdrop").forEach((bd) =>
+    bd.addEventListener("click", (e) =>
+      closeModal(e.target.closest(".modal").id.replace("Modal", "")),
+    ),
+  );
+
+  $("catalogSearch").addEventListener("input", (e) => {
+    state.search = e.target.value.toLowerCase();
+    renderCatalog();
+  });
+  $("clearPicks").addEventListener("click", () => {
+    if (confirm("לנקות בחירות?")) {
+      state.picked.clear();
+      updateUI();
+    }
+  });
+
+  $("goToOrderFromCatalog").addEventListener("click", () => {
+    closeModal("catalog");
+    updateWaPreview();
+    openModal("wa");
+  });
+  $("quickOrderNoCatalog").addEventListener("click", () => {
+    state.picked.clear();
+    updateUI();
+    openModal("wa");
+  });
+  $("openWaHeader").addEventListener("click", () => {
+    openModal("wa");
+  });
+  $("openWaFooter").addEventListener("click", () => {
+    openModal("wa");
+  });
+
+  $("waFormModal").addEventListener("submit", (e) => {
+    e.preventDefault();
+    closeModal("wa");
+    openModal("procedure");
+  });
+  $("procedureAck").addEventListener(
+    "change",
+    (e) => ($("approveProcedure").disabled = !e.target.checked),
+  );
+  $("approveProcedure").addEventListener("click", sendToWhatsApp);
+
+  $("hamburger").addEventListener("click", () => {
+    $("mobileNav").classList.toggle("show");
+    $("hamburger").classList.toggle("open");
+  });
+  $("productTogglePick").addEventListener("click", () => {
+    togglePick($("productModal").dataset.activeId);
+    closeModal("product");
+  });
+
+  $("galleryPrev").addEventListener("click", () => changeGalleryPage(-1));
+  $("galleryNext").addEventListener("click", () => changeGalleryPage(1));
+
+  ["leadName", "eventDate", "guestCount"].forEach((id) =>
+    $(id).addEventListener("input", updateWaPreview),
+  );
 }
 
-// =========================
-// FILTERS RENDER
-// =========================
-const filtersEl = document.getElementById("filters");
-const subfiltersEl = document.getElementById("subfilters");
+const categories = [
+  { key: "tools", label: "🍽️ כלים" },
+  { key: "maps", label: "✨ מפות" },
+  { key: "napkins", label: "🎀 מפיות" },
+  { key: "others", label: "🪑 ציוד" },
+];
 
 function renderFilters() {
-  if (!filtersEl) return;
-  filtersEl.innerHTML = FILTERS.map((f) => {
-    const cls = f.key === activeFilter ? "pill is-active" : "pill";
-    return `<button class="${cls}" data-filter="${f.key}" type="button">${f.label}</button>`;
-  }).join("");
-
-  filtersEl.querySelectorAll("[data-filter]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      activeFilter = btn.dataset.filter || "all";
-
-      // Reset subfilter when leaving napkins
-      if (activeFilter !== "mapiyot") activeSubFilter = "all";
-
-      renderFilters();
-      renderSubfilters();
-      applyCatalogFilters();
-    });
-  });
+  $("filters").innerHTML = categories
+    .map(
+      (c) =>
+        `<button class="filter-pill ${state.category === c.key ? "active" : ""}" onclick="setCategory('${c.key}')">${c.label}</button>`,
+    )
+    .join("");
+  renderSubFilters();
 }
 
-function renderSubfilters() {
-  if (!subfiltersEl) return;
+function renderSubFilters() {
+  const relevant = catalogItems.filter((i) => i.category === state.category);
+  const subs = ["all", ...new Set(relevant.map((i) => i.sub).filter(Boolean))];
 
-  // show only for napkins
-  if (activeFilter !== "mapiyot") {
-    subfiltersEl.innerHTML = "";
-    subfiltersEl.style.display = "none";
+  if (subs.length > 1) {
+    $("subfilters").style.display = "flex";
+    $("subfilters").innerHTML = subs
+      .map(
+        (s) =>
+          `<button class="filter-pill ${state.subFilter === s ? "active" : ""}" onclick="setSubFilter('${s}')">${s === "all" ? "הכל" : s}</button>`,
+      )
+      .join("");
+  } else {
+    $("subfilters").style.display = "none";
+  }
+}
+
+function renderCatalog() {
+  const grid = $("catalogGrid");
+  const filtered = catalogItems.filter((item) => {
+    const matchCat = item.category === state.category;
+    const matchSub = state.subFilter === "all" || item.sub === state.subFilter;
+    const matchSearch =
+      !state.search ||
+      item.name.toLowerCase().includes(state.search) ||
+      (item.sku && item.sku.includes(state.search));
+    return matchCat && matchSub && matchSearch;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px;color:#888;">לא נמצאו מוצרים. נסה לשנות חיפוש.</div>`;
     return;
   }
 
-  subfiltersEl.style.display = "flex";
-  subfiltersEl.innerHTML = NAPKIN_SUBFILTERS.map((sf) => {
-    const cls = sf.key === activeSubFilter ? "pill is-active" : "pill";
-    return `<button class="${cls}" data-subfilter="${sf.key}" type="button">${sf.label}</button>`;
-  }).join("");
-
-  subfiltersEl.querySelectorAll("[data-subfilter]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      activeSubFilter = btn.dataset.subfilter || "all";
-      renderSubfilters();
-      applyCatalogFilters();
-    });
-  });
-}
-
-// =========================
-// CATALOG RENDER
-// =========================
-const catalogGrid = document.getElementById("catalogGrid");
-const searchInput = document.getElementById("catalogSearch");
-
-function renderCatalog() {
-  if (!catalogGrid) return;
-
-  catalogGrid.innerHTML = CATALOG.map((p) => {
-    const isPicked = picked.has(p.id);
-    const pickBtnClass = isPicked
-      ? "btn pick-btn is-picked"
-      : "btn btn-soft pick-btn";
-    const pickText = isPicked ? "נבחר ✓" : "בחרתי";
-
-    const codeChip = p.code
-      ? `<span class="code">מק״ט: ${escapeHtml(p.code)}</span>`
-      : "";
-
-    return `
-      <article class="product"
-        data-id="${escapeHtml(p.id)}"
-        data-category="${escapeHtml(p.category)}"
-        data-variant="${escapeHtml(p.variant || "")}"
-        data-name="${escapeHtml(p.name)}"
-        data-code="${escapeHtml(p.code || "")}"
-      >
-        <div class="product-img-wrap">
-          <img class="product-img" src="${p.img}" alt="${escapeHtml(p.name)}" loading="lazy"
-               onerror="this.style.opacity=.2; this.alt='(תמונה חסרה)';" />
+  grid.innerHTML = filtered
+    .map((item) => {
+      const isPicked = state.picked.has(item.id);
+      const fallbackImg =
+        "https://placehold.co/300x200/f0f0f0/cccccc?text=אין+תמונה";
+      return `
+      <div class="catalog-item ${isPicked ? "picked" : ""}" id="item-${item.id}">
+        <div class="ci-img" onclick="openProduct('${item.id}')">
+          <img src="${item.img}" onerror="this.src='${fallbackImg}'" loading="lazy">
         </div>
-
-        <div class="product-body">
-          <div class="product-top">
-            <span class="tag">${escapeHtml(p.tag)}</span>
-            ${codeChip}
-          </div>
-          <h3>${escapeHtml(p.name)}</h3>
-          <p>${escapeHtml(p.note || "")}</p>
+        <div class="ci-details">
+          <div class="ci-name">${item.name}</div>
+          ${item.sku ? `<div class="ci-sku">מק"ט: ${item.sku}</div>` : ""}
+          <button class="ci-btn" onclick="togglePick('${item.id}')">${isPicked ? "✓ נבחר" : "+ הוספה"}</button>
         </div>
-
-        <div class="product-foot">
-          <button class="${pickBtnClass}" type="button" data-action="toggle-pick">
-            ${pickText}
-          </button>
-        </div>
-      </article>
-    `;
-  }).join("");
-
-  // avoid multiple listeners
-  catalogGrid.replaceWith(catalogGrid.cloneNode(true));
-  const freshGrid = document.getElementById("catalogGrid");
-  freshGrid.addEventListener("click", onCatalogClick);
+      </div>`;
+    })
+    .join("");
 }
 
-function onCatalogClick(e) {
-  const btn = e.target.closest("[data-action]");
-  if (!btn) return;
-
-  if (btn.dataset.action === "toggle-pick") {
-    const card = btn.closest(".product");
-    const id = card?.dataset.id;
-    if (!id) return;
-
-    if (picked.has(id)) picked.delete(id);
-    else picked.add(id);
-
-    updateCardPickedState(btn, picked.has(id));
-    refreshPickedUI();
-    syncPreview();
-  }
-}
-
-function updateCardPickedState(btn, isPicked) {
-  btn.className = isPicked ? "btn pick-btn is-picked" : "btn btn-soft pick-btn";
-  btn.textContent = isPicked ? "נבחר ✓" : "בחרתי";
-}
-
-function applyCatalogFilters() {
-  const grid = document.getElementById("catalogGrid");
-  const cards = grid?.querySelectorAll(".product") || [];
-  const q = (searchInput?.value || "").trim().toLowerCase();
-
-  cards.forEach((card) => {
-    const cat = card.dataset.category || "";
-    const variant = (card.dataset.variant || "").toLowerCase();
-    const name = (card.dataset.name || "").toLowerCase();
-    const code = (card.dataset.code || "").toLowerCase();
-
-    const matchFilter = activeFilter === "all" ? true : cat === activeFilter;
-
-    // Subfilter only for napkins
-    const matchSub =
-      activeFilter !== "mapiyot"
-        ? true
-        : activeSubFilter === "all"
-          ? true
-          : variant === activeSubFilter;
-
-    const matchSearch = !q
-      ? true
-      : name.includes(q) || (code && code.includes(q));
-
-    card.style.display = matchFilter && matchSub && matchSearch ? "" : "none";
-  });
-}
-
-searchInput?.addEventListener("input", applyCatalogFilters);
-
-// =========================
-// PICKED UI + ACTIONS
-// =========================
-const pickedCountEl = document.getElementById("pickedCount");
-function refreshPickedUI() {
-  if (pickedCountEl) pickedCountEl.textContent = String(picked.size);
-}
-
-document.getElementById("clearPicks")?.addEventListener("click", () => {
-  picked.clear();
-  refreshPickedUI();
+window.setCategory = (cat) => {
+  state.category = cat;
+  state.subFilter = "all";
+  renderFilters();
   renderCatalog();
-  applyCatalogFilters();
-  syncPreview();
-});
+};
+window.setSubFilter = (sub) => {
+  state.subFilter = sub;
+  renderSubFilters();
+  renderCatalog();
+};
+window.togglePick = (id) => {
+  state.picked.has(id) ? state.picked.delete(id) : state.picked.add(id);
+  updateUI();
+};
 
-document
-  .getElementById("goToOrderFromCatalog")
-  ?.addEventListener("click", () => {
-    includeCatalogItemsInMessage = picked.size > 0;
-    closeModal(catalogModal);
-    openWaPanel();
-  });
+window.openProduct = (id) => {
+  const item = catalogItems.find((i) => i.id === id);
+  if (!item) return;
+  $("productModalImg").src = item.img;
+  $("productModalName").textContent = item.name;
+  $("productModalNote").textContent = item.note || "";
+  $("productModalChips").innerHTML = [
+    item.category,
+    item.sub,
+    item.sku ? `מק"ט ${item.sku}` : "",
+  ]
+    .filter(Boolean)
+    .map((t) => `<span class="tag">${t}</span>`)
+    .join("");
 
-document
-  .getElementById("continueNoCatalogFromCatalog")
-  ?.addEventListener("click", () => {
-    includeCatalogItemsInMessage = false;
-    closeModal(catalogModal);
-    openWaPanel();
-  });
+  const btn = $("productTogglePick");
+  const isPicked = state.picked.has(id);
+  btn.textContent = isPicked ? "✓ הסרה מההזמנה" : "הוספה להזמנה";
+  btn.className = isPicked
+    ? "btn btn-outline btn-block"
+    : "btn btn-primary btn-block";
+  $("productModal").dataset.activeId = id;
+  openModal("product");
+};
 
-// =========================
-// WHATSAPP MODAL (FORM) + MESSAGE
-// =========================
-const waModal = document.getElementById("waModal");
-const leadNameInput = document.getElementById("leadName");
-const eventDateInput = document.getElementById("eventDate");
-const guestCountInput = document.getElementById("guestCount");
-const messagePreview = document.getElementById("messagePreview");
-
-function buildPickedLinesForMessage() {
-  if (!includeCatalogItemsInMessage) return "";
-  if (picked.size === 0) return "";
-
-  const pickedItems = CATALOG.filter((it) => picked.has(it.id));
-
-  const lines = pickedItems.map((it) => {
-    // kelim: name only (already good)
-    if (!it.code) return `• ${it.name}`;
-
-    // coded: name already includes color + add code
-    return `• ${it.name} | מק״ט: ${it.code}`;
-  });
-
-  return `\n\nמתוך הקטלוג:\n${lines.join("\n")}`;
+const IMAGES_PER_PAGE = 6;
+function renderGallery() {
+  const grid = $("galleryGrid");
+  const start = state.galleryPage * IMAGES_PER_PAGE;
+  const pageItems = galleryImages.slice(start, start + IMAGES_PER_PAGE);
+  grid.innerHTML = pageItems
+    .map(
+      (src) => `<img src="${src}" onclick="window.open('${src}')" alt="גלריה">`,
+    )
+    .join("");
+  $("galleryPrev").disabled = state.galleryPage === 0;
+  $("galleryNext").disabled =
+    (state.galleryPage + 1) * IMAGES_PER_PAGE >= galleryImages.length;
+  renderGalleryDots();
 }
-
-function buildMessage(name, dateStr, guests) {
-  const safeName = (name || "").trim();
-  const safeDate = (dateStr || "").trim();
-  const safeGuests = (guests || "").toString().trim();
-
-  const header =
-    `היי, אני ${safeName} 😊\n` +
-    `אשמח להצעת מחיר להשכרת ציוד לאירוע.\n\n` +
-    `תאריך: ${safeDate}\n` +
-    `כמות מוזמנים: ${safeGuests}`;
-
-  return header + buildPickedLinesForMessage();
+function changeGalleryPage(dir) {
+  state.galleryPage += dir;
+  renderGallery();
 }
-
-function openWhatsAppWithMessage(msg) {
-  const url = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`;
-  window.open(url, "_blank", "noopener,noreferrer");
+function renderGalleryDots() {
+  const totalPages = Math.ceil(galleryImages.length / IMAGES_PER_PAGE);
+  $("galleryDots").innerHTML = Array.from(
+    { length: totalPages },
+    (_, i) =>
+      `<div class="dot ${i === state.galleryPage ? "active" : ""}" onclick="goToGalleryPage(${i})"></div>`,
+  ).join("");
 }
+window.goToGalleryPage = (i) => {
+  state.galleryPage = i;
+  renderGallery();
+};
 
-function syncPreview() {
-  const name = leadNameInput?.value || "";
-  const datePretty = formatDateForMessage(eventDateInput?.value || "");
-  const guests = guestCountInput?.value || "";
-  const msg = buildMessage(name, datePretty, guests);
-  if (messagePreview) messagePreview.textContent = msg;
+function updateUI() {
+  $("pickedCount").textContent = state.picked.size;
+  renderCatalog();
+  updateWaPreview();
 }
-
-function openWaPanel() {
-  openModal(waModal);
-  syncPreview();
-  setTimeout(() => leadNameInput?.focus(), 60);
-}
-
-document.getElementById("openWaHeader")?.addEventListener("click", () => {
-  includeCatalogItemsInMessage = picked.size > 0;
-  openWaPanel();
-});
-document.getElementById("openWaFooter")?.addEventListener("click", () => {
-  includeCatalogItemsInMessage = picked.size > 0;
-  openWaPanel();
-});
-document.getElementById("openWaFooterLike")?.addEventListener("click", () => {
-  includeCatalogItemsInMessage = picked.size > 0;
-  openWaPanel();
-});
-document
-  .getElementById("quickOrderNoCatalog")
-  ?.addEventListener("click", () => {
-    includeCatalogItemsInMessage = false;
-    openWaPanel();
-  });
-
-document
-  .getElementById("closeWa")
-  ?.addEventListener("click", () => closeModal(waModal));
-
-leadNameInput?.addEventListener("input", syncPreview);
-eventDateInput?.addEventListener("change", syncPreview);
-guestCountInput?.addEventListener("input", syncPreview);
-
-// =========================
-// PROCEDURE MODAL (approval gate)
-// =========================
-const procedureModal = document.getElementById("procedureModal");
-const procedureAck = document.getElementById("procedureAck");
-const approveProcedureBtn = document.getElementById("approveProcedure");
-let pendingWhatsAppMessage = null;
-
-function resetProcedureApprovalUI() {
-  if (procedureAck) procedureAck.checked = false;
-  if (approveProcedureBtn) approveProcedureBtn.disabled = true;
-}
-
-procedureAck?.addEventListener("change", () => {
-  if (!approveProcedureBtn) return;
-  approveProcedureBtn.disabled = !procedureAck.checked;
-});
-
-approveProcedureBtn?.addEventListener("click", () => {
-  if (!pendingWhatsAppMessage) return;
-  if (!procedureAck?.checked) return;
-
-  closeModal(procedureModal);
-  openWhatsAppWithMessage(pendingWhatsAppMessage);
-
-  pendingWhatsAppMessage = null;
-  resetProcedureApprovalUI();
-});
-
-document.getElementById("backProcedure")?.addEventListener("click", () => {
-  closeModal(procedureModal);
-  resetProcedureApprovalUI();
-});
-document.getElementById("closeProcedure")?.addEventListener("click", () => {
-  closeModal(procedureModal);
-  resetProcedureApprovalUI();
-});
-
-document.getElementById("waFormModal")?.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const name = leadNameInput?.value || "";
-  const datePretty = formatDateForMessage(eventDateInput?.value || "");
-  const guests = guestCountInput?.value || "";
-
-  pendingWhatsAppMessage = buildMessage(name, datePretty, guests);
-
-  closeModal(waModal);
-
-  resetProcedureApprovalUI();
-  openModal(procedureModal);
-});
-
-// =========================
-// Footer year
-// =========================
-const yearEl = document.getElementById("year");
-if (yearEl) yearEl.textContent = String(new Date().getFullYear());
-
-// =========================
-// INIT
-// =========================
-resetProcedureApprovalUI();
-syncPreview();
-refreshPickedUI();
-
-// =========================
-// Catalog image preview
-// =========================
-(() => {
-  const preview = document.getElementById("catalogImagePreview");
-  if (!preview) return;
-
-  const imgEl = document.getElementById("catalogPreviewImg");
-  const btnBack = document.getElementById("catalogPreviewBack");
-  const btnLike = document.getElementById("catalogPreviewLike");
-
-  let currentSku = null;
-
-  const LS_KEY = "catalog_likes";
-  const getLikes = () => {
-    try {
-      return JSON.parse(localStorage.getItem(LS_KEY) || "[]");
-    } catch {
-      return [];
-    }
-  };
-  const setLikes = (arr) => localStorage.setItem(LS_KEY, JSON.stringify(arr));
-
-  function syncLikeButton() {
-    const likes = getLikes();
-    const liked = currentSku && likes.includes(currentSku);
-    btnLike.textContent = liked ? "אהבתי ✓" : "אהבתי";
+function updateWaPreview() {
+  const name = $("leadName").value || "(שם)";
+  const date = $("eventDate").value || "(תאריך)";
+  const count = $("guestCount").value || "(כמות)";
+  let text = `היי, אשמח להצעת מחיר להשכרת כלים:\nשם: ${name}\nתאריך: ${date}\nמוזמנים: ${count}\n\n`;
+  if (state.picked.size) {
+    text += `*הבחירות שלי:*\n`;
+    state.picked.forEach((id) => {
+      const i = catalogItems.find((x) => x.id === id);
+      text += `- ${i.name}\n`;
+    });
+  } else {
+    text += `(ללא פירוט מוצרים)`;
   }
-
-  function openPreview(src, sku) {
-    currentSku = sku || null;
-    imgEl.src = src;
-    syncLikeButton();
-
-    preview.classList.add("is-open");
-    preview.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden"; // מונע גלילה מאחורה
-  }
-
-  function closePreview() {
-    preview.classList.remove("is-open");
-    preview.setAttribute("aria-hidden", "true");
-    imgEl.src = "";
-    currentSku = null;
+  $("messagePreview").textContent = text;
+}
+function sendToWhatsApp() {
+  const phone = "972500000000";
+  window.open(
+    `https://wa.me/${phone}?text=${encodeURIComponent($("messagePreview").textContent)}`,
+    "_blank",
+  );
+  closeModal("procedure");
+}
+function openModal(name) {
+  modals[name].setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+function closeModal(name) {
+  modals[name].setAttribute("aria-hidden", "true");
+  if (
+    !Object.values(modals).some(
+      (m) => m.getAttribute("aria-hidden") === "false",
+    )
+  )
     document.body.style.overflow = "";
-  }
-
-  // לחיצה על תמונות בקטלוג (התאם selector אם צריך)
-  document.addEventListener("click", (e) => {
-    const img = e.target.closest(
-      ".catalog-item img, .catalog-card img, .catalog-grid img, .catalog-products img",
-    );
-    if (!img) return;
-
-    const src = img.getAttribute("data-full") || img.currentSrc || img.src;
-    const sku =
-      img.getAttribute("data-sku") ||
-      img.closest("[data-sku]")?.getAttribute("data-sku");
-
-    openPreview(src, sku);
-  });
-
-  // חזרה / לחיצה על רקע / ESC
-  btnBack.addEventListener("click", closePreview);
-  preview.addEventListener("click", (e) => {
-    if (e.target?.dataset?.close === "1") closePreview();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && preview.classList.contains("is-open"))
-      closePreview();
-  });
-
-  // אהבתי (שומר ב-localStorage לפי מק"ט)
-  btnLike.addEventListener("click", () => {
-    if (!currentSku) return; // אם אין מק"ט – לא שומרים
-    const likes = getLikes();
-    const idx = likes.indexOf(currentSku);
-
-    if (idx >= 0) likes.splice(idx, 1);
-    else likes.push(currentSku);
-
-    setLikes(likes);
-    syncLikeButton();
-  });
-})();
+}
