@@ -993,3 +993,113 @@ ol {
     opacity: 1;
   }
 }
+/* ================= RESPONSIVE (MOBILE FIX) ================= */
+@media (max-width: 768px) {
+  /* הקטנת פונט בסיסי */
+  body {
+    font-size: 16px;
+  }
+
+  /* הסתרת תפריט דסקטופ */
+  .site-header .desktop-nav,
+  .header-actions .btn {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .header-actions {
+    margin-right: auto;
+  }
+
+  /* התאמות לסקשן הפתיחה */
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .hero-subtitle-large {
+    font-size: 1.5rem;
+  }
+  .section-header h2 {
+    font-size: 2.2rem;
+  }
+
+  /* טפסים */
+  .form-row.two-col {
+    grid-template-columns: 1fr;
+  }
+
+  /* --- תיקון גלריה למובייל --- */
+  .gallery-viewport {
+    min-height: auto; /* ביטול הגובה הקשיח של הדסקטופ */
+    padding: 0 5px; /* מרווח קטן בצדדים */
+  }
+
+  .gallery-grid {
+    /* שינוי ל-2 עמודות במקום 3 */
+    grid-template-columns: repeat(2, 1fr);
+    /* 3 שורות כדי להכיל את כל ה-6 תמונות שנטענות ב-JS */
+    grid-template-rows: repeat(3, 160px);
+    gap: 10px;
+  }
+
+  /* כפתורי דפדוף בגלריה - ציפים מעל התמונות */
+  .gallery-pager-container {
+    position: relative;
+  }
+
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.85); /* חצי שקוף */
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    z-index: 10;
+  }
+
+  .gallery-nav.prev {
+    left: -10px; /* חצי בחוץ חצי בפנים */
+  }
+
+  .gallery-nav.next {
+    right: -10px; /* חצי בחוץ חצי בפנים */
+  }
+
+  /* התאמות קטלוג במובייל */
+  .modal.full-screen .modal-panel {
+    inset: 0;
+    border-radius: 0;
+  }
+  .modal-header.compact {
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 15px;
+  }
+  .catalog-controls {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  .search-box.compact {
+    max-width: 100%;
+  }
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+  }
+
+  /* קטלוג גריד במובייל - 2 עמודות */
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .ci-img {
+    height: 120px;
+  } /* הקטנת גובה תמונה בקטלוג */
+}
