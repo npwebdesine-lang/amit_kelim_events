@@ -385,6 +385,7 @@
                 placeholder="לדוגמה: ישראל ישראלי"
               />
             </div>
+
             <div class="form-row two-col">
               <div class="form-group">
                 <label>תאריך</label
@@ -400,6 +401,37 @@
                 />
               </div>
             </div>
+
+            <div class="form-group">
+              <label>כתובת האירוע</label>
+              <input
+                type="text"
+                id="eventAddress"
+                placeholder="עיר, רחוב ומספר"
+              />
+            </div>
+
+            <div class="form-group">
+              <label
+                class="checkbox-wrapper"
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  cursor: pointer;
+                "
+              >
+                <input
+                  type="checkbox"
+                  id="needDelivery"
+                  style="width: 20px; height: 20px"
+                />
+                <span class="label-text"
+                  >אני רוצה לקבל הצעת מחיר להובלת הכלים</span
+                >
+              </label>
+            </div>
+
             <div class="form-group preview-group">
               <label>סיכום הודעה:</label>
               <div class="preview-box" id="messagePreview"></div>

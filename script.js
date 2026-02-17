@@ -1,14 +1,10 @@
 /* ================= הגדרות בסיס ================= */
-
-// נתיב הבסיס לתיקייה הראשית של התמונות
-// שים לב: זה חייב להתאים בדיוק לשם התיקייה במחשב שלך
 const BASE_PATH = "catalog_pics";
-/* ================= רשימת המוצרים המלאה ================= */
-// כאן כל מוצר מופיע בנפרד. אפשר לשנות שם, מק"ט או תמונה לכל אחד בנפרד.
 
+/* ================= רשימת המוצרים המלאה ================= */
 let catalogItems = [
   // ============================================
-  // 🍽️ חלק 1: כלים (צלחות, סכו"ם, כוסות)
+  // 🍽️ חלק 1: כלים
   // ============================================
   {
     id: "plate_besari",
@@ -604,10 +600,7 @@ let catalogItems = [
   },
 ];
 
-/* =========================================================================
-   מכאן והלאה זה הקוד שמפעיל את האתר (סינונים, גלריה, ווצאפ).
-   אין צורך לגעת בזה אלא אם משנים לוגיקה.
-========================================================================= */
+/* ================= לוגיקת האתר ================= */
 
 const state = {
   picked: new Set(),
@@ -646,9 +639,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGallery();
   setupEventListeners();
   $("year").textContent = new Date().getFullYear();
-
-  // בדיקה: מדפיס לקונסול דוגמה לנתיב
-  console.log("דוגמה לנתיב:", catalogItems[15].img);
 });
 
 function setupEventListeners() {
@@ -720,9 +710,14 @@ function setupEventListeners() {
   $("galleryPrev").addEventListener("click", () => changeGalleryPage(-1));
   $("galleryNext").addEventListener("click", () => changeGalleryPage(1));
 
-  ["leadName", "eventDate", "guestCount"].forEach((id) =>
-    $(id).addEventListener("input", updateWaPreview),
-  );
+  // === הוספת מאזינים לשדות החדשים (כתובת והובלה) ===
+  ["leadName", "eventDate", "guestCount", "eventAddress"].forEach((id) => {
+    const el = $(id);
+    if (el) el.addEventListener("input", updateWaPreview);
+  });
+
+  const deliveryCheck = $("needDelivery");
+  if (deliveryCheck) deliveryCheck.addEventListener("change", updateWaPreview);
 }
 
 const categories = [
@@ -815,19 +810,11 @@ window.togglePick = (id) => {
 window.openProduct = (id) => {
   const item = catalogItems.find((i) => i.id === id);
   if (!item) return;
-
-  // עדכון התמונה והטקסטים
   $("productModalImg").src = item.img;
   $("productModalName").textContent = item.name;
-
-  // הצגת הערה רק אם קיימת (למשל: "כולל 2 נרות")
   $("productModalNote").textContent = item.note || "";
+  $("productModalChips").innerHTML = ""; // נוקה כבקשתך
 
-  // === תיקון: הסרת השורה שיצרה את התגיות (tools/צלחות) ===
-  // ניקוי אזור התגיות כדי שלא יופיע ג'יבריש או אנגלית
-  $("productModalChips").innerHTML = "";
-
-  // עדכון כפתור ההוספה
   const btn = $("productTogglePick");
   const isPicked = state.picked.has(id);
 
@@ -839,10 +826,7 @@ window.openProduct = (id) => {
     btn.className = "btn btn-primary btn-block";
   }
 
-  // שמירת המזהה הנוכחי
   $("productModal").dataset.activeId = id;
-
-  // פתיחת המודאל
   openModal("product");
 };
 
@@ -883,30 +867,74 @@ function updateUI() {
   renderCatalog();
   updateWaPreview();
 }
+
+// === פונקציית עדכון ההודעה - נוסח מדויק ===
 function updateWaPreview() {
-  const name = $("leadName").value || "(שם)";
-  const date = $("eventDate").value || "(תאריך)";
-  const count = $("guestCount").value || "(כמות)";
-  let text = `היי, אשמח להצעת מחיר להשכרת כלים:\nשם: ${name}\nתאריך: ${date}\nמוזמנים: ${count}\n\n`;
-  if (state.picked.size) {
-    text += `*הבחירות שלי:*\n`;
-    state.picked.forEach((id) => {
-      const i = catalogItems.find((x) => x.id === id);
-      text += `- ${i.name}\n`;
-    });
-  } else {
-    text += `(ללא פירוט מוצרים)`;
+  // שליפת ערכים ללא ברירת מחדל (אם ריק - יישאר ריק)
+  const name = $("leadName").value;
+
+  // המרת תאריך מ-YYYY-MM-DD ל-DD/MM/YYYY לתצוגה יפה יותר
+  let date = $("eventDate").value;
+  if (date) {
+    const [y, m, d] = date.split("-");
+    date = `${d}/${m}/${y}`;
   }
-  $("messagePreview").textContent = text;
+
+  const count = $("guestCount").value;
+  const address = $("eventAddress").value;
+
+  // בדיקה אם הצ'קבוקס להובלה מסומן - הוספת רווח לפני הסוגריים
+  const deliveryText = $("needDelivery").checked
+    ? " (אני רוצה לקבל הצעת מחיר להובלת הכלים)"
+    : "";
+
+  // בניית ההודעה שורה אחר שורה לפי הדרישה
+  let text = `היי, קוראים לי ${name}\n`;
+  text += `אשמח להצעת מחיר לאירוע שלי שמתקיים בתאריך ${date}\n`;
+  text += `האירוע נמצא ב${address}${deliveryText}.\n`;
+  text += `באירוע יהיה כ${count} אורחים.\n\n`;
+
+  // הוספת פריטים מהקטלוג
+  if (state.picked.size > 0) {
+    text += `מתוך הקטלוג:\n`;
+    state.picked.forEach((id) => {
+      const item = catalogItems.find((x) => x.id === id);
+      if (item) {
+        // הוספת המק"ט רק אם קיים בנתונים
+        const skuText = item.sku ? `, מק"ט ${item.sku}` : "";
+        text += `- ${item.name}${skuText}\n`;
+      }
+    });
+    text += `\n`; // רווח לפני התודה
+  }
+
+  text += `תודה מראש.`;
+
+  // עדכון התצוגה בחלון
+  const previewBox = $("messagePreview");
+  if (previewBox) previewBox.textContent = text;
 }
+
 function sendToWhatsApp() {
-  const phone = "972500000000";
+  const phone = "972500000000"; // נא לוודא שזה המספר שלך
+  const text = $("messagePreview").textContent;
   window.open(
-    `https://wa.me/${phone}?text=${encodeURIComponent($("messagePreview").textContent)}`,
+    `https://wa.me/${phone}?text=${encodeURIComponent(text)}`,
     "_blank",
   );
   closeModal("procedure");
 }
+
+function sendToWhatsApp() {
+  const phone = "972500000000";
+  const text = $("messagePreview").textContent;
+  window.open(
+    `https://wa.me/${phone}?text=${encodeURIComponent(text)}`,
+    "_blank",
+  );
+  closeModal("procedure");
+}
+
 function openModal(name) {
   modals[name].setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";

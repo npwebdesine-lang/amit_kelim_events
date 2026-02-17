@@ -1103,28 +1103,64 @@ ol {
     height: 120px;
   } /* הקטנת גובה תמונה בקטלוג */
 }
-/* Product Modal - תיקון תצוגת תמונה */
-.pcm-image {
-  height: 350px; /* הגדלתי קצת את הגובה שיהיה מרשים */
-  background: #ffffff; /* רקע לבן נקי */
+.preview-box {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  /* שורה קריטית - גורמת לרווחים וירידות שורה להופיע */
+  white-space: pre-wrap;
+  font-family: inherit;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-height: 200px;
+  overflow-y: auto;
+}
+/* ================= תיקון גלישת מודאלים (Fixed Modal Overflow) ================= */
+
+/* עדכון לכרטיס המודאל - כדי שלא יחרוג מהמסך */
+.modal-card {
+  position: relative;
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  /* גובה מקסימלי כדי לא לחרוג מהמסך */
+  max-height: 90vh;
+  border-radius: 24px;
+  box-shadow: var(--shadow-lg);
+  z-index: 2;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* הגדרות קריטיות למניעת גלישה */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px; /* מרווח קטן כדי שהתמונה לא תידבק לקצוות */
+  flex-direction: column;
 }
 
-.pcm-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* שינוי קריטי: מציג את כל התמונה בלי לחתוך */
-  max-height: 100%;
+/* עדכון לגוף המודאל - שרק הוא יגלול */
+.modal-body {
+  flex: 1; /* תופס את המקום הפנוי */
+  overflow-y: auto; /* מאפשר גלילה רק בתוכן */
+  padding: 20px;
+
+  /* מונע גלילה של הרקע כשמגיעים לסוף */
+  overscroll-behavior: contain;
 }
 
-.pcm-details {
-  padding: 25px 30px;
-  text-align: center; /* מירכוז הטקסט והכפתור */
+/* קיבוע הכותרת שלא תתכווץ */
+.modal-header,
+.order-header {
+  flex-shrink: 0; /* מונע כיווץ */
 }
 
-.pcm-actions {
-  margin-top: 20px;
+/* קיבוע הפוטר שלא יתכווץ */
+.modal-footer {
+  flex-shrink: 0;
+}
+
+/* התאמה למובייל - גובה מעט נמוך יותר בגלל סרגל הכלים של הדפדפן */
+@media (max-width: 768px) {
+  .modal-card {
+    max-height: 85vh; /* משאיר רווח קטן מלמעלה ומלמטה */
+  }
 }
