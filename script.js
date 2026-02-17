@@ -815,25 +815,34 @@ window.togglePick = (id) => {
 window.openProduct = (id) => {
   const item = catalogItems.find((i) => i.id === id);
   if (!item) return;
+
+  // עדכון התמונה והטקסטים
   $("productModalImg").src = item.img;
   $("productModalName").textContent = item.name;
-  $("productModalNote").textContent = item.note || "";
-  $("productModalChips").innerHTML = [
-    item.category,
-    item.sub,
-    item.sku ? `מק"ט ${item.sku}` : "",
-  ]
-    .filter(Boolean)
-    .map((t) => `<span class="tag">${t}</span>`)
-    .join("");
 
+  // הצגת הערה רק אם קיימת (למשל: "כולל 2 נרות")
+  $("productModalNote").textContent = item.note || "";
+
+  // === תיקון: הסרת השורה שיצרה את התגיות (tools/צלחות) ===
+  // ניקוי אזור התגיות כדי שלא יופיע ג'יבריש או אנגלית
+  $("productModalChips").innerHTML = "";
+
+  // עדכון כפתור ההוספה
   const btn = $("productTogglePick");
   const isPicked = state.picked.has(id);
-  btn.textContent = isPicked ? "✓ הסרה מההזמנה" : "הוספה להזמנה";
-  btn.className = isPicked
-    ? "btn btn-outline btn-block"
-    : "btn btn-primary btn-block";
+
+  if (isPicked) {
+    btn.textContent = "✓ הסרה מההזמנה";
+    btn.className = "btn btn-outline btn-block";
+  } else {
+    btn.textContent = "הוספה להזמנה";
+    btn.className = "btn btn-primary btn-block";
+  }
+
+  // שמירת המזהה הנוכחי
   $("productModal").dataset.activeId = id;
+
+  // פתיחת המודאל
   openModal("product");
 };
 

@@ -1103,3 +1103,28 @@ ol {
     height: 120px;
   } /* הקטנת גובה תמונה בקטלוג */
 }
+/* Product Modal - תיקון תצוגת תמונה */
+.pcm-image {
+  height: 350px; /* הגדלתי קצת את הגובה שיהיה מרשים */
+  background: #ffffff; /* רקע לבן נקי */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px; /* מרווח קטן כדי שהתמונה לא תידבק לקצוות */
+}
+
+.pcm-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* שינוי קריטי: מציג את כל התמונה בלי לחתוך */
+  max-height: 100%;
+}
+
+.pcm-details {
+  padding: 25px 30px;
+  text-align: center; /* מירכוז הטקסט והכפתור */
+}
+
+.pcm-actions {
+  margin-top: 20px;
+}
