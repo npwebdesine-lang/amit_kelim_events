@@ -78,7 +78,7 @@ let catalogItems = [
     name: "נר לד לאווירה",
     category: "others",
     sub: "עיצוב",
-    img: "",
+    img: "catalog_pics/kelim/marge_candels.png",
   },
   {
     id: "chair",
@@ -621,6 +621,7 @@ const galleryImages = [
   "images/gallery_8.jpeg",
   "images/gallery_9.jpeg",
   "images/gallery_10.jpeg",
+  "images/gallery_12.jpeg",
   "images/hero.jpeg",
 ];
 
@@ -916,7 +917,7 @@ function updateWaPreview() {
 }
 
 function sendToWhatsApp() {
-  const phone = "972500000000"; // נא לוודא שזה המספר שלך
+  const phone = "972585055011"; // נא לוודא שזה המספר שלך
   const text = $("messagePreview").textContent;
   window.open(
     `https://wa.me/${phone}?text=${encodeURIComponent(text)}`,
@@ -926,7 +927,7 @@ function sendToWhatsApp() {
 }
 
 function sendToWhatsApp() {
-  const phone = "972500000000";
+  const phone = "972585055011";
   const text = $("messagePreview").textContent;
   window.open(
     `https://wa.me/${phone}?text=${encodeURIComponent(text)}`,
