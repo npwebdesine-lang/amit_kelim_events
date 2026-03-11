@@ -48,17 +48,38 @@ let catalogItems = [
     sub: "כוסות",
     img: "catalog_pics/kelim/glasses_types.jpeg",
   },
-  {
-    id: "salateria_besari",
-    name: "סלטיה בשרית",
-    category: "tools",
-    sub: "כלים",
-    img: "catalog_pics/kelim/salateria_besari.jpeg",
-  },
 
   // ============================================
   // 🪑 חלק 2: ציוד וריהוט
   // ============================================
+  {
+    id: "salateria_besari",
+    name: "סלטיה בשרית מלבנית",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/salateria_besari_malben.jpeg",
+  },
+  {
+    id: "salateria_besari_ribuat",
+    name: "סלטיה בשרית ריבועית",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/salateria_besari_ribua.jpeg",
+  },
+  {
+    id: "tsalahat_hagasha_agol",
+    name: "צלחת הגשה עגולה",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/tsalahat_hagasha_agol.jpeg",
+  },
+  {
+    id: "kearit_lemitbal",
+    name: "קערית למטבל",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/kearit_mitbal_lehagasha.jpeg",
+  },
   {
     id: "shpindagesh",
     name: "שפינגדיש (הגשה)",
@@ -68,9 +89,9 @@ let catalogItems = [
   },
   {
     id: "marakia",
-    name: "מרקיה",
+    name: "קדרת מרק חשמלית - חלבי/בשרי",
     category: "tools",
-    sub: "ריהוט",
+    sub: "הגשה",
     img: "catalog_pics/kelim/marakia.jpeg",
   },
   {
@@ -85,14 +106,14 @@ let catalogItems = [
     name: "כיסא כתר לבן",
     category: "others",
     sub: "ריהוט",
-    img: "",
+    img: "catalog_pics/kelim/cise_ceter.png",
   },
   {
     id: "table",
     name: "שולחן עגול 1.60",
     category: "others",
     sub: "ריהוט",
-    img: "",
+    img: "images/gallery_1.jpeg",
   },
 
   // ============================================
