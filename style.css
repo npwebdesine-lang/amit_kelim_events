@@ -319,7 +319,6 @@ ol {
   justify-content: center;
   flex-wrap: wrap;
 }
-/* הסרנו פה את .fade-in-up לטובת GSAP */
 
 /* ================= SECTIONS ================= */
 .section {
@@ -948,35 +947,53 @@ ol {
   background: white;
   width: 90%;
   max-width: 500px;
-  max-height: 90vh;
+  max-height: 85vh; /* גובה מקסימלי שמונע גלישה מהמסך */
   border-radius: 24px;
   box-shadow: var(--shadow-lg);
   z-index: 2;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* שומר שהתוכן לא יגלוש מהפינות המעוגלות */
 }
+
 .order-card {
-  max-width: 600px;
+  max-width: 550px;
 }
+
+/* הסרת padding למודאל של ההזמנה כדי שהטופס והגלילה ישבו נכון */
+.order-card .modal-body {
+  padding: 0;
+}
+
 .order-header {
-  padding: 30px 30px 10px;
+  padding: 25px 25px 20px;
   background: white;
+  border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0; /* מונע מהכותרת להתכווץ בזמן גלילה */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* ממרכז את הכותרת */
   position: relative;
-  flex-shrink: 0;
 }
+
 .modal-header {
   flex-shrink: 0;
 }
+
 .order-header h3 {
-  font-size: 1.8rem;
-  margin-bottom: 5px;
+  font-size: 1.6rem;
+  margin: 0;
   color: var(--primary-dark);
+  font-weight: 800;
 }
+
 .close-abs-corner {
   position: absolute;
-  top: 20px;
+  top: 50%;
   left: 20px;
-  background: #f0f0f0;
+  transform: translateY(-50%);
+  background: #f8f9fa;
+  border: 1px solid #eaeaea;
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -984,33 +1001,123 @@ ol {
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  transition: 0.2s;
+  color: #666;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
+
+.close-abs-corner:hover {
+  background: #ffe3e3;
+  color: #d63031;
+  border-color: #ffcccc;
+}
+
 .order-form {
-  padding: 30px;
+  padding: 25px 30px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
 .form-row.two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 15px;
 }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.form-group label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
 .form-group input {
   padding: 14px 16px;
   border-radius: 12px;
-  border: 1px solid #ddd;
-  font-size: 1.1rem;
-  background: #fcfcfc;
+  border: 2px solid #eaeaea;
+  font-size: 1.05rem;
+  background: #fafafa;
   width: 100%;
+  transition: all 0.3s ease;
+  font-family: inherit;
 }
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(106, 91, 214, 0.1); /* הילה סגולה עדינה בלחיצה */
+}
+
+/* עיצוב הצ'קבוקס (הובלה) כמלבן ברור */
+.checkbox-wrapper {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px !important;
+  background: #f8f9fc;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  transition: background 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.checkbox-wrapper:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+  width: 22px !important;
+  height: 22px !important;
+  margin: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox-wrapper .label-text {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  user-select: none;
+}
+
 .preview-group {
   background: #f8f9fa;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid #e9ecef;
+  margin-top: 5px;
 }
+
+.preview-box {
+  background: transparent;
+  padding: 0;
+  border: none;
+  white-space: pre-wrap;
+  font-family: inherit;
+  color: #495057;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-height: 150px;
+  overflow-y: auto;
+  text-align: right;
+}
+
+.order-form button[type="submit"] {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 .product-card-modal {
   max-width: 900px !important;
   width: 95%;
@@ -1037,19 +1144,6 @@ ol {
 }
 .pcm-details {
   padding: 30px;
-}
-.preview-box {
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #eee;
-  white-space: pre-wrap;
-  font-family: inherit;
-  color: #333;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  max-height: 200px;
-  overflow-y: auto;
 }
 
 /* Responsive */
@@ -1078,6 +1172,10 @@ ol {
   }
   .form-row.two-col {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .order-form {
+    padding: 20px;
   }
   .modal-header.compact {
     height: auto;
