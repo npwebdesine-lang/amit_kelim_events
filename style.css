@@ -5,7 +5,7 @@
   --primary-light: #ece9fc;
   --accent: #ff6b6b;
 
-  --bg-body: #fbf9f6; /* רקע חמים יותר, לא לבן בוהק */
+  --bg-body: #fbf9f6; 
   --bg-card: #ffffff;
 
   --text-main: #2d2a32;
@@ -35,7 +35,6 @@ body {
   font-size: 18px;
   font-weight: 500;
   background-color: var(--bg-body);
-  /* דפוס נקודות עדין ברקע */
   background-image: radial-gradient(#e5e5f7 1px, transparent 1px);
   background-size: 20px 20px;
   color: var(--text-main);
@@ -44,7 +43,6 @@ body {
   position: relative;
 }
 
-/* צורות רקע דקורטיביות */
 .decorative-shape {
   position: fixed;
   z-index: -1;
@@ -258,17 +256,6 @@ ol {
 }
 .mobile-nav.show {
   display: block;
-  animation: slideDown 0.3s ease;
-}
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Hero */
@@ -332,30 +319,16 @@ ol {
   justify-content: center;
   flex-wrap: wrap;
 }
-.fade-in-up {
-  animation: fadeInUp 0.8s ease-out;
-}
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* הסרנו פה את .fade-in-up לטובת GSAP */
 
-/* ================= SECTIONS (משודרג עם מסגרת צבעונית) ================= */
+/* ================= SECTIONS ================= */
 .section {
   padding: 60px 0;
 }
 
-/* הפיכת כל הסקשנים לכרטיסים צפים עם הילה צבעונית */
 #how,
 #pricing,
 #gallery {
-  /* רקע לבן חצי שקוף שנותן תחושת זכוכית */
   background: linear-gradient(
     145deg,
     rgba(255, 255, 255, 0.95) 0%,
@@ -363,26 +336,20 @@ ol {
   );
   backdrop-filter: blur(12px);
   border-radius: 40px;
-
-  /* מסגרת עדינה בגווני סגול-ורדרד */
   border: 2px solid rgba(106, 91, 214, 0.25);
   border-bottom-color: rgba(255, 107, 107, 0.25);
   border-right-color: rgba(255, 107, 107, 0.25);
-
-  /* הילה חיצונית ופנימית צבעונית רכה */
   box-shadow:
     0 20px 50px rgba(106, 91, 214, 0.08),
-    /* צל סגול תחתון */ 0 0 30px rgba(255, 107, 107, 0.05),
-    /* צל ורדרד היקפי עדין */ inset 0 0 20px rgba(106, 91, 214, 0.03); /* הילה פנימית */
-
+    0 0 30px rgba(255, 107, 107, 0.05),
+    inset 0 0 20px rgba(106, 91, 214, 0.03); 
   margin: 50px auto;
-  width: calc(100% - 40px); /* שומר על מרווח נשימה מהצדדים */
+  width: calc(100% - 40px);
   max-width: 1400px;
   position: relative;
   overflow: hidden;
 }
 
-/* איפוס הקלאס הישן כדי למנוע התנגשויות עיצוב */
 .section-bg {
   background: none;
   box-shadow: none;
@@ -405,7 +372,6 @@ ol {
   margin: 0 auto 60px;
 }
 
-/* התאמות מובייל למסגרות החדשות */
 @media (max-width: 768px) {
   #how,
   #pricing,
@@ -419,7 +385,7 @@ ol {
     padding: 40px 0;
   }
 }
-/* ===================================================================== */
+
 /* Steps */
 .steps-grid {
   list-style: none;
@@ -429,25 +395,31 @@ ol {
   gap: 30px;
 }
 .step-card {
-  background: var(--bg-card);
+  background: linear-gradient(
+    145deg,
+    #ffffff 60%,
+    rgba(106, 91, 214, 0.06) 100%
+  );
+  border: 1px solid rgba(106, 91, 214, 0.1);
+  border-bottom: 4px solid rgba(106, 91, 214, 0.15); 
   padding: 40px 25px;
   border-radius: 20px;
   text-align: center;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid #fff;
-  transition: 0.3s;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   height: 100%;
 }
 .step-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--primary-light);
+  transform: translateY(-8px);
+  border-bottom: 4px solid var(--accent);
+  box-shadow: 0 15px 35px rgba(106, 91, 214, 0.15);
 }
 .step-icon {
   width: 60px;
   height: 60px;
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
   color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   font-size: 1.8rem;
   font-weight: 900;
@@ -455,21 +427,39 @@ ol {
   align-items: center;
   justify-content: center;
   margin: 0 auto 25px;
-  box-shadow: 0 8px 20px rgba(106, 91, 214, 0.3);
 }
 .step-card h3 {
   font-size: 1.5rem;
   margin-bottom: 10px;
+  color: var(--primary-dark);
+  font-weight: 900;
 }
 
-/* ================= PRICING (משודרג ומעוצב) ================= */
+@media (min-width: 992px) {
+  .steps-grid {
+    position: relative;
+  }
+  .steps-grid li:not(:last-child) {
+    position: relative;
+  }
+  .steps-grid li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 60px; 
+    left: -20px; 
+    width: 40px;
+    border-top: 3px dotted rgba(106, 91, 214, 0.3);
+    z-index: -1;
+  }
+}
+
+/* ================= PRICING ================= */
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 30px;
 }
 
-/* 1. כרטיסי המחירון - מראה זכוכית עדין עם פס תחתון משתנה */
 .pricing-card {
   background: linear-gradient(
     145deg,
@@ -480,20 +470,18 @@ ol {
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
   border: 1px solid rgba(106, 91, 214, 0.1);
-  border-bottom: 4px solid rgba(106, 91, 214, 0.1); /* פס הכנה למטה */
+  border-bottom: 4px solid rgba(106, 91, 214, 0.1);
   display: flex;
   flex-direction: column;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* אפקט ריחוף לכרטיס המחירון */
 .pricing-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 35px rgba(106, 91, 214, 0.15);
-  border-bottom: 4px solid var(--primary); /* הפס נצבע בסגול */
+  border-bottom: 4px solid var(--primary); 
 }
 
-/* 2. כותרת הכרטיס (Header) - גרדיאנט עדין */
 .pc-head {
   padding: 35px 20px;
   text-align: center;
@@ -523,7 +511,6 @@ ol {
   flex-grow: 1;
 }
 
-/* 3. שורות המחיר - אנימציה עדינה במעבר עכבר */
 .price-row {
   display: flex;
   justify-content: space-between;
@@ -540,10 +527,9 @@ ol {
 }
 
 .price-row:hover {
-  background: rgba(106, 91, 214, 0.04); /* הדגשה קלה לשורה שעומדים עליה */
+  background: rgba(106, 91, 214, 0.04);
 }
 
-/* 4. תגית המחיר (המספר) - מראה "כפתור" בולט */
 .price-row strong {
   color: var(--primary-dark);
   background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%);
@@ -574,7 +560,6 @@ ol {
   line-height: 1.5;
 }
 
-/* 5. קופסת "תנאים ומחירים מיוחדים" - מראה ורדרד תואם */
 .special-prices-box {
   background: linear-gradient(
     145deg,
@@ -587,7 +572,7 @@ ol {
   box-shadow: 0 15px 35px rgba(255, 107, 107, 0.08);
   position: relative;
   overflow: hidden;
-  border-right: 6px solid var(--accent); /* קו אדמדם-ורוד בולט בצד ימין */
+  border-right: 6px solid var(--accent);
 }
 
 .sp-grid {
@@ -636,7 +621,6 @@ ol {
   grid-template-rows: repeat(2, 300px);
   gap: 20px;
   width: 100%;
-  animation: fadeIn 0.4s ease;
 }
 .gallery-grid img {
   width: 100%;
@@ -694,16 +678,6 @@ ol {
 .dot.active {
   background: var(--primary);
   transform: scale(1.2);
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 /* Footer */
@@ -799,7 +773,7 @@ ol {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  height: 60px; /* גובה מצומצם */
+  height: 60px;
 }
 .mh-start {
   display: flex;
@@ -876,6 +850,7 @@ ol {
   flex: 1;
   overflow-y: auto;
   padding: 20px;
+  overscroll-behavior: contain;
 }
 .catalog-grid {
   display: grid;
@@ -954,6 +929,7 @@ ol {
   border-top: 1px solid #eee;
   display: flex;
   gap: 15px;
+  flex-shrink: 0;
 }
 .close-btn {
   font-size: 1.5rem;
@@ -972,11 +948,12 @@ ol {
   background: white;
   width: 90%;
   max-width: 500px;
+  max-height: 90vh;
   border-radius: 24px;
   box-shadow: var(--shadow-lg);
-  overflow: hidden;
   z-index: 2;
-  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
 }
 .order-card {
   max-width: 600px;
@@ -985,6 +962,10 @@ ol {
   padding: 30px 30px 10px;
   background: white;
   position: relative;
+  flex-shrink: 0;
+}
+.modal-header {
+  flex-shrink: 0;
 }
 .order-header h3 {
   font-size: 1.8rem;
@@ -1030,15 +1011,45 @@ ol {
   border-radius: 12px;
   border: 1px solid #eee;
 }
+.product-card-modal {
+  max-width: 900px !important;
+  width: 95%;
+  border-radius: 30px; 
+  overflow: hidden; 
+}
 .pcm-image {
-  height: 300px;
-  background: #fafafa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 60vh; 
+  min-height: 400px;
+  background: #f8f8f8; 
+  padding: 0; 
+  position: relative;
+  border-radius: 30px 30px 0 0; 
+  overflow: hidden; 
+}
+.pcm-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.pcm-image:hover img {
+  transform: scale(1.05);
 }
 .pcm-details {
   padding: 30px;
+}
+.preview-box {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  white-space: pre-wrap;
+  font-family: inherit;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 /* Responsive */
@@ -1057,62 +1068,6 @@ ol {
     margin-right: auto;
   }
   .hero-title {
-    font-size: 2.8rem;
-  }
-  .form-row.two-col {
-    grid-template-columns: 1fr;
-  }
-  .modal-header.compact {
-    height: auto;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    padding: 15px;
-  }
-  .catalog-controls {
-    flex-direction: column-reverse;
-    width: 100%;
-  }
-  .search-box.compact {
-    max-width: 100%;
-  }
-  .close-btn {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-  }
-}
-@keyframes popIn {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-/* ================= RESPONSIVE (MOBILE FIX) ================= */
-@media (max-width: 768px) {
-  /* הקטנת פונט בסיסי */
-  body {
-    font-size: 16px;
-  }
-
-  /* הסתרת תפריט דסקטופ */
-  .site-header .desktop-nav,
-  .header-actions .btn {
-    display: none;
-  }
-  .hamburger {
-    display: flex;
-  }
-  .header-actions {
-    margin-right: auto;
-  }
-
-  /* התאמות לסקשן הפתיחה */
-  .hero-title {
     font-size: 2.5rem;
   }
   .hero-subtitle-large {
@@ -1121,57 +1076,8 @@ ol {
   .section-header h2 {
     font-size: 2.2rem;
   }
-
-  /* טפסים */
   .form-row.two-col {
     grid-template-columns: 1fr;
-  }
-
-  /* --- תיקון גלריה למובייל --- */
-  .gallery-viewport {
-    min-height: auto; /* ביטול הגובה הקשיח של הדסקטופ */
-    padding: 0 5px; /* מרווח קטן בצדדים */
-  }
-
-  .gallery-grid {
-    /* שינוי ל-2 עמודות במקום 3 */
-    grid-template-columns: repeat(2, 1fr);
-    /* 3 שורות כדי להכיל את כל ה-6 תמונות שנטענות ב-JS */
-    grid-template-rows: repeat(3, 160px);
-    gap: 10px;
-  }
-
-  /* כפתורי דפדוף בגלריה - ציפים מעל התמונות */
-  .gallery-pager-container {
-    position: relative;
-  }
-
-  .gallery-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
-    background: rgba(255, 255, 255, 0.85); /* חצי שקוף */
-    backdrop-filter: blur(4px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    z-index: 10;
-  }
-
-  .gallery-nav.prev {
-    left: -10px; /* חצי בחוץ חצי בפנים */
-  }
-
-  .gallery-nav.next {
-    right: -10px; /* חצי בחוץ חצי בפנים */
-  }
-
-  /* התאמות קטלוג במובייל */
-  .modal.full-screen .modal-panel {
-    inset: 0;
-    border-radius: 0;
   }
   .modal-header.compact {
     height: auto;
@@ -1192,179 +1098,54 @@ ol {
     top: 15px;
     left: 15px;
   }
-
-  /* קטלוג גריד במובייל - 2 עמודות */
+  .gallery-viewport {
+    min-height: auto; 
+    padding: 0 5px; 
+  }
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 160px);
+    gap: 10px;
+  }
+  .gallery-pager-container {
+    position: relative;
+  }
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    z-index: 10;
+  }
+  .gallery-nav.prev {
+    left: -10px; 
+  }
+  .gallery-nav.next {
+    right: -10px; 
+  }
+  .modal.full-screen .modal-panel {
+    inset: 0;
+    border-radius: 0;
+  }
   .catalog-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
   .ci-img {
     height: 120px;
-  } /* הקטנת גובה תמונה בקטלוג */
-}
-.preview-box {
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #eee;
-  /* שורה קריטית - גורמת לרווחים וירידות שורה להופיע */
-  white-space: pre-wrap;
-  font-family: inherit;
-  color: #333;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  max-height: 200px;
-  overflow-y: auto;
-}
-/* ================= תיקון גלישת מודאלים (Fixed Modal Overflow) ================= */
-
-/* עדכון לכרטיס המודאל - כדי שלא יחרוג מהמסך */
-.modal-card {
-  position: relative;
-  background: white;
-  width: 90%;
-  max-width: 500px;
-  /* גובה מקסימלי כדי לא לחרוג מהמסך */
-  max-height: 90vh;
-  border-radius: 24px;
-  box-shadow: var(--shadow-lg);
-  z-index: 2;
-  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-  /* הגדרות קריטיות למניעת גלישה */
-  display: flex;
-  flex-direction: column;
-}
-
-/* עדכון לגוף המודאל - שרק הוא יגלול */
-.modal-body {
-  flex: 1; /* תופס את המקום הפנוי */
-  overflow-y: auto; /* מאפשר גלילה רק בתוכן */
-  padding: 20px;
-
-  /* מונע גלילה של הרקע כשמגיעים לסוף */
-  overscroll-behavior: contain;
-}
-
-/* קיבוע הכותרת שלא תתכווץ */
-.modal-header,
-.order-header {
-  flex-shrink: 0; /* מונע כיווץ */
-}
-
-/* קיבוע הפוטר שלא יתכווץ */
-.modal-footer {
-  flex-shrink: 0;
-}
-
-/* התאמה למובייל - גובה מעט נמוך יותר בגלל סרגל הכלים של הדפדפן */
-@media (max-width: 768px) {
+  } 
   .modal-card {
-    max-height: 85vh; /* משאיר רווח קטן מלמעלה ומלמטה */
+    max-height: 85vh; 
   }
-}
-/* ================= שדרוג מודאל הגדלת תמונה (מתוקן) ================= */
-
-/* 1. הגדלת הכרטיס עצמו */
-.product-card-modal {
-  max-width: 900px !important;
-  width: 95%;
-  border-radius: 30px; /* פינות הכרטיס הראשי */
-  overflow: hidden; /* חשוב! מוודא שהתמונה לא תגלוש מהפינות של הכרטיס עצמו */
-}
-
-/* 2. מסגרת התמונה - כאן קורה הקסם */
-.pcm-image {
-  height: 60vh; /* גובה מרשים */
-  min-height: 400px;
-  background: #f8f8f8; /* רקע אפור בהיר ועדין */
-  padding: 0; /* ביטול ריפוד - התמונה תיגע בקצוות */
-  position: relative;
-
-  /* יצירת פינות עגולות למסגרת וחיתוך התמונה */
-  border-radius: 30px 30px 0 0; /* עיגול רק של הפינות העליונות שיתאימו לכרטיס */
-  overflow: hidden; /* חותך את הקצוות הישרים של התמונה */
-}
-
-/* 3. התמונה עצמה - התאמה מושלמת למסגרת */
-.pcm-image img {
-  width: 100%;
-  height: 100%;
-  /* cover = התמונה תמלא את כל המסגרת המעוגלת, ייתכן חיתוך קל בצדדים. (מומלץ למראה מקצועי)
-     contain = התמונה כולה תופיע, אך ייתכנו שטחים ריקים בצדדים אם הפרופורציה שונה.
-  */
-  object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* אפקט זום עדין ואיטי יותר */
-.pcm-image:hover img {
-  transform: scale(1.05);
-}
-
-/* התאמה למובייל */
-@media (max-width: 768px) {
   .pcm-image {
     height: 45vh;
     min-height: 300px;
-    /* במובייל הכרטיס תופס את כל הרוחב, אז נעגל את כל הפינות של התמונה */
     border-radius: 24px 24px 0 0;
-  }
-}
-/* ================= שדרוג צבעוני לסקשן "איך זה עובד" ================= */
-
-/* 1. שדרוג הכרטיס עצמו: הוספת נגיעת צבע עדינה לרקע ופס תחתון */
-.step-card {
-  /* מעבר צבע מלבן נקי ללבן עם נגיעה קלה מאוד של סגול בפינה */
-  background: linear-gradient(
-    145deg,
-    #ffffff 60%,
-    rgba(106, 91, 214, 0.06) 100%
-  );
-  border: 1px solid rgba(106, 91, 214, 0.1);
-  border-bottom: 4px solid rgba(106, 91, 214, 0.15); /* פס הכנה למטה */
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-/* אפקט ריחוף צבעוני - הפס התחתון הופך לוורדרד והכרטיס זוהר */
-.step-card:hover {
-  transform: translateY(-8px);
-  border-bottom: 4px solid var(--accent); /* צבע אדמדם-ורוד */
-  box-shadow: 0 15px 35px rgba(106, 91, 214, 0.15);
-}
-
-/* 2. שדרוג עיגולי המספרים - גרדיאנט וצל זוהר */
-.step-icon {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3); /* צל זוהר בגוון ורוד */
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.5); /* מסגרת לבנה עדינה בתוך הצל */
-}
-
-/* 3. צביעת הכותרות של השלבים בסגול עמוק במקום בשחור */
-.step-card h3 {
-  color: var(--primary-dark);
-  font-weight: 900;
-}
-
-/* 4. (אופציונלי) הוספת חץ קטן דקורטיבי בין הכרטיסים במסכים גדולים */
-@media (min-width: 992px) {
-  .steps-grid {
-    position: relative;
-  }
-
-  .steps-grid li:not(:last-child) {
-    position: relative;
-  }
-
-  /* יצירת קו מחבר עדין (נקודות) בין השלבים */
-  .steps-grid li:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    top: 60px; /* גובה אמצע העיגול */
-    left: -20px; /* מותאם ל-RTL */
-    width: 40px;
-    border-top: 3px dotted rgba(106, 91, 214, 0.3);
-    z-index: -1;
   }
 }
