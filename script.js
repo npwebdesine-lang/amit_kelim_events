@@ -489,7 +489,7 @@ let catalogItems = [
     category: "maps",
     sub: "2.20",
     fabric: "סאטן",
-    name: "מפה 2.20 סאטן אפור מעוטר",
+    name: "מפה 2.20 סאטן אפור מעוטר (מפה דו צדדית)",
     img: "catalog_pics/mapot/2.2/saten/02_gray_meutar_saten.webp",
   },
   {
@@ -498,7 +498,7 @@ let catalogItems = [
     category: "maps",
     sub: "2.20",
     fabric: "סאטן",
-    name: "מפה 2.20 סאטן ירוק מעוטר",
+    name: "מפה 2.20 סאטן ירוק מעוטר (מפה דו צדדית)",
     img: "catalog_pics/mapot/2.2/saten/03_green_meutar_saten.webp",
   },
   {
