@@ -591,7 +591,7 @@ let catalogItems = [
     sub: "2.20",
     fabric: "פשתן",
     name: "מפה 2.20 פשתן אפור",
-    img: "catalog_pics/mapot/2.2/pishtan/12_gray_pishtan.webp",
+    img: "catalog_pics/mapot/2.2/pishtan/12_gray_pishtan.jpeg",
   },
   {
     id: "map22p_13",
@@ -627,7 +627,7 @@ let catalogItems = [
     sub: "2.20",
     fabric: "פשתן",
     name: "מפה 2.20 פשתן סגלגל",
-    img: "catalog_pics/mapot/2.2/pishtan/16_purply_pishtan.jpg",
+    img: "catalog_pics/mapot/2.2/pishtan/16_purply_pishtan.jpeg",
   },
   {
     id: "map22p_17",
@@ -787,13 +787,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // הגדרת validation לתאריך - מנע בחירת תאריך בעבר
   const eventDateInput = $("eventDate");
   if (eventDateInput) {
-    eventDateInput.min = new Date().toISOString().split('T')[0];
+    eventDateInput.min = new Date().toISOString().split("T")[0];
   }
 
   // הגדרת validation למספר אורחים - מינימום 1
   const guestCountInput = $("guestCount");
   if (guestCountInput) {
-    guestCountInput.setAttribute('min', '1');
+    guestCountInput.setAttribute("min", "1");
   }
 
   initGSAP();
@@ -803,7 +803,9 @@ function initGSAP() {
   gsap.registerPlugin(ScrollTrigger);
 
   // בדיקה אם משתמש בחר להפחית אנימציות
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
   // אנימציה לאזור הראשי (Hero) - רק אם לא בחרו להפחית אנימציות
   if (!prefersReducedMotion) {
@@ -1211,7 +1213,8 @@ function renderGallery() {
   const pageItems = galleryImages.slice(start, start + IMAGES_PER_PAGE);
   grid.innerHTML = pageItems
     .map(
-      (src) => `<img src="${src}" onclick="openGalleryLightbox('${src}')" alt="גלריה" style="cursor: zoom-in;">`,
+      (src) =>
+        `<img src="${src}" onclick="openGalleryLightbox('${src}')" alt="גלריה" style="cursor: zoom-in;">`,
     )
     .join("");
   $("galleryPrev").disabled = state.galleryPage === 0;

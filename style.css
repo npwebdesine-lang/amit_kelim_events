@@ -5,7 +5,7 @@
   --primary-light: #ece9fc;
   --accent: #ff6b6b;
 
-  --bg-body: #fbf9f6; 
+  --bg-body: #fbf9f6;
   --bg-card: #ffffff;
 
   --text-main: #2d2a32;
@@ -122,7 +122,10 @@ ol {
   border-radius: 50px;
   font-weight: 800;
   font-size: 1rem;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   gap: 8px;
 }
 .btn:active {
@@ -350,7 +353,7 @@ ol {
   box-shadow:
     0 20px 50px rgba(106, 91, 214, 0.08),
     0 0 30px rgba(255, 107, 107, 0.05),
-    inset 0 0 20px rgba(106, 91, 214, 0.03); 
+    inset 0 0 20px rgba(106, 91, 214, 0.03);
   margin: 50px auto;
   width: calc(100% - 40px);
   max-width: 1400px;
@@ -409,7 +412,7 @@ ol {
     rgba(106, 91, 214, 0.06) 100%
   );
   border: 1px solid rgba(106, 91, 214, 0.1);
-  border-bottom: 4px solid rgba(106, 91, 214, 0.15); 
+  border-bottom: 4px solid rgba(106, 91, 214, 0.15);
   padding: 40px 25px;
   border-radius: 20px;
   text-align: center;
@@ -453,8 +456,8 @@ ol {
   .steps-grid li:not(:last-child)::after {
     content: "";
     position: absolute;
-    top: 60px; 
-    left: -20px; 
+    top: 60px;
+    left: -20px;
     width: 40px;
     border-top: 3px dotted rgba(106, 91, 214, 0.3);
     z-index: -1;
@@ -487,7 +490,7 @@ ol {
 .pricing-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 35px rgba(106, 91, 214, 0.15);
-  border-bottom: 4px solid var(--primary); 
+  border-bottom: 4px solid var(--primary);
 }
 
 .pc-head {
@@ -1076,7 +1079,9 @@ ol {
   padding: 16px;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
   cursor: pointer;
 }
 
@@ -1153,17 +1158,17 @@ input[type="checkbox"]:checked + .checkmark::after {
 .product-card-modal {
   max-width: 900px !important;
   width: 95%;
-  border-radius: 30px; 
-  overflow: hidden; 
+  border-radius: 30px;
+  overflow: hidden;
 }
 .pcm-image {
-  height: 60vh; 
+  height: 60vh;
   min-height: 400px;
-  background: #f8f8f8; 
-  padding: 0; 
+  background: #f8f8f8;
+  padding: 0;
   position: relative;
-  border-radius: 30px 30px 0 0; 
-  overflow: hidden; 
+  border-radius: 30px 30px 0 0;
+  overflow: hidden;
 }
 .pcm-image img {
   width: 100%;
@@ -1229,8 +1234,8 @@ input[type="checkbox"]:checked + .checkmark::after {
     left: 15px;
   }
   .gallery-viewport {
-    min-height: auto; 
-    padding: 0 5px; 
+    min-height: auto;
+    padding: 0 5px;
   }
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1255,10 +1260,10 @@ input[type="checkbox"]:checked + .checkmark::after {
     z-index: 10;
   }
   .gallery-nav.prev {
-    left: -10px; 
+    left: -10px;
   }
   .gallery-nav.next {
-    right: -10px; 
+    right: -10px;
   }
   .modal.full-screen .modal-panel {
     inset: 0;
@@ -1270,9 +1275,9 @@ input[type="checkbox"]:checked + .checkmark::after {
   }
   .ci-img {
     height: 120px;
-  } 
+  }
   .modal-card {
-    max-height: 85vh; 
+    max-height: 85vh;
   }
   .pcm-image {
     height: 45vh;
