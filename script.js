@@ -783,79 +783,103 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGallery();
   setupEventListeners();
   $("year").textContent = new Date().getFullYear();
+
+  // הגדרת validation לתאריך - מנע בחירת תאריך בעבר
+  const eventDateInput = $("eventDate");
+  if (eventDateInput) {
+    eventDateInput.min = new Date().toISOString().split('T')[0];
+  }
+
+  // הגדרת validation למספר אורחים - מינימום 1
+  const guestCountInput = $("guestCount");
+  if (guestCountInput) {
+    guestCountInput.setAttribute('min', '1');
+  }
+
   initGSAP();
 });
 
 function initGSAP() {
   gsap.registerPlugin(ScrollTrigger);
 
-  // אנימציה לאזור הראשי (Hero)
-  gsap.fromTo(
-    ".hero-title, .hero-subtitle-large, .hero-desc, .hero-buttons",
-    { y: 40, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      stagger: 0.15,
-      ease: "power3.out",
-      delay: 0.2,
-    },
-  );
+  // בדיקה אם משתמש בחר להפחית אנימציות
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // אנימציה לאזור הראשי (Hero) - רק אם לא בחרו להפחית אנימציות
+  if (!prefersReducedMotion) {
+    gsap.fromTo(
+      ".hero-title, .hero-subtitle-large, .hero-desc, .hero-buttons",
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.15,
+        ease: "power3.out",
+        delay: 0.2,
+      },
+    );
+  }
 
   // אנימציה לשלבים - איך זה עובד (מופעל על ה-li)
-  gsap.fromTo(
-    ".steps-grid li",
-    { y: 50, opacity: 0 },
-    {
-      scrollTrigger: {
-        trigger: "#how",
-        start: "top 85%",
-        toggleActions: "play none none none",
+  if (!prefersReducedMotion) {
+    gsap.fromTo(
+      ".steps-grid li",
+      { y: 50, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: "#how",
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "back.out(1.2)",
       },
-      y: 0,
-      opacity: 1,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "back.out(1.2)",
-    },
-  );
+    );
+  }
 
   // אנימציה לכרטיסי מחירון
-  gsap.fromTo(
-    ".pricing-card",
-    { y: 50, opacity: 0 },
-    {
-      scrollTrigger: {
-        trigger: "#pricing",
-        start: "top 85%",
-        toggleActions: "play none none none",
+  if (!prefersReducedMotion) {
+    gsap.fromTo(
+      ".pricing-card",
+      { y: 50, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: "#pricing",
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out",
       },
-      y: 0,
-      opacity: 1,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "power3.out",
-    },
-  );
+    );
+  }
 
   // תמונות בגלריה בכניסה ראשונית
-  gsap.fromTo(
-    ".gallery-grid img",
-    { scale: 0.85, opacity: 0 },
-    {
-      scrollTrigger: {
-        trigger: "#gallery",
-        start: "top 85%",
-        toggleActions: "play none none none",
+  if (!prefersReducedMotion) {
+    gsap.fromTo(
+      ".gallery-grid img",
+      { scale: 0.85, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: "#gallery",
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        scale: 1,
+        opacity: 1,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power2.out",
       },
-      scale: 1,
-      opacity: 1,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: "power2.out",
-    },
-  );
+    );
+  }
 
   window.addEventListener("load", () => {
     ScrollTrigger.refresh();
@@ -892,6 +916,10 @@ function setupEventListeners() {
   });
 
   $("goToOrderFromCatalog").addEventListener("click", () => {
+    if (state.picked.size === 0) {
+      alert("אנא בחר לפחות מוצר אחד לפני המשך");
+      return;
+    }
     closeModal("catalog");
     updateWaPreview();
     openModal("wa");
@@ -1045,7 +1073,7 @@ function renderCatalog(animate = false) {
       return `
       <div class="catalog-item ${isPicked ? "picked" : ""}" id="item-${item.id}">
         <div class="ci-img" onclick="openProduct('${item.id}')">
-          <img src="${item.img}" onerror="this.src='${fallbackImg}'" loading="lazy">
+          <img src="${item.img}" alt="${item.name}" onerror="this.src='${fallbackImg}'" loading="lazy">
         </div>
         <div class="ci-details">
           <div class="ci-name">${item.name}</div>
@@ -1064,50 +1092,6 @@ function renderCatalog(animate = false) {
       { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, ease: "back.out(1.2)" },
     );
   }
-}
-
-function renderCatalog() {
-  const grid = $("catalogGrid");
-  const filtered = catalogItems.filter((item) => {
-    const matchCat = item.category === state.category;
-    const matchSub = state.subFilter === "all" || item.sub === state.subFilter;
-    const matchSearch =
-      !state.search ||
-      item.name.toLowerCase().includes(state.search) ||
-      (item.sku && item.sku.includes(state.search));
-    return matchCat && matchSub && matchSearch;
-  });
-
-  if (!filtered.length) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px;color:#888;">לא נמצאו מוצרים. נסה לשנות חיפוש.</div>`;
-    return;
-  }
-
-  grid.innerHTML = filtered
-    .map((item) => {
-      const isPicked = state.picked.has(item.id);
-      const fallbackImg =
-        "https://placehold.co/300x200/f0f0f0/cccccc?text=אין+תמונה";
-      return `
-      <div class="catalog-item ${isPicked ? "picked" : ""}" id="item-${item.id}">
-        <div class="ci-img" onclick="openProduct('${item.id}')">
-          <img src="${item.img}" onerror="this.src='${fallbackImg}'" loading="lazy">
-        </div>
-        <div class="ci-details">
-          <div class="ci-name">${item.name}</div>
-          ${item.sku ? `<div class="ci-sku">מק"ט: ${item.sku}</div>` : ""}
-          <button class="ci-btn" onclick="togglePick('${item.id}')">${isPicked ? "✓ נבחר" : "+ הוספה"}</button>
-        </div>
-      </div>`;
-    })
-    .join("");
-
-  // === אנימציה פנימה מדורגת (Cascade effect) בקטגוריות ===
-  gsap.fromTo(
-    "#catalogGrid .catalog-item",
-    { opacity: 0, y: -40 },
-    { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "back.out(1.4)" },
-  );
 }
 
 window.setCategory = (cat) => {
@@ -1165,11 +1149,13 @@ window.openProduct = (id) => {
   const item = catalogItems.find((i) => i.id === id);
   if (!item) return;
   $("productModalImg").src = item.img;
+  $("productModalImg").alt = item.name;
   $("productModalName").textContent = item.name;
   $("productModalNote").textContent = item.note || "";
   $("productModalChips").innerHTML = "";
 
   const btn = $("productTogglePick");
+  btn.style.display = "block"; // הצג את הכפתור עבור מוצרים
   const isPicked = state.picked.has(id);
 
   if (isPicked) {
@@ -1205,13 +1191,27 @@ function navigateGallery(dir) {
   });
 }
 
+window.openGalleryLightbox = (src) => {
+  // שימוש בmódal הקיים לתמונה
+  $("productModalImg").src = src;
+  $("productModalImg").alt = "גלריה - תמונה";
+  $("productModalName").textContent = "תמונה מגלריה";
+  $("productModalNote").textContent = "";
+  $("productModalChips").innerHTML = "";
+
+  // הסתרת כפתור ההוספה
+  $("productTogglePick").style.display = "none";
+
+  openModal("product");
+};
+
 function renderGallery() {
   const grid = $("galleryGrid");
   const start = state.galleryPage * IMAGES_PER_PAGE;
   const pageItems = galleryImages.slice(start, start + IMAGES_PER_PAGE);
   grid.innerHTML = pageItems
     .map(
-      (src) => `<img src="${src}" onclick="window.open('${src}')" alt="גלריה">`,
+      (src) => `<img src="${src}" onclick="openGalleryLightbox('${src}')" alt="גלריה" style="cursor: zoom-in;">`,
     )
     .join("");
   $("galleryPrev").disabled = state.galleryPage === 0;
@@ -1247,14 +1247,8 @@ window.goToGalleryPage = (i) => {
   // חישוב כיוון לדפדוף מנקודות
   const dir = i > state.galleryPage ? 1 : -1;
   state.galleryPage = i;
-  navigateGallery(0); // נשתמש ב-0 כדי שזה לא יזיז אלא רק יעשה אנימציית דעיכה
+  navigateGallery(dir);
 };
-
-function updateUI() {
-  $("pickedCount").textContent = state.picked.size;
-  renderCatalog();
-  updateWaPreview();
-}
 
 function updateWaPreview() {
   const name = $("leadName").value;
@@ -1307,6 +1301,9 @@ function openModal(name) {
   const modal = modals[name];
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+  // iOS scroll lock
+  document.body.style.position = "fixed";
+  document.body.style.width = "100%";
 
   const target =
     modal.querySelector(".modal-card") || modal.querySelector(".modal-panel");
@@ -1343,6 +1340,9 @@ function closeModal(name) {
         )
       ) {
         document.body.style.overflow = "";
+        // iOS scroll lock release
+        document.body.style.position = "";
+        document.body.style.width = "";
       }
     },
   });
