@@ -105,11 +105,18 @@ let catalogItems = [
     img: "catalog_pics/kelim/glass_for_light_drinks.webp",
   },
   {
-    id: "wine_glass",
-    name: "כוסות יין (גדול/קטן)",
+    id: "wine_glass_big",
+    name: "כוסות יין (גדול)",
     category: "tools",
     sub: "כוסות",
-    img: "catalog_pics/kelim/wine_glass.webp",
+    img: "catalog_pics/kelim/wine_glass_big.webp",
+  },
+  {
+    id: "wine_glass_small",
+    name: "כוסות יין (קטן)",
+    category: "tools",
+    sub: "כוסות",
+    img: "catalog_pics/kelim/wine_glass_small.webp",
   },
   {
     id: "kapot_hagasha_besari",
@@ -783,60 +790,71 @@ function initGSAP() {
   gsap.registerPlugin(ScrollTrigger);
 
   // אנימציה לאזור הראשי (Hero)
-  gsap.fromTo(".hero-title, .hero-subtitle-large, .hero-desc, .hero-buttons", 
+  gsap.fromTo(
+    ".hero-title, .hero-subtitle-large, .hero-desc, .hero-buttons",
     { y: 40, opacity: 0 },
-    { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power3.out", delay: 0.2 }
+    {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      stagger: 0.15,
+      ease: "power3.out",
+      delay: 0.2,
+    },
   );
 
   // אנימציה לשלבים - איך זה עובד (מופעל על ה-li)
-  gsap.fromTo(".steps-grid li", 
+  gsap.fromTo(
+    ".steps-grid li",
     { y: 50, opacity: 0 },
     {
       scrollTrigger: {
         trigger: "#how",
         start: "top 85%",
-        toggleActions: "play none none none"
+        toggleActions: "play none none none",
       },
       y: 0,
       opacity: 1,
       duration: 0.8,
       stagger: 0.15,
-      ease: "back.out(1.2)"
-    }
+      ease: "back.out(1.2)",
+    },
   );
 
   // אנימציה לכרטיסי מחירון
-  gsap.fromTo(".pricing-card", 
+  gsap.fromTo(
+    ".pricing-card",
     { y: 50, opacity: 0 },
     {
       scrollTrigger: {
         trigger: "#pricing",
         start: "top 85%",
-        toggleActions: "play none none none"
+        toggleActions: "play none none none",
       },
       y: 0,
       opacity: 1,
       duration: 0.8,
       stagger: 0.15,
-      ease: "power3.out"
-    }
+      ease: "power3.out",
+    },
   );
 
   // תמונות בגלריה בכניסה ראשונית
-  gsap.fromTo(".gallery-grid img", 
+  gsap.fromTo(
+    ".gallery-grid img",
     { scale: 0.85, opacity: 0 },
     {
       scrollTrigger: {
         trigger: "#gallery",
         start: "top 85%",
-        toggleActions: "play none none none"
+        toggleActions: "play none none none",
       },
       scale: 1,
       opacity: 1,
       duration: 0.6,
       stagger: 0.1,
-      ease: "power2.out"
-    }
+      ease: "power2.out",
+    },
   );
 
   window.addEventListener("load", () => {
@@ -904,7 +922,7 @@ function setupEventListeners() {
   $("hamburger").addEventListener("click", () => {
     const mobileNav = $("mobileNav");
     const hamburger = $("hamburger");
-    
+
     if (mobileNav.classList.contains("show")) {
       gsap.to(mobileNav, {
         y: -10,
@@ -913,18 +931,19 @@ function setupEventListeners() {
         onComplete: () => {
           mobileNav.classList.remove("show");
           hamburger.classList.remove("open");
-        }
+        },
       });
     } else {
       mobileNav.classList.add("show");
       hamburger.classList.add("open");
-      gsap.fromTo(mobileNav, 
-        { y: -10, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 0.3 }
+      gsap.fromTo(
+        mobileNav,
+        { y: -10, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.3 },
       );
     }
   });
-  
+
   $("productTogglePick").addEventListener("click", () => {
     togglePick($("productModal").dataset.activeId);
     closeModal("product");
@@ -997,7 +1016,7 @@ function navigateCatalog() {
     ease: "power2.in",
     onComplete: () => {
       renderCatalog(true); // נבקש לרנדר מחדש יחד עם אנימציית כניסה
-    }
+    },
   });
 }
 
@@ -1039,9 +1058,10 @@ function renderCatalog(animate = false) {
 
   // נפעיל את האנימציה רק אם ביקשנו במפורש (מעבר קטגוריה)
   if (animate) {
-    gsap.fromTo("#catalogGrid .catalog-item", 
+    gsap.fromTo(
+      "#catalogGrid .catalog-item",
       { opacity: 0, y: -40 },
-      { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, ease: "back.out(1.2)" }
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, ease: "back.out(1.2)" },
     );
   }
 }
@@ -1083,21 +1103,24 @@ function renderCatalog() {
     .join("");
 
   // === אנימציה פנימה מדורגת (Cascade effect) בקטגוריות ===
-  gsap.fromTo("#catalogGrid .catalog-item", 
+  gsap.fromTo(
+    "#catalogGrid .catalog-item",
     { opacity: 0, y: -40 },
-    { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "back.out(1.4)" }
+    { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "back.out(1.4)" },
   );
 }
 
 window.setCategory = (cat) => {
   state.category = cat;
   state.subFilter = "all";
-  
+
   // עדכון המסננים ב-DOM
-  $$("#filters .filter-pill").forEach(p => p.classList.remove("active"));
-  const activeBtn = Array.from($$("#filters .filter-pill")).find(p => p.getAttribute("onclick").includes(`'${cat}'`));
+  $$("#filters .filter-pill").forEach((p) => p.classList.remove("active"));
+  const activeBtn = Array.from($$("#filters .filter-pill")).find((p) =>
+    p.getAttribute("onclick").includes(`'${cat}'`),
+  );
   if (activeBtn) activeBtn.classList.add("active");
-  
+
   // renderFilters(); // הסרנו כדי לעשות עדכון עדין יותר ב-DOM
   renderSubFilters(); // עדכון תת-מסננים
   navigateCatalog(); // ביצוע אנימציית מעבר
@@ -1113,16 +1136,16 @@ window.togglePick = (id) => {
   // 1. הוספה או הסרה מהזיכרון
   state.picked.has(id) ? state.picked.delete(id) : state.picked.add(id);
   const isPicked = state.picked.has(id);
-  
+
   // 2. עדכון חכם ומהיר של ה-HTML הספציפי בלי לרנדר מחדש את כל הקטלוג
   const itemEl = document.getElementById(`item-${id}`);
   if (itemEl) {
-    const btn = itemEl.querySelector('.ci-btn');
+    const btn = itemEl.querySelector(".ci-btn");
     if (isPicked) {
-      itemEl.classList.add('picked');
+      itemEl.classList.add("picked");
       if (btn) btn.textContent = "✓ נבחר";
     } else {
-      itemEl.classList.remove('picked');
+      itemEl.classList.remove("picked");
       if (btn) btn.textContent = "+ הוספה";
     }
   }
@@ -1144,7 +1167,7 @@ window.openProduct = (id) => {
   $("productModalImg").src = item.img;
   $("productModalName").textContent = item.name;
   $("productModalNote").textContent = item.note || "";
-  $("productModalChips").innerHTML = ""; 
+  $("productModalChips").innerHTML = "";
 
   const btn = $("productTogglePick");
   const isPicked = state.picked.has(id);
@@ -1178,7 +1201,7 @@ function navigateGallery(dir) {
       // רק אחרי שהאנימציה מסתיימת, נעדכן את המדינה ונרנדר
       state.galleryPage += dir;
       renderGallery();
-    }
+    },
   });
 }
 
@@ -1197,9 +1220,17 @@ function renderGallery() {
   renderGalleryDots();
 
   // === אנימציה פנימה מדורגת (Fade in with Stagger) בדפדוף גלריה ===
-  gsap.fromTo("#galleryGrid img", 
+  gsap.fromTo(
+    "#galleryGrid img",
     { opacity: 0, y: 40, scale: 0.95 },
-    { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: "power2.out" }
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: "power2.out",
+    },
   );
 }
 
@@ -1254,7 +1285,7 @@ function updateWaPreview() {
         text += `- ${item.name}${skuText}\n`;
       }
     });
-    text += `\n`; 
+    text += `\n`;
   }
 
   text += `תודה מראש.`;
@@ -1263,7 +1294,7 @@ function updateWaPreview() {
 }
 
 function sendToWhatsApp() {
-  const phone = "972585055011"; 
+  const phone = "972585055011";
   const text = $("messagePreview").textContent;
   window.open(
     `https://wa.me/${phone}?text=${encodeURIComponent(text)}`,
@@ -1277,35 +1308,42 @@ function openModal(name) {
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 
-  const target = modal.querySelector('.modal-card') || modal.querySelector('.modal-panel');
-  const backdrop = modal.querySelector('.modal-backdrop');
+  const target =
+    modal.querySelector(".modal-card") || modal.querySelector(".modal-panel");
+  const backdrop = modal.querySelector(".modal-backdrop");
 
   if (backdrop) {
     gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.3 });
   }
-  
+
   if (target) {
-    gsap.fromTo(target,
+    gsap.fromTo(
+      target,
       { scale: 0.8, opacity: 0, y: 30 },
-      { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }
+      { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" },
     );
   }
 }
 
 function closeModal(name) {
   const modal = modals[name];
-  const target = modal.querySelector('.modal-card') || modal.querySelector('.modal-panel');
-  const backdrop = modal.querySelector('.modal-backdrop');
+  const target =
+    modal.querySelector(".modal-card") || modal.querySelector(".modal-panel");
+  const backdrop = modal.querySelector(".modal-backdrop");
 
   gsap.to(target, { scale: 0.9, opacity: 0, y: 20, duration: 0.2 });
-  gsap.to(backdrop, { 
-    opacity: 0, 
-    duration: 0.2, 
+  gsap.to(backdrop, {
+    opacity: 0,
+    duration: 0.2,
     onComplete: () => {
       modal.setAttribute("aria-hidden", "true");
-      if (!Object.values(modals).some(m => m.getAttribute("aria-hidden") === "false")) {
+      if (
+        !Object.values(modals).some(
+          (m) => m.getAttribute("aria-hidden") === "false",
+        )
+      ) {
         document.body.style.overflow = "";
       }
-    }
+    },
   });
 }
