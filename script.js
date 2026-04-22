@@ -119,6 +119,13 @@ let catalogItems = [
     img: "catalog_pics/kelim/wine_glass_small.webp",
   },
   {
+    id: "wine_glass_combined",
+    name: "כוסות יין (מיזוג)",
+    category: "tools",
+    sub: "כוסות",
+    img: "catalog_pics/kelim/wine_glass_combined.webp",
+  },
+  {
     id: "kapot_hagasha_besari",
     name: "כפות הגשה בשריות",
     category: "tools",
