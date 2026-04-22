@@ -105,6 +105,13 @@ let catalogItems = [
     img: "catalog_pics/kelim/glass_for_light_drinks.webp",
   },
   {
+    id: "glass_long",
+    name: "כוס לונג",
+    category: "tools",
+    sub: "כוסות",
+    img: "catalog_pics/kelim/glass_long.webp",
+  },
+  {
     id: "wine_glass_big",
     name: "כוסות יין (גדול)",
     category: "tools",
