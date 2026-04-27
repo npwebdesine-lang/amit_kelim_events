@@ -258,7 +258,7 @@ let catalogItems = [
   },
   {
     id: "melkahaim_lesalat",
-    name: "מלחיים לסלט",
+    name: "מלקחיים",
     category: "tools",
     sub: "הגשה",
     img: "catalog_pics/kelim/melkahaim_lesalat.webp",
