@@ -1,18 +1,16 @@
 /* ================= הגדרות בסיס ================= */
 const BASE_PATH = "catalog_pics";
+const IMAGES_PER_PAGE = 3;
 
 /* ================= רשימת המוצרים המלאה ================= */
+// הפריטים סודרו מחדש לתצוגה הגיונית בקטלוג:
+// צלחות -> סכו"ם -> כוסות -> כלי הגשה -> ריהוט/ציוד -> מפיות -> מפות
 let catalogItems = [
   // ============================================
-  // 🍽️ חלק 1: כלים
+  // 🍽️ חלק 1: כלים (Tools)
   // ============================================
-  {
-    id: "plate_besari_ribua",
-    name: "צלחת בשרית מרובעת",
-    category: "tools",
-    sub: "צלחות",
-    img: "catalog_pics/kelim/tsalahat_meruba_besari.webp",
-  },
+
+  // -- צלחות --
   {
     id: "plate_besari_agol",
     name: "צלחת בשרית עגולה",
@@ -21,11 +19,11 @@ let catalogItems = [
     img: "catalog_pics/kelim/tsalahat_agol_besari.webp",
   },
   {
-    id: "plate_halavi_ribua",
-    name: "צלחת חלבית מרובעת",
+    id: "plate_besari_ribua",
+    name: "צלחת בשרית מרובעת",
     category: "tools",
     sub: "צלחות",
-    img: "catalog_pics/kelim/tsalahat_manaB_ribua_halavi.webp",
+    img: "catalog_pics/kelim/tsalahat_meruba_besari.webp",
   },
   {
     id: "plate_halavi_agol",
@@ -35,18 +33,28 @@ let catalogItems = [
     img: "catalog_pics/kelim/tsalahat_manaB_agol_halavi.webp",
   },
   {
-    id: "mazleg_besari",
-    name: "מזלג בשרי",
+    id: "plate_halavi_ribua",
+    name: "צלחת חלבית מרובעת",
     category: "tools",
-    sub: "סכו״ם",
-    img: "catalog_pics/kelim/mazleg_besari.webp",
+    sub: "צלחות",
+    img: "catalog_pics/kelim/tsalahat_manaB_ribua_halavi.webp",
   },
+
+  // -- סכו"ם --
+
   {
     id: "sakin_besari",
     name: "סכין בשרי",
     category: "tools",
     sub: "סכו״ם",
     img: "catalog_pics/kelim/sakin_besari.webp",
+  },
+  {
+    id: "mazleg_besari",
+    name: "מזלג בשרי",
+    category: "tools",
+    sub: "סכו״ם",
+    img: "catalog_pics/kelim/mazleg_besari.webp",
   },
   {
     id: "kaf_besari",
@@ -63,25 +71,11 @@ let catalogItems = [
     img: "catalog_pics/kelim/kapit_besari.webp",
   },
   {
-    id: "kaf_halavi",
-    name: "כף חלבי",
-    category: "tools",
-    sub: "סכו״ם",
-    img: "catalog_pics/kelim/kaf_halavi.webp",
-  },
-  {
-    id: "mazlegon_halavi",
-    name: "מזלגון חלבי",
-    category: "tools",
-    sub: "סכו״ם",
-    img: "catalog_pics/kelim/mazlegon_halavi.webp",
-  },
-  {
     id: "mazlegon_besari",
     name: "מזלגון בשרי",
     category: "tools",
     sub: "סכו״ם",
-    img: "catalog_pics/kelim/mazlegon_halavi.webp",
+    img: "catalog_pics/kelim/mazlegon_halavi.webp", // כפי שהיה במקור
   },
   {
     id: "sakin_halavi",
@@ -98,12 +92,28 @@ let catalogItems = [
     img: "catalog_pics/kelim/mazleg_halavi.webp",
   },
   {
+    id: "kaf_halavi",
+    name: "כף חלבי",
+    category: "tools",
+    sub: "סכו״ם",
+    img: "catalog_pics/kelim/kaf_halavi.webp",
+  },
+  {
     id: "kapit_halavi",
     name: "כפית חלבי",
     category: "tools",
     sub: "סכו״ם",
     img: "catalog_pics/kelim/kapit_halavi.webp",
   },
+  {
+    id: "mazlegon_halavi",
+    name: "מזלגון חלבי",
+    category: "tools",
+    sub: "סכו״ם",
+    img: "catalog_pics/kelim/mazlegon_halavi.webp",
+  },
+
+  // -- כוסות --
   {
     id: "glass_for_light_drinks",
     name: "כוסות לשתייה קלה",
@@ -139,20 +149,8 @@ let catalogItems = [
     sub: "כוסות",
     img: "catalog_pics/kelim/wine_glass_combined.webp",
   },
-  {
-    id: "kapot_hagasha_besari",
-    name: "כפות הגשה בשרי",
-    category: "tools",
-    sub: "הגשה",
-    img: "catalog_pics/kelim/kapot_hagasha_besari.webp",
-  },
-  {
-    id: "kapot_hagasha_besari",
-    name: "כפות הגשה חלבי",
-    category: "tools",
-    sub: "הגשה",
-    img: "catalog_pics/kelim/kapot_hagasha_besari.webp",
-  },
+
+  // -- כלי הגשה, קערות ופלטות --
   {
     id: "salateria_besari_agol",
     name: "סלטריה בשרית עגולה",
@@ -231,7 +229,42 @@ let catalogItems = [
     img: "catalog_pics/kelim/kearot_shuhit12.webp",
   },
   {
-    id: "shpindagesh",
+    id: "kapot_hagasha_besari_1", // שונה כדי למנוע כפילות מזהים עם החלבי
+    name: "כפות הגשה בשרי",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/kapot_hagasha_besari.webp",
+  },
+  {
+    id: "kapot_hagasha_halavi_1", // שונה כדי למנוע כפילות מזהים עם הבשרי
+    name: "כפות הגשה חלבי",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/kapot_hagasha_besari.webp",
+  },
+  {
+    id: "marit_for_fish",
+    name: "מרית לדגים",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/marit_for_fish.jpg",
+  },
+  {
+    id: "caf_hagasha_anak_for_mitbach",
+    name: "כף הגשה ענק למטבח",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/caf_hagasha_anak_for_mitbach.webp",
+  },
+  {
+    id: "melkahaim_lesalat",
+    name: "מלחיים לסלט",
+    category: "tools",
+    sub: "הגשה",
+    img: "catalog_pics/kelim/melkahaim_lesalat.webp",
+  },
+  {
+    id: "shpindagesh", // נשאר כפי שהיה בטיוטה השנייה שלך
     name: "שפינגדיש (הגשה) בשרי/חלבי",
     category: "tools",
     sub: "הגשה",
@@ -244,30 +277,83 @@ let catalogItems = [
     sub: "הגשה",
     img: "catalog_pics/kelim/marakia.webp",
   },
+
+  // ============================================
+  // 🪑 חלק 2: ציוד וריהוט (ללא תתי קטגוריות - sub ריק)
+  // ============================================
   {
     id: "led_candle",
     name: "נר לד לאווירה",
     category: "others",
-    sub: "עיצוב",
+    sub: "",
     img: "catalog_pics/kelim/marge_candels.webp",
   },
   {
     id: "chair",
     name: "כיסא כתר לבן",
     category: "others",
-    sub: "ריהוט",
+    sub: "",
     img: "catalog_pics/kelim/cise_ceter.webp",
   },
   {
     id: "table",
     name: "שולחן עגול 1.60",
     category: "others",
-    sub: "ריהוט",
+    sub: "",
     img: "images/gallery_1.webp",
+  },
+  {
+    id: "shulhan_meruba",
+    name: "שולחן מרובע ל8 סועדים",
+    category: "others",
+    sub: "",
+    img: "catalog_pics/kelim/shulhan_meruba.webp",
+  },
+  {
+    id: "shulhan_ceter",
+    name: "שולחן כתר",
+    category: "others",
+    sub: "",
+    img: "catalog_pics/kelim/shulhan_ceter.webp",
+  },
+  {
+    id: "aron_himum",
+    name: "ארון חימום",
+    category: "others",
+    sub: "",
+    img: "catalog_pics/kelim/aron_himum.webp",
+  },
+  {
+    id: "miham",
+    name: "מיחם חשמלי 300 כוסות/180 כוסות/ 80 כוסות",
+    category: "others",
+    sub: "",
+    img: "catalog_pics/kelim/miham.jpg",
+  },
+  {
+    id: "plata",
+    name: "פלטה חשמלית",
+    category: "others",
+    sub: "",
+    img: "catalog_pics/kelim/plata.avif",
+  },
+  {
+    id: "stand_for_magash",
+    name: "סטנד למגש",
+    category: "others",
+    sub: "",
+    img: "catalog_pics/kelim/stand_for_magash.webp",
+  },
+  {
+    id: "magash_meltsar",
+    name: "מגש מלצר",
+    category: "others",
+    sub: "",
+    img: "catalog_pics/kelim/magash_meltsar.webp",
   },
 
   // ============================================
-  // 🎀 חלק 2: מפיות סאטן (01-14)
+  // 🎀 חלק 3: מפיות (napkins) - סאטן ופשתן
   // ============================================
   {
     id: "napkin_01",
@@ -381,10 +467,6 @@ let catalogItems = [
     name: "מפית סאטן ירוק תפוח",
     img: "catalog_pics/mapiyot/saten/14_apple_green_saten.webp",
   },
-
-  // ============================================
-  // 🎀 חלק 3: מפיות פשתן (15-29)
-  // ============================================
   {
     id: "napkin_15",
     sku: "15",
@@ -507,7 +589,7 @@ let catalogItems = [
   },
 
   // ============================================
-  // ✨ חלק 4: מפות סאטן 2.20 (01-10)
+  // ✨ חלק 4: מפות (maps) - סאטן ופשתן
   // ============================================
   {
     id: "map22s_01",
@@ -600,9 +682,6 @@ let catalogItems = [
     img: "catalog_pics/mapot/2.2/saten/10_apple_green.webp",
   },
 
-  // ============================================
-  // ✨ חלק 5: מפות פשתן 2.20 (11-20)
-  // ============================================
   {
     id: "map22p_11",
     sku: "11",
@@ -694,9 +773,6 @@ let catalogItems = [
     img: "catalog_pics/mapot/2.2/pishtan/20_dark_black_pishtan.webp",
   },
 
-  // ============================================
-  // ✨ חלק 6: מפות פשתן 2.50 (21-29)
-  // ============================================
   {
     id: "map25p_21",
     sku: "21",
@@ -807,18 +883,16 @@ const modals = {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderFilters();
-  renderCatalog(); // אנימציית כניסה ראשונית תתבצע בתוך renderCatalog
+  renderCatalog();
   renderGallery();
   setupEventListeners();
   $("year").textContent = new Date().getFullYear();
 
-  // הגדרת validation לתאריך - מנע בחירת תאריך בעבר
   const eventDateInput = $("eventDate");
   if (eventDateInput) {
     eventDateInput.min = new Date().toISOString().split("T")[0];
   }
 
-  // הגדרת validation למספר אורחים - מינימום 1
   const guestCountInput = $("guestCount");
   if (guestCountInput) {
     guestCountInput.setAttribute("min", "1");
@@ -828,14 +902,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initGSAP() {
+  if (typeof gsap === "undefined") return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // בדיקה אם משתמש בחר להפחית אנימציות
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
 
-  // אנימציה לאזור הראשי (Hero) - רק אם לא בחרו להפחית אנימציות
   if (!prefersReducedMotion) {
     gsap.fromTo(
       ".hero-title, .hero-subtitle-large, .hero-desc, .hero-buttons",
@@ -849,10 +922,7 @@ function initGSAP() {
         delay: 0.2,
       },
     );
-  }
 
-  // אנימציה לשלבים - איך זה עובד (מופעל על ה-li)
-  if (!prefersReducedMotion) {
     gsap.fromTo(
       ".steps-grid li",
       { y: 50, opacity: 0 },
@@ -869,10 +939,7 @@ function initGSAP() {
         ease: "back.out(1.2)",
       },
     );
-  }
 
-  // אנימציה לכרטיסי מחירון
-  if (!prefersReducedMotion) {
     gsap.fromTo(
       ".pricing-card",
       { y: 50, opacity: 0 },
@@ -889,10 +956,7 @@ function initGSAP() {
         ease: "power3.out",
       },
     );
-  }
 
-  // תמונות בגלריה בכניסה ראשונית
-  if (!prefersReducedMotion) {
     gsap.fromTo(
       ".gallery-grid img",
       { scale: 0.85, opacity: 0 },
@@ -982,23 +1046,30 @@ function setupEventListeners() {
     const hamburger = $("hamburger");
 
     if (mobileNav.classList.contains("show")) {
-      gsap.to(mobileNav, {
-        y: -10,
-        opacity: 0,
-        duration: 0.3,
-        onComplete: () => {
-          mobileNav.classList.remove("show");
-          hamburger.classList.remove("open");
-        },
-      });
+      if (typeof gsap !== "undefined") {
+        gsap.to(mobileNav, {
+          y: -10,
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            mobileNav.classList.remove("show");
+            hamburger.classList.remove("open");
+          },
+        });
+      } else {
+        mobileNav.classList.remove("show");
+        hamburger.classList.remove("open");
+      }
     } else {
       mobileNav.classList.add("show");
       hamburger.classList.add("open");
-      gsap.fromTo(
-        mobileNav,
-        { y: -10, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.3 },
-      );
+      if (typeof gsap !== "undefined") {
+        gsap.fromTo(
+          mobileNav,
+          { y: -10, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.3 },
+        );
+      }
     }
   });
 
@@ -1007,7 +1078,6 @@ function setupEventListeners() {
     closeModal("product");
   });
 
-  // === עדכון מאזיני גלריה לשימוש באנימציה ===
   $("galleryPrev").addEventListener("click", () => navigateGallery(-1));
   $("galleryNext").addEventListener("click", () => navigateGallery(1));
 
@@ -1054,18 +1124,14 @@ function renderSubFilters() {
   }
 }
 
-// === פונקציית מעבר אנימטיבית לקטלוג ===
-// === פונקציית מעבר אנימטיבית לקטלוג ===
 function navigateCatalog() {
   const currentItems = $$(".catalog-grid .catalog-item");
 
-  // אם אין פריטים, נרנדר ונעשה אנימציה ישירות
-  if (!currentItems.length) {
+  if (!currentItems.length || typeof gsap === "undefined") {
     renderCatalog(true);
     return;
   }
 
-  // אנימציה החוצה (מהירה יותר)
   gsap.to(currentItems, {
     opacity: 0,
     y: 30,
@@ -1073,7 +1139,7 @@ function navigateCatalog() {
     stagger: 0.03,
     ease: "power2.in",
     onComplete: () => {
-      renderCatalog(true); // נבקש לרנדר מחדש יחד עם אנימציית כניסה
+      renderCatalog(true);
     },
   });
 }
@@ -1114,8 +1180,7 @@ function renderCatalog(animate = false) {
     })
     .join("");
 
-  // נפעיל את האנימציה רק אם ביקשנו במפורש (מעבר קטגוריה)
-  if (animate) {
+  if (animate && typeof gsap !== "undefined") {
     gsap.fromTo(
       "#catalogGrid .catalog-item",
       { opacity: 0, y: -40 },
@@ -1128,30 +1193,26 @@ window.setCategory = (cat) => {
   state.category = cat;
   state.subFilter = "all";
 
-  // עדכון המסננים ב-DOM
   $$("#filters .filter-pill").forEach((p) => p.classList.remove("active"));
   const activeBtn = Array.from($$("#filters .filter-pill")).find((p) =>
     p.getAttribute("onclick").includes(`'${cat}'`),
   );
   if (activeBtn) activeBtn.classList.add("active");
 
-  // renderFilters(); // הסרנו כדי לעשות עדכון עדין יותר ב-DOM
-  renderSubFilters(); // עדכון תת-מסננים
-  navigateCatalog(); // ביצוע אנימציית מעבר
+  renderSubFilters();
+  navigateCatalog();
 };
 
 window.setSubFilter = (sub) => {
   state.subFilter = sub;
-  renderSubFilters(); // עדכון המסננים עצמם
-  navigateCatalog(); // ביצוע אנימציית מעבר
+  renderSubFilters();
+  navigateCatalog();
 };
 
 window.togglePick = (id) => {
-  // 1. הוספה או הסרה מהזיכרון
   state.picked.has(id) ? state.picked.delete(id) : state.picked.add(id);
   const isPicked = state.picked.has(id);
 
-  // 2. עדכון חכם ומהיר של ה-HTML הספציפי בלי לרנדר מחדש את כל הקטלוג
   const itemEl = document.getElementById(`item-${id}`);
   if (itemEl) {
     const btn = itemEl.querySelector(".ci-btn");
@@ -1164,14 +1225,13 @@ window.togglePick = (id) => {
     }
   }
 
-  // 3. עדכוני מסביב (מספר פריטים והודעת וואטסאפ)
   $("pickedCount").textContent = state.picked.size;
   updateWaPreview();
 };
 
 function updateUI() {
   $("pickedCount").textContent = state.picked.size;
-  renderCatalog(false); // רינדור שקט ללא אנימציה (למשל כשלוחצים על "ניקוי")
+  renderCatalog(false);
   updateWaPreview();
 }
 
@@ -1185,7 +1245,7 @@ window.openProduct = (id) => {
   $("productModalChips").innerHTML = "";
 
   const btn = $("productTogglePick");
-  btn.style.display = "block"; // הצג את הכפתור עבור מוצרים
+  btn.style.display = "block";
   const isPicked = state.picked.has(id);
 
   if (isPicked) {
@@ -1200,38 +1260,34 @@ window.openProduct = (id) => {
   openModal("product");
 };
 
-const IMAGES_PER_PAGE = 6;
-
-// === פונקציית דפדוף אנימטיבית לגלריה ===
 function navigateGallery(dir) {
   const currentImages = $$(".gallery-grid img");
 
-  // אנימציה החוצה (Fade and Slide) החוצה
-  gsap.to(currentImages, {
-    opacity: 0,
-    x: dir > 0 ? -40 : 40, // הזזה לפי הכיוון
-    scale: 0.9,
-    duration: 0.3,
-    ease: "power2.in",
-    onComplete: () => {
-      // רק אחרי שהאנימציה מסתיימת, נעדכן את המדינה ונרנדר
-      state.galleryPage += dir;
-      renderGallery();
-    },
-  });
+  if (typeof gsap !== "undefined") {
+    gsap.to(currentImages, {
+      opacity: 0,
+      x: dir > 0 ? -40 : 40,
+      scale: 0.9,
+      duration: 0.3,
+      ease: "power2.in",
+      onComplete: () => {
+        state.galleryPage += dir;
+        renderGallery();
+      },
+    });
+  } else {
+    state.galleryPage += dir;
+    renderGallery();
+  }
 }
 
 window.openGalleryLightbox = (src) => {
-  // שימוש בmódal הקיים לתמונה
   $("productModalImg").src = src;
   $("productModalImg").alt = "גלריה - תמונה";
   $("productModalName").textContent = "תמונה מגלריה";
   $("productModalNote").textContent = "";
   $("productModalChips").innerHTML = "";
-
-  // הסתרת כפתור ההוספה
   $("productTogglePick").style.display = "none";
-
   openModal("product");
 };
 
@@ -1250,19 +1306,20 @@ function renderGallery() {
     (state.galleryPage + 1) * IMAGES_PER_PAGE >= galleryImages.length;
   renderGalleryDots();
 
-  // === אנימציה פנימה מדורגת (Fade in with Stagger) בדפדוף גלריה ===
-  gsap.fromTo(
-    "#galleryGrid img",
-    { opacity: 0, y: 40, scale: 0.95 },
-    {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: 0.5,
-      stagger: 0.1,
-      ease: "power2.out",
-    },
-  );
+  if (typeof gsap !== "undefined") {
+    gsap.fromTo(
+      "#galleryGrid img",
+      { opacity: 0, y: 40, scale: 0.95 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "power2.out",
+      },
+    );
+  }
 }
 
 function renderGalleryDots() {
@@ -1275,31 +1332,34 @@ function renderGalleryDots() {
 }
 
 window.goToGalleryPage = (i) => {
-  // חישוב כיוון לדפדוף מנקודות
   const dir = i > state.galleryPage ? 1 : -1;
   state.galleryPage = i;
   navigateGallery(dir);
 };
 
 function updateWaPreview() {
-  const name = $("leadName").value;
-  let date = $("eventDate").value;
-  if (date) {
-    const [y, m, d] = date.split("-");
-    date = `${d}/${m}/${y}`;
-  }
-  const count = $("guestCount").value;
-  const address = $("eventAddress").value;
+  const nameInput = $("leadName").value.trim();
+  const dateInput = $("eventDate").value;
+  const countInput = $("guestCount").value.trim();
+  const addressInput = $("eventAddress").value.trim();
+  const needsDelivery = $("needDelivery").checked;
 
-  const deliveryText = $("needDelivery").checked
+  let text = `היי, קוראים לי ${nameInput}\n`;
+  text += `אני מאשר/ת את תנאי השכרת הציוד המפורט באתר\n`;
+
+  let formattedDate = "";
+  if (dateInput) {
+    const [y, m, d] = dateInput.split("-");
+    formattedDate = `${d}/${m}/${y}`;
+  }
+  text += `אשמח להצעת מחיר לאירוע שלי שמתקיים בתאריך ${formattedDate}\n`;
+
+  let deliveryText = needsDelivery
     ? " (אני רוצה לקבל הצעת מחיר להובלת הכלים)"
     : "";
+  text += `האירוע נמצא ב${addressInput}${deliveryText}.\n`;
 
-  let text = `היי, קוראים לי ${name}\n`;
-  text += `אני מאשר את תנאי השכרת הציוד המפורט באתר\n`;
-  text += `אשמח להצעת מחיר לאירוע שלי שמתקיים בתאריך ${date}\n`;
-  text += `האירוע נמצא ב${address}${deliveryText}.\n`;
-  text += `באירוע יהיה כ${count} אורחים.\n\n`;
+  text += `באירוע יהיה כ${countInput} אורחים.\n\n`;
 
   if (state.picked.size > 0) {
     text += `מתוך הקטלוג:\n`;
@@ -1332,19 +1392,19 @@ function openModal(name) {
   const modal = modals[name];
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
-  // iOS scroll lock
-  document.body.style.position = "fixed";
-  document.body.style.width = "100%";
+  // הוסר כדי למנוע קפיצה
+  // document.body.style.position = "fixed";
+  // document.body.style.width = "100%";
 
   const target =
     modal.querySelector(".modal-card") || modal.querySelector(".modal-panel");
   const backdrop = modal.querySelector(".modal-backdrop");
 
-  if (backdrop) {
+  if (backdrop && typeof gsap !== "undefined") {
     gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.3 });
   }
 
-  if (target) {
+  if (target && typeof gsap !== "undefined") {
     gsap.fromTo(
       target,
       { scale: 0.8, opacity: 0, y: 30 },
@@ -1355,26 +1415,29 @@ function openModal(name) {
 
 function closeModal(name) {
   const modal = modals[name];
+  if (!modal) return;
   const target =
     modal.querySelector(".modal-card") || modal.querySelector(".modal-panel");
   const backdrop = modal.querySelector(".modal-backdrop");
 
-  gsap.to(target, { scale: 0.9, opacity: 0, y: 20, duration: 0.2 });
-  gsap.to(backdrop, {
-    opacity: 0,
-    duration: 0.2,
-    onComplete: () => {
-      modal.setAttribute("aria-hidden", "true");
-      if (
-        !Object.values(modals).some(
-          (m) => m.getAttribute("aria-hidden") === "false",
-        )
-      ) {
-        document.body.style.overflow = "";
-        // iOS scroll lock release
-        document.body.style.position = "";
-        document.body.style.width = "";
-      }
-    },
-  });
+  if (typeof gsap !== "undefined") {
+    gsap.to(target, { scale: 0.9, opacity: 0, y: 20, duration: 0.2 });
+    gsap.to(backdrop, {
+      opacity: 0,
+      duration: 0.2,
+      onComplete: () => {
+        modal.setAttribute("aria-hidden", "true");
+        if (
+          !Object.values(modals).some(
+            (m) => m && m.getAttribute("aria-hidden") === "false",
+          )
+        ) {
+          document.body.style.overflow = "";
+        }
+      },
+    });
+  } else {
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
 }
